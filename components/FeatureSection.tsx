@@ -1,0 +1,65 @@
+import React from 'react'
+
+const details = [
+  'Customised oils: Brahmi, Ksheerabala, or Chandanadi — chosen per Vikriti',
+  'Duration: 45–75 minutes, calibrated per condition severity',
+  'Indicated for: anxiety, insomnia, migraines, neurological conditions',
+  'Preceded by Abhyanga for maximum therapeutic effect',
+]
+
+export default function FeatureSection() {
+  return (
+    <section className="feature">
+      <div className="feature-inner">
+
+        <div className="feature-visual">
+          <svg className="feature-art" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="200" cy="250" rx="140" ry="200" stroke="#a87c35" strokeWidth=".6" opacity=".5"/>
+            <ellipse cx="200" cy="250" rx="100" ry="145" stroke="#a87c35" strokeWidth=".5" opacity=".4"/>
+            <ellipse cx="200" cy="250" rx="60"  ry="88"  stroke="#a87c35" strokeWidth=".7" opacity=".45"/>
+            <line x1="200" y1="50"  x2="200" y2="450" stroke="#a87c35" strokeWidth=".5" opacity=".25"/>
+            <line x1="60"  y1="250" x2="340" y2="250" stroke="#a87c35" strokeWidth=".5" opacity=".25"/>
+            <circle cx="200" cy="250" r="8"  fill="#a87c35" opacity=".35"/>
+            <circle cx="200" cy="250" r="24" stroke="#a87c35" strokeWidth=".7" opacity=".3"/>
+            <path d="M200 130 C220 175 220 220 200 250 C180 220 180 175 200 130Z" stroke="#a87c35" strokeWidth=".7" opacity=".4"/>
+            <path d="M200 370 C220 325 220 280 200 250 C180 280 180 325 200 370Z" stroke="#a87c35" strokeWidth=".7" opacity=".4"/>
+            <path d="M320 250 C275 230 230 230 200 250 C230 270 275 270 320 250Z" stroke="#a87c35" strokeWidth=".7" opacity=".4"/>
+            <path d="M80 250 C125 230 170 230 200 250 C170 270 125 270 80 250Z"  stroke="#a87c35" strokeWidth=".7" opacity=".4"/>
+          </svg>
+        </div>
+
+        <div className="feature-content">
+          <p className="label r">Signature Treatment</p>
+          <h2 className="display feature-heading ws r" id="featH2">
+            Shirodhara — the supreme therapy for the mind
+          </h2>
+          <p className="feature-body r">
+            Of all the treatments in classical Ayurveda, Shirodhara stands apart. The sustained
+            stream of warm, medicated oil on the forehead triggers a profound shift in the nervous
+            system — measurably reducing cortisol, inducing deep parasympathetic rest, and quieting
+            the mental chatter that underlies most modern conditions.
+          </p>
+          <p className="feature-body r">
+            At Ayursiha, our Shirodhara uses customised medicated oils prepared in-house according
+            to your dosha, current imbalance, and the season. The oil, the temperature, the
+            duration — every variable is clinical, not routine.
+          </p>
+          <div className="feature-details stagger">
+            {details.map((d, i) => (
+              <div key={i} className="feature-detail r" style={{ '--i': i } as React.CSSProperties}>
+                {d}
+              </div>
+            ))}
+          </div>
+          <a href="#cta" className="btn btn-dark r">
+            Enquire About Shirodhara
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6">
+              <path d="M2 7h10M8 3l4 4-4 4" />
+            </svg>
+          </a>
+        </div>
+
+      </div>
+    </section>
+  )
+}
