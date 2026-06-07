@@ -1,33 +1,22 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getRecord, updateRecord, deleteRecord } from '@/lib/db'
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const { data, error } = await supabaseAdmin
-    .from('physicians')
-    .select('*')
-    .eq('id', id)
-    .single()
-  if (error) return NextResponse.json({ error: error.message }, { status: 404 })
-  return NextResponse.json(data)
+  const record = getRecord('physicians', id)
+  if (!record) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  return NextResponse.json(record)
 }
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const body = await request.json()
-  const { data, error } = await supabaseAdmin
-    .from('physicians')
-    .update(body)
-    .eq('id', id)
-    .select()
-    .single()
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json(data)
+  const record = updateRecord('physicians', id, await request.json())
+  if (!record) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  return NextResponse.json(record)
 }
 
 export async function DELETE(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const { error } = await supabaseAdmin.from('physicians').delete().eq('id', id)
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
+  if (!deleteRecord('physicians', id)) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json({ ok: true })
 }

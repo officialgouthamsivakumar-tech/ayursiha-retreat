@@ -1,20 +1,14 @@
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getAllRecords } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-export default async function TestimonialsListPage() {
-  let testimonials: Record<string, string>[] = []
-  try {
-    const { data } = await supabaseAdmin.from('testimonials').select('id,name,role,lang,quote').order('created_at')
-    testimonials = data ?? []
-  } catch {}
+export default function TestimonialsListPage() {
+  const testimonials = getAllRecords('testimonials') as Record<string, string>[]
 
   return (
     <>
-      <div className="admin-topbar">
-        <span className="admin-topbar-title">Testimonials</span>
-      </div>
+      <div className="admin-topbar"><span className="admin-topbar-title">Testimonials</span></div>
       <div className="admin-content">
         <div className="admin-page-header">
           <div>
@@ -41,12 +35,8 @@ export default async function TestimonialsListPage() {
                       <td style={{ fontWeight: 500 }}>{t.name}</td>
                       <td>{t.role}</td>
                       <td><span className="admin-badge admin-badge-gray">{t.lang}</span></td>
-                      <td style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#6b7280' }}>
-                        {t.quote}
-                      </td>
-                      <td>
-                        <Link href={`/admin/testimonials/${t.id}`} className="admin-btn admin-btn-ghost admin-btn-sm">Edit</Link>
-                      </td>
+                      <td style={{ maxWidth: 300, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', color: '#6b7280' }}>{t.quote}</td>
+                      <td><Link href={`/admin/testimonials/${t.id}`} className="admin-btn admin-btn-ghost admin-btn-sm">Edit</Link></td>
                     </tr>
                   ))}
                 </tbody>

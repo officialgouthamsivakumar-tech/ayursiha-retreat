@@ -1,23 +1,15 @@
 import { NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getAllRecords, createRecord } from '@/lib/db'
 
 export async function GET() {
-  const { data, error } = await supabaseAdmin
-    .from('faqs')
-    .select('*')
-    .order('category')
-    .order('sort_order')
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  const data = getAllRecords('faqs').sort((a, b) =>
+    String(a.category ?? '').localeCompare(String(b.category ?? '')) ||
+    Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0)
+  )
   return NextResponse.json(data)
 }
 
 export async function POST(request: Request) {
   const body = await request.json()
-  const { data, error } = await supabaseAdmin
-    .from('faqs')
-    .insert([body])
-    .select()
-    .single()
-  if (error) return NextResponse.json({ error: error.message }, { status: 400 })
-  return NextResponse.json(data, { status: 201 })
+  return NextResponse.json(createRecord('faqs', body), { status: 201 })
 }

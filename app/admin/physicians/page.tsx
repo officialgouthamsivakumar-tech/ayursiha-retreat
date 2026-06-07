@@ -1,20 +1,14 @@
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { getAllRecords } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
-export default async function PhysiciansListPage() {
-  let physicians: Record<string, string>[] = []
-  try {
-    const { data } = await supabaseAdmin.from('physicians').select('id,name,title,qualification,department').order('created_at')
-    physicians = data ?? []
-  } catch {}
+export default function PhysiciansListPage() {
+  const physicians = getAllRecords('physicians') as Record<string, string>[]
 
   return (
     <>
-      <div className="admin-topbar">
-        <span className="admin-topbar-title">Physicians</span>
-      </div>
+      <div className="admin-topbar"><span className="admin-topbar-title">Physicians</span></div>
       <div className="admin-content">
         <div className="admin-page-header">
           <div>
@@ -42,9 +36,7 @@ export default async function PhysiciansListPage() {
                       <td>{p.title}</td>
                       <td><span className="admin-badge admin-badge-green">{p.department}</span></td>
                       <td>{p.qualification}</td>
-                      <td>
-                        <Link href={`/admin/physicians/${p.id}`} className="admin-btn admin-btn-ghost admin-btn-sm">Edit</Link>
-                      </td>
+                      <td><Link href={`/admin/physicians/${p.id}`} className="admin-btn admin-btn-ghost admin-btn-sm">Edit</Link></td>
                     </tr>
                   ))}
                 </tbody>

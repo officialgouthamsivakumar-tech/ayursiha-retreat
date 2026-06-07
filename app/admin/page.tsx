@@ -1,76 +1,29 @@
 import Link from 'next/link'
-import { supabaseAdmin } from '@/lib/supabase'
+import { countRecords } from '@/lib/db'
 
-async function getCounts() {
-  try {
-    const [t, te, p, f] = await Promise.all([
-      supabaseAdmin.from('treatments').select('*', { count: 'exact', head: true }),
-      supabaseAdmin.from('testimonials').select('*', { count: 'exact', head: true }),
-      supabaseAdmin.from('physicians').select('*', { count: 'exact', head: true }),
-      supabaseAdmin.from('faqs').select('*', { count: 'exact', head: true }),
-    ])
-    return {
-      treatments: t.count ?? 0,
-      testimonials: te.count ?? 0,
-      physicians: p.count ?? 0,
-      faqs: f.count ?? 0,
-    }
-  } catch {
-    return { treatments: 0, testimonials: 0, physicians: 0, faqs: 0 }
-  }
-}
-
-export default async function AdminDashboard() {
-  const counts = await getCounts()
-
+export default function AdminDashboard() {
   const sections = [
     {
-      label: 'Treatments',
-      count: counts.treatments,
-      href: '/admin/treatments',
-      icon: (
-        <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M10 3v14M3 10h14" /><circle cx="10" cy="10" r="8" />
-        </svg>
-      ),
+      label: 'Treatments', count: countRecords('treatments'), href: '/admin/treatments',
+      icon: <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M10 3v14M3 10h14" /><circle cx="10" cy="10" r="8" /></svg>,
     },
     {
-      label: 'Testimonials',
-      count: counts.testimonials,
-      href: '/admin/testimonials',
-      icon: (
-        <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <path d="M17 12a2 2 0 01-2 2H5l-3 3V5a2 2 0 012-2h11a2 2 0 012 2v7z" />
-        </svg>
-      ),
+      label: 'Testimonials', count: countRecords('testimonials'), href: '/admin/testimonials',
+      icon: <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><path d="M17 12a2 2 0 01-2 2H5l-3 3V5a2 2 0 012-2h11a2 2 0 012 2v7z" /></svg>,
     },
     {
-      label: 'Physicians',
-      count: counts.physicians,
-      href: '/admin/physicians',
-      icon: (
-        <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <circle cx="10" cy="6" r="4" /><path d="M2 18c0-4.4 3.6-8 8-8s8 3.6 8 8" />
-        </svg>
-      ),
+      label: 'Physicians', count: countRecords('physicians'), href: '/admin/physicians',
+      icon: <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="10" cy="6" r="4" /><path d="M2 18c0-4.4 3.6-8 8-8s8 3.6 8 8" /></svg>,
     },
     {
-      label: 'FAQs',
-      count: counts.faqs,
-      href: '/admin/faqs',
-      icon: (
-        <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <circle cx="10" cy="10" r="8" /><path d="M8 8a2 2 0 114 0c0 1.5-2 2-2 3M10 15v.5" />
-        </svg>
-      ),
+      label: 'FAQs', count: countRecords('faqs'), href: '/admin/faqs',
+      icon: <svg className="admin-stat-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><circle cx="10" cy="10" r="8" /><path d="M8 8a2 2 0 114 0c0 1.5-2 2-2 3M10 15v.5" /></svg>,
     },
   ]
 
   return (
     <>
-      <div className="admin-topbar">
-        <span className="admin-topbar-title">Dashboard</span>
-      </div>
+      <div className="admin-topbar"><span className="admin-topbar-title">Dashboard</span></div>
       <div className="admin-content">
         <div className="admin-page-header">
           <div>
@@ -92,9 +45,7 @@ export default async function AdminDashboard() {
         </div>
 
         <div className="admin-card">
-          <div className="admin-card-header">
-            <span className="admin-card-title">Quick Actions</span>
-          </div>
+          <div className="admin-card-header"><span className="admin-card-title">Quick Actions</span></div>
           <div style={{ padding: '1.25rem 1.5rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             {[
               { label: '+ New Treatment', href: '/admin/treatments/new' },
@@ -102,9 +53,7 @@ export default async function AdminDashboard() {
               { label: '+ New Physician', href: '/admin/physicians/new' },
               { label: '+ New FAQ', href: '/admin/faqs/new' },
             ].map(a => (
-              <Link key={a.href} href={a.href} className="admin-btn admin-btn-ghost">
-                {a.label}
-              </Link>
+              <Link key={a.href} href={a.href} className="admin-btn admin-btn-ghost">{a.label}</Link>
             ))}
           </div>
         </div>
