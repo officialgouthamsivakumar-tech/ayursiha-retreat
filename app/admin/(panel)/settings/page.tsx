@@ -9,6 +9,18 @@ const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '
 type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'credentials' | 'pillars' | 'stats'>
 type FieldErrors = Partial<Record<ScalarKey, string>>
 
+type ArrayErrors = {
+  credentials: (string | undefined)[]
+  videos: ({ id?: string; title?: string } | undefined)[]
+  pillars: ({ name?: string; body?: string } | undefined)[]
+  stats: ({ n?: string; l?: string } | undefined)[]
+}
+const emptyAE = (): ArrayErrors => ({ credentials: [], videos: [], pillars: [], stats: [] })
+
+function hasAE(e: ArrayErrors) {
+  return e.credentials.some(Boolean) || e.videos.some(Boolean) || e.pillars.some(Boolean) || e.stats.some(Boolean)
+}
+
 function validate(data: SiteSettings): FieldErrors {
   const e: FieldErrors = {}
   if (!data.phone.trim()) { e.phone = 'Phone number is required.' }
@@ -30,9 +42,42 @@ function validate(data: SiteSettings): FieldErrors {
   return e
 }
 
+function validateArrays(data: SiteSettings): ArrayErrors {
+  const e = emptyAE()
+
+  data.credentials.forEach((c, i) => {
+    if (!c.trim()) e.credentials[i] = 'Badge text cannot be empty.'
+  })
+
+  data.videos.forEach((v, i) => {
+    const vErr: { id?: string; title?: string } = {}
+    if (!v.id.trim()) vErr.id = 'Video ID is required.'
+    else if (!/^[A-Za-z0-9_-]{11}$/.test(v.id.trim())) vErr.id = 'Must be an 11-character YouTube video ID.'
+    if (!v.title.trim()) vErr.title = 'Title is required.'
+    if (Object.keys(vErr).length) e.videos[i] = vErr
+  })
+
+  data.pillars.forEach((p, i) => {
+    const pErr: { name?: string; body?: string } = {}
+    if (!p.name.trim()) pErr.name = 'Name is required.'
+    if (!p.body.trim()) pErr.body = 'Description is required.'
+    if (Object.keys(pErr).length) e.pillars[i] = pErr
+  })
+
+  data.stats.forEach((s, i) => {
+    const sErr: { n?: string; l?: string } = {}
+    if (!s.n.trim()) sErr.n = 'Value is required (e.g. 4,800+).'
+    if (!s.l.trim()) sErr.l = 'Label is required (e.g. Patients healed).'
+    if (Object.keys(sErr).length) e.stats[i] = sErr
+  })
+
+  return e
+}
+
 export default function SettingsPage() {
   const [form, setForm] = useState<SiteSettings>(empty)
   const [errors, setErrors] = useState<FieldErrors>({})
+  const [ae, setAe] = useState<ArrayErrors>(emptyAE())
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [videoUploading, setVideoUploading] = useState(false)
@@ -52,19 +97,37 @@ export default function SettingsPage() {
   }
 
   // Credentials
-  function setCredential(i: number, val: string) { setForm(f => { const c = [...f.credentials]; c[i] = val; return { ...f, credentials: c } }) }
+  function setCredential(i: number, val: string) {
+    setForm(f => { const c = [...f.credentials]; c[i] = val; return { ...f, credentials: c } })
+    if (ae.credentials[i]) setAe(e => { const c = [...e.credentials]; c[i] = undefined; return { ...e, credentials: c } })
+  }
   function addCredential() { setForm(f => ({ ...f, credentials: [...f.credentials, ''] })) }
-  function removeCredential(i: number) { setForm(f => ({ ...f, credentials: f.credentials.filter((_, j) => j !== i) })) }
+  function removeCredential(i: number) {
+    setForm(f => ({ ...f, credentials: f.credentials.filter((_, j) => j !== i) }))
+    setAe(e => ({ ...e, credentials: e.credentials.filter((_, j) => j !== i) }))
+  }
 
   // Pillars
-  function setPillar(i: number, field: keyof PillarEntry, val: string) { setForm(f => { const p = [...f.pillars]; p[i] = { ...p[i], [field]: val }; return { ...f, pillars: p } }) }
+  function setPillar(i: number, field: keyof PillarEntry, val: string) {
+    setForm(f => { const p = [...f.pillars]; p[i] = { ...p[i], [field]: val }; return { ...f, pillars: p } })
+    if (ae.pillars[i]?.[field as 'name' | 'body']) setAe(e => { const p = [...e.pillars]; p[i] = { ...p[i], [field]: undefined }; return { ...e, pillars: p } })
+  }
   function addPillar() { setForm(f => ({ ...f, pillars: [...f.pillars, { step: String(f.pillars.length + 1).padStart(2, '0'), name: '', body: '' }] })) }
-  function removePillar(i: number) { setForm(f => ({ ...f, pillars: f.pillars.filter((_, j) => j !== i) })) }
+  function removePillar(i: number) {
+    setForm(f => ({ ...f, pillars: f.pillars.filter((_, j) => j !== i) }))
+    setAe(e => ({ ...e, pillars: e.pillars.filter((_, j) => j !== i) }))
+  }
 
   // Stats
-  function setStat(i: number, field: keyof StatEntry, val: string) { setForm(f => { const s = [...f.stats]; s[i] = { ...s[i], [field]: val }; return { ...f, stats: s } }) }
+  function setStat(i: number, field: keyof StatEntry, val: string) {
+    setForm(f => { const s = [...f.stats]; s[i] = { ...s[i], [field]: val }; return { ...f, stats: s } })
+    if (ae.stats[i]?.[field]) setAe(e => { const s = [...e.stats]; s[i] = { ...s[i], [field]: undefined }; return { ...e, stats: s } })
+  }
   function addStat() { setForm(f => ({ ...f, stats: [...f.stats, { n: '', l: '' }] })) }
-  function removeStat(i: number) { setForm(f => ({ ...f, stats: f.stats.filter((_, j) => j !== i) })) }
+  function removeStat(i: number) {
+    setForm(f => ({ ...f, stats: f.stats.filter((_, j) => j !== i) }))
+    setAe(e => ({ ...e, stats: e.stats.filter((_, j) => j !== i) }))
+  }
 
   function extractVideoId(raw: string): string {
     const m = raw.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/)
@@ -77,10 +140,14 @@ export default function SettingsPage() {
       videos[i] = { ...videos[i], [field]: field === 'id' ? extractVideoId(value) : value }
       return { ...f, videos }
     })
+    if (ae.videos[i]?.[field]) setAe(e => { const v = [...e.videos]; v[i] = { ...v[i], [field]: undefined }; return { ...e, videos: v } })
   }
 
   function addVideo() { setForm(f => ({ ...f, videos: [...f.videos, { id: '', title: '' }] })) }
-  function removeVideo(i: number) { setForm(f => ({ ...f, videos: f.videos.filter((_, j) => j !== i) })) }
+  function removeVideo(i: number) {
+    setForm(f => ({ ...f, videos: f.videos.filter((_, j) => j !== i) }))
+    setAe(e => ({ ...e, videos: e.videos.filter((_, j) => j !== i) }))
+  }
 
   async function handleVideoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]
@@ -103,17 +170,22 @@ export default function SettingsPage() {
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
     const fieldErrors = validate(form)
-    if (Object.keys(fieldErrors).length > 0) { setErrors(fieldErrors); return }
+    const arrayErrors = validateArrays(form)
+    if (Object.keys(fieldErrors).length > 0 || hasAE(arrayErrors)) {
+      setErrors(fieldErrors)
+      setAe(arrayErrors)
+      setToast({ message: 'Please fix the errors below before saving.', type: 'error' })
+      return
+    }
     setSaving(true)
     const res = await fetch('/api/admin/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
     const data = await res.json()
     if (!res.ok) { setToast({ message: data.error || 'Failed to save.', type: 'error' }) }
-    else { setForm(data); setToast({ message: 'Settings saved successfully.', type: 'success' }) }
+    else { setForm(data); setAe(emptyAE()); setToast({ message: 'Settings saved successfully.', type: 'success' }) }
     setSaving(false)
   }
 
-  const inp = (key: ScalarKey) =>
-    errors[key] ? 'admin-input admin-input--error' : 'admin-input'
+  const inp = (key: ScalarKey) => errors[key] ? 'admin-input admin-input--error' : 'admin-input'
 
   if (loading) return (
     <>
@@ -126,7 +198,7 @@ export default function SettingsPage() {
     <>
       <div className="admin-topbar">
         <span className="admin-topbar-title">Site Settings</span>
-        <span className="admin-topbar-date">Contact information &amp; homepage videos</span>
+        <span className="admin-topbar-date">Contact information &amp; homepage content</span>
       </div>
       <div className="admin-content">
         <form className="admin-form" onSubmit={handleSave} onKeyDown={e => { const tag = (e.target as HTMLElement).tagName; if (e.key === 'Enter' && tag !== 'TEXTAREA' && tag !== 'BUTTON') e.preventDefault() }}>
@@ -209,7 +281,7 @@ export default function SettingsPage() {
                 <video key={form.heroVideo} src={form.heroVideo} muted autoPlay loop playsInline style={{ width: '100%', maxHeight: 220, objectFit: 'cover', borderRadius: 8, background: '#011e24' }} />
               )}
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                <button type="button" className="admin-btn admin-btn-secondary" onClick={() => videoFileRef.current?.click()} disabled={videoUploading}>
+                <button type="button" className="admin-btn admin-btn-ghost" onClick={() => videoFileRef.current?.click()} disabled={videoUploading}>
                   {videoUploading ? 'Uploading…' : form.heroVideo ? 'Replace Video' : 'Upload Video'}
                 </button>
                 <input ref={videoFileRef} type="file" accept="video/mp4,video/webm,video/quicktime" style={{ display: 'none' }} onChange={handleVideoUpload} />
@@ -232,16 +304,18 @@ export default function SettingsPage() {
               {form.videos.map((v, i) => (
                 <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                   <div style={{ flex: '0 0 200px' }}>
-                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>YouTube URL / ID</label>
-                    <input className="admin-input" value={v.id} onChange={e => setVideo(i, 'id', e.target.value)} placeholder="https://youtu.be/abc123" />
+                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>YouTube URL / ID *</label>
+                    <input className={ae.videos[i]?.id ? 'admin-input admin-input--error' : 'admin-input'} value={v.id} onChange={e => setVideo(i, 'id', e.target.value)} placeholder="https://youtu.be/abc123" />
+                    {ae.videos[i]?.id && <span className="admin-field-error">{ae.videos[i]?.id}</span>}
                   </div>
                   <div style={{ flex: 1 }}>
-                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>Title (accessibility)</label>
-                    <input className="admin-input" value={v.title} onChange={e => setVideo(i, 'title', e.target.value)} placeholder="Video title…" />
+                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>Title *</label>
+                    <input className={ae.videos[i]?.title ? 'admin-input admin-input--error' : 'admin-input'} value={v.title} onChange={e => setVideo(i, 'title', e.target.value)} placeholder="Video title…" />
+                    {ae.videos[i]?.title && <span className="admin-field-error">{ae.videos[i]?.title}</span>}
                   </div>
-                  {v.id && (
+                  {v.id && !/\s/.test(v.id) && v.id.length === 11 && (
                     <div style={{ paddingTop: '1.6rem' }}>
-                      <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="admin-btn admin-btn-secondary" style={{ fontSize: '0.72rem', padding: '0.35rem 0.65rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                      <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="admin-btn admin-btn-ghost admin-btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                         Preview <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 2h7v7M12 2L4 10"/></svg>
                       </a>
                     </div>
@@ -264,9 +338,12 @@ export default function SettingsPage() {
             <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
               <span className="admin-form-hint" style={{ marginTop: 0 }}>Items shown in the scrolling ticker strip below the hero. One badge per line.</span>
               {form.credentials.map((c, i) => (
-                <div key={i} className="admin-array-item">
-                  <input className="admin-input" value={c} onChange={e => setCredential(i, e.target.value)} placeholder="Ministry of AYUSH Registered" />
-                  <button type="button" className="admin-array-remove" onClick={() => removeCredential(i)}>×</button>
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                  <div className="admin-array-item">
+                    <input className={ae.credentials[i] ? 'admin-input admin-input--error' : 'admin-input'} value={c} onChange={e => setCredential(i, e.target.value)} placeholder="Ministry of AYUSH Registered" />
+                    <button type="button" className="admin-array-remove" onClick={() => removeCredential(i)}>×</button>
+                  </div>
+                  {ae.credentials[i] && <span className="admin-field-error">{ae.credentials[i]}</span>}
                 </div>
               ))}
               <button type="button" className="admin-add-btn" onClick={addCredential}>+ Add item</button>
@@ -284,21 +361,23 @@ export default function SettingsPage() {
             <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <span className="admin-form-hint" style={{ marginTop: 0 }}>The four Ayurvedic pillars shown on the homepage Philosophy section.</span>
               {form.pillars.map((p, i) => (
-                <div key={i} style={{ background: '#f9fafb', border: '1px solid #e5e8ed', borderRadius: 8, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                <div key={i} style={{ background: '#f9fafb', border: `1px solid ${ae.pillars[i] ? '#fca5a5' : '#e5e8ed'}`, borderRadius: 8, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                     <div style={{ flex: '0 0 70px' }}>
                       <label className="admin-label" style={{ fontSize: '0.7rem' }}>Step</label>
                       <input className="admin-input" value={p.step} onChange={e => setPillar(i, 'step', e.target.value)} placeholder="01" style={{ fontFamily: 'monospace' }} />
                     </div>
                     <div style={{ flex: 1 }}>
-                      <label className="admin-label" style={{ fontSize: '0.7rem' }}>Name</label>
-                      <input className="admin-input" value={p.name} onChange={e => setPillar(i, 'name', e.target.value)} placeholder="Nidan Parivarjan" />
+                      <label className="admin-label" style={{ fontSize: '0.7rem' }}>Name *</label>
+                      <input className={ae.pillars[i]?.name ? 'admin-input admin-input--error' : 'admin-input'} value={p.name} onChange={e => setPillar(i, 'name', e.target.value)} placeholder="Nidan Parivarjan" />
+                      {ae.pillars[i]?.name && <span className="admin-field-error">{ae.pillars[i]?.name}</span>}
                     </div>
-                    <button type="button" onClick={() => removePillar(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.1rem', lineHeight: 1, marginTop: '1.2rem', flexShrink: 0 }} aria-label="Remove">×</button>
+                    <button type="button" onClick={() => removePillar(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.1rem', lineHeight: 1, marginTop: '1.4rem', flexShrink: 0 }} aria-label="Remove">×</button>
                   </div>
                   <div>
-                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>Description</label>
-                    <textarea className="admin-textarea" value={p.body} onChange={e => setPillar(i, 'body', e.target.value)} placeholder="Brief description of this pillar…" style={{ minHeight: 72 }} />
+                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>Description *</label>
+                    <textarea className={ae.pillars[i]?.body ? 'admin-textarea admin-input--error' : 'admin-textarea'} value={p.body} onChange={e => setPillar(i, 'body', e.target.value)} placeholder="Brief description of this pillar…" style={{ minHeight: 72 }} />
+                    {ae.pillars[i]?.body && <span className="admin-field-error">{ae.pillars[i]?.body}</span>}
                   </div>
                 </div>
               ))}
@@ -315,14 +394,20 @@ export default function SettingsPage() {
               </span>
             </div>
             <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <span className="admin-form-hint" style={{ marginTop: 0 }}>The three achievement stats shown in the Philosophy section (e.g. 4,800+ Patients).</span>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>The achievement stats shown in the Philosophy section (e.g. 4,800+ Patients).</span>
               {form.stats.map((s, i) => (
-                <div key={i} className="admin-array-item">
-                  <div style={{ flex: '0 0 120px' }}>
-                    <input className="admin-input" value={s.n} onChange={e => setStat(i, 'n', e.target.value)} placeholder="4,800+" style={{ fontWeight: 600 }} />
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                  <div className="admin-array-item">
+                    <div style={{ flex: '0 0 130px', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                      <input className={ae.stats[i]?.n ? 'admin-input admin-input--error' : 'admin-input'} value={s.n} onChange={e => setStat(i, 'n', e.target.value)} placeholder="4,800+" style={{ fontWeight: 600 }} />
+                      {ae.stats[i]?.n && <span className="admin-field-error">{ae.stats[i]?.n}</span>}
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                      <input className={ae.stats[i]?.l ? 'admin-input admin-input--error' : 'admin-input'} value={s.l} onChange={e => setStat(i, 'l', e.target.value)} placeholder="Patients healed" />
+                      {ae.stats[i]?.l && <span className="admin-field-error">{ae.stats[i]?.l}</span>}
+                    </div>
+                    <button type="button" className="admin-array-remove" onClick={() => removeStat(i)}>×</button>
                   </div>
-                  <input className="admin-input" value={s.l} onChange={e => setStat(i, 'l', e.target.value)} placeholder="Patients healed" />
-                  <button type="button" className="admin-array-remove" onClick={() => removeStat(i)}>×</button>
                 </div>
               ))}
               <button type="button" className="admin-add-btn" onClick={addStat}>+ Add stat</button>
