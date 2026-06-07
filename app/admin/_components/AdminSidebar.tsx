@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 const navItems = [
@@ -72,7 +73,7 @@ export default function AdminSidebar() {
   return (
     <aside className="admin-sidebar">
       <Link href="/admin" className="admin-logo">
-        <span className="admin-logo-text">Ayursiha</span>
+        <Image src="/logo.png" alt="Ayursiha" width={110} height={48} style={{ objectFit: 'contain', objectPosition: 'left' }} />
         <span className="admin-logo-sub">Admin Panel</span>
       </Link>
 
