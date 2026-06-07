@@ -176,7 +176,7 @@ export default function TreatmentFormPage() {
               <label className="admin-label">Sort Order *</label>
               <select className="admin-select" value={form.sort_order} onChange={e => handleSortChange(Number(e.target.value))} required>
                 {Array.from({ length: isNew ? entityCount + 1 : entityCount }, (_, i) => (
-                  <option key={i} value={i}>Position {i + 1} (idx {String(i + 1).padStart(2, '0')})</option>
+                  <option key={i} value={i}>Position {i + 1}</option>
                 ))}
               </select>
               <span className="admin-form-hint">Controls card order and the displayed number.</span>
