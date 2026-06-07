@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from 'react'
 import type { SiteSettings, VideoEntry, PillarEntry, StatEntry } from '@/lib/db'
 import AdminToast from '../../_components/AdminToast'
 
-const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [], credentials: [], pillars: [], stats: [] }
+const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
 
-type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'credentials' | 'pillars' | 'stats'>
+type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
 type FieldErrors = Partial<Record<ScalarKey, string>>
 
 type ArrayErrors = {
@@ -14,11 +14,12 @@ type ArrayErrors = {
   videos: ({ id?: string; title?: string } | undefined)[]
   pillars: ({ name?: string; body?: string } | undefined)[]
   stats: ({ n?: string; l?: string } | undefined)[]
+  aboutStats: ({ n?: string; l?: string } | undefined)[]
 }
-const emptyAE = (): ArrayErrors => ({ credentials: [], videos: [], pillars: [], stats: [] })
+const emptyAE = (): ArrayErrors => ({ credentials: [], videos: [], pillars: [], stats: [], aboutStats: [] })
 
 function hasAE(e: ArrayErrors) {
-  return e.credentials.some(Boolean) || e.videos.some(Boolean) || e.pillars.some(Boolean) || e.stats.some(Boolean)
+  return e.credentials.some(Boolean) || e.videos.some(Boolean) || e.pillars.some(Boolean) || e.stats.some(Boolean) || e.aboutStats.some(Boolean)
 }
 
 function validate(data: SiteSettings): FieldErrors {
@@ -71,6 +72,13 @@ function validateArrays(data: SiteSettings): ArrayErrors {
     if (Object.keys(sErr).length) e.stats[i] = sErr
   })
 
+  data.aboutStats.forEach((s, i) => {
+    const sErr: { n?: string; l?: string } = {}
+    if (!s.n.trim()) sErr.n = 'Value is required (e.g. 2002).'
+    if (!s.l.trim()) sErr.l = 'Label is required (e.g. Year Founded).'
+    if (Object.keys(sErr).length) e.aboutStats[i] = sErr
+  })
+
   return e
 }
 
@@ -118,7 +126,7 @@ export default function SettingsPage() {
     setAe(e => ({ ...e, pillars: e.pillars.filter((_, j) => j !== i) }))
   }
 
-  // Stats
+  // Stats (Philosophy)
   function setStat(i: number, field: keyof StatEntry, val: string) {
     setForm(f => { const s = [...f.stats]; s[i] = { ...s[i], [field]: val }; return { ...f, stats: s } })
     if (ae.stats[i]?.[field]) setAe(e => { const s = [...e.stats]; s[i] = { ...s[i], [field]: undefined }; return { ...e, stats: s } })
@@ -127,6 +135,17 @@ export default function SettingsPage() {
   function removeStat(i: number) {
     setForm(f => ({ ...f, stats: f.stats.filter((_, j) => j !== i) }))
     setAe(e => ({ ...e, stats: e.stats.filter((_, j) => j !== i) }))
+  }
+
+  // About Stats
+  function setAboutStat(i: number, field: keyof StatEntry, val: string) {
+    setForm(f => { const s = [...f.aboutStats]; s[i] = { ...s[i], [field]: val }; return { ...f, aboutStats: s } })
+    if (ae.aboutStats[i]?.[field]) setAe(e => { const s = [...e.aboutStats]; s[i] = { ...s[i], [field]: undefined }; return { ...e, aboutStats: s } })
+  }
+  function addAboutStat() { setForm(f => ({ ...f, aboutStats: [...f.aboutStats, { n: '', l: '' }] })) }
+  function removeAboutStat(i: number) {
+    setForm(f => ({ ...f, aboutStats: f.aboutStats.filter((_, j) => j !== i) }))
+    setAe(e => ({ ...e, aboutStats: e.aboutStats.filter((_, j) => j !== i) }))
   }
 
   function extractVideoId(raw: string): string {
@@ -382,6 +401,35 @@ export default function SettingsPage() {
                 </div>
               ))}
               <button type="button" className="admin-add-btn" onClick={addPillar}>+ Add pillar</button>
+            </div>
+          </div>
+
+          {/* About Stats */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M2 14V8h3M6 14V2h4M13 14V5h3" /></svg>
+                About Us — Stats
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>Stats shown on the About Us page (Year Founded, Patients Healed, etc.).</span>
+              {form.aboutStats.map((s, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                  <div className="admin-array-item">
+                    <div style={{ flex: '0 0 130px', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                      <input className={ae.aboutStats[i]?.n ? 'admin-input admin-input--error' : 'admin-input'} value={s.n} onChange={e => setAboutStat(i, 'n', e.target.value)} placeholder="2002" style={{ fontWeight: 600 }} />
+                      {ae.aboutStats[i]?.n && <span className="admin-field-error">{ae.aboutStats[i]?.n}</span>}
+                    </div>
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+                      <input className={ae.aboutStats[i]?.l ? 'admin-input admin-input--error' : 'admin-input'} value={s.l} onChange={e => setAboutStat(i, 'l', e.target.value)} placeholder="Year Founded" />
+                      {ae.aboutStats[i]?.l && <span className="admin-field-error">{ae.aboutStats[i]?.l}</span>}
+                    </div>
+                    <button type="button" className="admin-array-remove" onClick={() => removeAboutStat(i)}>×</button>
+                  </div>
+                </div>
+              ))}
+              <button type="button" className="admin-add-btn" onClick={addAboutStat}>+ Add stat</button>
             </div>
           </div>
 

@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
-import { getPhysicians } from '@/lib/db'
+import { getPhysicians, getSettings } from '@/lib/db'
 
 export const revalidate = 60
 
@@ -15,12 +15,6 @@ export const metadata: Metadata = {
 }
 
 
-const stats = [
-  { value: '2002', label: 'Year Founded' },
-  { value: '4,800+', label: 'Patients Healed' },
-  { value: '22+', label: 'Years of Practice' },
-  { value: '97%', label: 'Patient Satisfaction' },
-]
 
 const pillars = [
   {
@@ -69,7 +63,8 @@ const pillars = [
 ]
 
 export default async function AboutPage() {
-  const physicians = await getPhysicians()
+  const [physicians, settings] = await Promise.all([getPhysicians(), Promise.resolve(getSettings())])
+  const stats = settings.aboutStats.map(s => ({ value: s.n, label: s.l }))
   return (
     <>
       <ClientAnimations />

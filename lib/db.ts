@@ -99,6 +99,7 @@ export type SiteSettings = {
   credentials: string[]
   pillars: PillarEntry[]
   stats: StatEntry[]
+  aboutStats: StatEntry[]
 }
 
 const defaultSettings: SiteSettings = {
@@ -134,6 +135,12 @@ const defaultSettings: SiteSettings = {
     { n: '4,800+', l: 'Patients healed' },
     { n: '22',     l: 'Years of practice' },
     { n: '97%',    l: 'Patient satisfaction' },
+  ],
+  aboutStats: [
+    { n: '2002',   l: 'Year Founded' },
+    { n: '4,800+', l: 'Patients Healed' },
+    { n: '22+',    l: 'Years of Practice' },
+    { n: '97%',    l: 'Patient Satisfaction' },
   ],
 }
 
