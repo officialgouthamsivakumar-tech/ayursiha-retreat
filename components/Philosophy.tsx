@@ -1,7 +1,7 @@
 import React from 'react'
 import { getTranslations } from 'next-intl/server'
 import StatCounter from '@/components/StatCounter'
-import { pillars, stats } from '@/lib/philosophy'
+import { getSettings } from '@/lib/db'
 
 function IndiaFlag() {
   const cx = 15, cy = 10, outerR = 2.8, innerR = 0.6
@@ -30,7 +30,9 @@ function IndiaFlag() {
 }
 
 export default async function Philosophy() {
-  const t = await getTranslations('philosophy')
+  const [t, settings] = await Promise.all([getTranslations('philosophy'), Promise.resolve(getSettings())])
+  const pillars = settings.pillars
+  const stats = settings.stats
 
   return (
     <section className="philosophy" id="philosophy">

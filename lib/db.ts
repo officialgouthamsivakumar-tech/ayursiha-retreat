@@ -85,6 +85,8 @@ function getSeed(entity: string): Row[] {
 // ─── Settings ────────────────────────────────────────────────────────────────
 
 export type VideoEntry = { id: string; title: string }
+export type PillarEntry = { step: string; name: string; body: string }
+export type StatEntry = { n: string; l: string }
 
 export type SiteSettings = {
   phone: string
@@ -94,6 +96,9 @@ export type SiteSettings = {
   address: string
   heroVideo: string
   videos: VideoEntry[]
+  credentials: string[]
+  pillars: PillarEntry[]
+  stats: StatEntry[]
 }
 
 const defaultSettings: SiteSettings = {
@@ -108,6 +113,27 @@ const defaultSettings: SiteSettings = {
     { id: 'aNYqqmV1U94', title: 'Explore Ayursiha Hospital: Holistic Healing and Wellness' },
     { id: 'jALuXZMXUWE', title: 'Ayursiha Hospital Promo — Best Ayurveda & Unani Wellness' },
     { id: 'khNWIwwEenM', title: 'Tranquil Evenings of Healing at Ayursiha' },
+  ],
+  credentials: [
+    'Ministry of AYUSH Registered',
+    'Classical Kerala Ayurveda',
+    'Panchakarma Certified',
+    '22 Years of Clinical Practice',
+    '18 Specialist Physicians',
+    'Authentic Kottakkal Formulations',
+    'ISO 9001 Certified Centre',
+    '4,800+ Patients Healed',
+  ],
+  pillars: [
+    { step: '01', name: 'Nidan Parivarjan',  body: 'Remove the root cause. Ayurveda never suppresses symptoms — it eliminates the source.' },
+    { step: '02', name: 'Shodhan Chikitsa',  body: 'Classical purification through Panchakarma — cellular-level detoxification.' },
+    { step: '03', name: 'Shaman Chikitsa',   body: 'Restore doshic balance with targeted herbal formulations and dietary protocols.' },
+    { step: '04', name: 'Rasayana',           body: 'Rebuild tissue quality and long-term vitality through Ayurvedic rejuvenation.' },
+  ],
+  stats: [
+    { n: '4,800+', l: 'Patients healed' },
+    { n: '22',     l: 'Years of practice' },
+    { n: '97%',    l: 'Patient satisfaction' },
   ],
 }
 

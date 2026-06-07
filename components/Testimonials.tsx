@@ -1,9 +1,9 @@
 import { getTranslations } from 'next-intl/server'
 import TestimonialsScroll from '@/components/TestimonialsScroll'
-import { testimonials } from '@/lib/testimonials'
+import { getTestimonials } from '@/lib/db'
 
 export default async function Testimonials() {
-  const t = await getTranslations('testimonials')
+  const [t, testimonials] = await Promise.all([getTranslations('testimonials'), getTestimonials()])
 
   return (
     <section className="testi" id="testi">

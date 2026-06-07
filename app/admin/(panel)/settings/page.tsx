@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import type { SiteSettings, VideoEntry } from '@/lib/db'
+import type { SiteSettings, VideoEntry, PillarEntry, StatEntry } from '@/lib/db'
 import AdminToast from '../../_components/AdminToast'
 
-const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [] }
+const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [], credentials: [], pillars: [], stats: [] }
 
-type FieldErrors = Partial<Record<Exclude<keyof SiteSettings, 'videos' | 'heroVideo'>, string>>
+type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'credentials' | 'pillars' | 'stats'>
+type FieldErrors = Partial<Record<ScalarKey, string>>
 
 function validate(data: SiteSettings): FieldErrors {
   const e: FieldErrors = {}
@@ -45,10 +46,25 @@ export default function SettingsPage() {
       .catch(() => setLoading(false))
   }, [])
 
-  function set(key: Exclude<keyof SiteSettings, 'videos' | 'heroVideo'>, value: string) {
+  function set(key: ScalarKey, value: string) {
     setForm(f => ({ ...f, [key]: value }))
     if (errors[key]) setErrors(e => ({ ...e, [key]: undefined }))
   }
+
+  // Credentials
+  function setCredential(i: number, val: string) { setForm(f => { const c = [...f.credentials]; c[i] = val; return { ...f, credentials: c } }) }
+  function addCredential() { setForm(f => ({ ...f, credentials: [...f.credentials, ''] })) }
+  function removeCredential(i: number) { setForm(f => ({ ...f, credentials: f.credentials.filter((_, j) => j !== i) })) }
+
+  // Pillars
+  function setPillar(i: number, field: keyof PillarEntry, val: string) { setForm(f => { const p = [...f.pillars]; p[i] = { ...p[i], [field]: val }; return { ...f, pillars: p } }) }
+  function addPillar() { setForm(f => ({ ...f, pillars: [...f.pillars, { step: String(f.pillars.length + 1).padStart(2, '0'), name: '', body: '' }] })) }
+  function removePillar(i: number) { setForm(f => ({ ...f, pillars: f.pillars.filter((_, j) => j !== i) })) }
+
+  // Stats
+  function setStat(i: number, field: keyof StatEntry, val: string) { setForm(f => { const s = [...f.stats]; s[i] = { ...s[i], [field]: val }; return { ...f, stats: s } }) }
+  function addStat() { setForm(f => ({ ...f, stats: [...f.stats, { n: '', l: '' }] })) }
+  function removeStat(i: number) { setForm(f => ({ ...f, stats: f.stats.filter((_, j) => j !== i) })) }
 
   function extractVideoId(raw: string): string {
     const m = raw.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/)
@@ -96,7 +112,7 @@ export default function SettingsPage() {
     setSaving(false)
   }
 
-  const inp = (key: Exclude<keyof SiteSettings, 'videos' | 'heroVideo'>) =>
+  const inp = (key: ScalarKey) =>
     errors[key] ? 'admin-input admin-input--error' : 'admin-input'
 
   if (loading) return (
@@ -234,6 +250,82 @@ export default function SettingsPage() {
                 </div>
               ))}
               <button type="button" className="admin-add-btn" onClick={addVideo} style={{ alignSelf: 'flex-start' }}>+ Add video</button>
+            </div>
+          </div>
+
+          {/* Credentials Ticker */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M3 8h10M3 4h10M3 12h6" /></svg>
+                Credentials Ticker
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>Items shown in the scrolling ticker strip below the hero. One badge per line.</span>
+              {form.credentials.map((c, i) => (
+                <div key={i} className="admin-array-item">
+                  <input className="admin-input" value={c} onChange={e => setCredential(i, e.target.value)} placeholder="Ministry of AYUSH Registered" />
+                  <button type="button" className="admin-array-remove" onClick={() => removeCredential(i)}>×</button>
+                </div>
+              ))}
+              <button type="button" className="admin-add-btn" onClick={addCredential}>+ Add item</button>
+            </div>
+          </div>
+
+          {/* Philosophy Pillars */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><rect x="2" y="2" width="12" height="12" rx="2" /><path d="M6 8h4M8 6v4" /></svg>
+                Philosophy — Four Pillars
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>The four Ayurvedic pillars shown on the homepage Philosophy section.</span>
+              {form.pillars.map((p, i) => (
+                <div key={i} style={{ background: '#f9fafb', border: '1px solid #e5e8ed', borderRadius: 8, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                    <div style={{ flex: '0 0 70px' }}>
+                      <label className="admin-label" style={{ fontSize: '0.7rem' }}>Step</label>
+                      <input className="admin-input" value={p.step} onChange={e => setPillar(i, 'step', e.target.value)} placeholder="01" style={{ fontFamily: 'monospace' }} />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <label className="admin-label" style={{ fontSize: '0.7rem' }}>Name</label>
+                      <input className="admin-input" value={p.name} onChange={e => setPillar(i, 'name', e.target.value)} placeholder="Nidan Parivarjan" />
+                    </div>
+                    <button type="button" onClick={() => removePillar(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.1rem', lineHeight: 1, marginTop: '1.2rem', flexShrink: 0 }} aria-label="Remove">×</button>
+                  </div>
+                  <div>
+                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>Description</label>
+                    <textarea className="admin-textarea" value={p.body} onChange={e => setPillar(i, 'body', e.target.value)} placeholder="Brief description of this pillar…" style={{ minHeight: 72 }} />
+                  </div>
+                </div>
+              ))}
+              <button type="button" className="admin-add-btn" onClick={addPillar}>+ Add pillar</button>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M2 14V8h3M6 14V2h4M13 14V5h3" /></svg>
+                Philosophy — Stats
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>The three achievement stats shown in the Philosophy section (e.g. 4,800+ Patients).</span>
+              {form.stats.map((s, i) => (
+                <div key={i} className="admin-array-item">
+                  <div style={{ flex: '0 0 120px' }}>
+                    <input className="admin-input" value={s.n} onChange={e => setStat(i, 'n', e.target.value)} placeholder="4,800+" style={{ fontWeight: 600 }} />
+                  </div>
+                  <input className="admin-input" value={s.l} onChange={e => setStat(i, 'l', e.target.value)} placeholder="Patients healed" />
+                  <button type="button" className="admin-array-remove" onClick={() => removeStat(i)}>×</button>
+                </div>
+              ))}
+              <button type="button" className="admin-add-btn" onClick={addStat}>+ Add stat</button>
             </div>
           </div>
 

@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { treatments } from '@/lib/treatments'
+import { getTreatments } from '@/lib/db'
 
 export default async function Treatments() {
-  const t = await getTranslations('treatments')
+  const [t, treatments] = await Promise.all([getTranslations('treatments'), getTreatments()])
 
   return (
     <section className="treatments" id="treatments">
