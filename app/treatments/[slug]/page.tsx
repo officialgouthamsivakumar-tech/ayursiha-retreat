@@ -7,17 +7,20 @@ import FooterMinimal from '@/components/FooterMinimal'
 import ClientAnimations from '@/components/ClientAnimations'
 import BookingModal from '@/components/BookingModal'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
-import { treatments, getTreatmentBySlug } from '@/lib/treatments'
+import { getTreatments, getTreatmentBySlug } from '@/lib/db'
+
+export const revalidate = 60
 
 type Props = { params: Promise<{ slug: string }> }
 
 export async function generateStaticParams() {
+  const treatments = await getTreatments()
   return treatments.map((t) => ({ slug: t.slug }))
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params
-  const t = getTreatmentBySlug(slug)
+  const t = await getTreatmentBySlug(slug)
   if (!t) return {}
   return {
     title: t.name,
@@ -27,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function TreatmentPage({ params }: Props) {
   const { slug } = await params
-  const t = getTreatmentBySlug(slug)
+  const t = await getTreatmentBySlug(slug)
   if (!t) notFound()
 
   return (
@@ -68,7 +71,7 @@ export default async function TreatmentPage({ params }: Props) {
         <div className="tp-section">
           <p className="label rl">What to expect</p>
           <ul className="tp-benefits stagger">
-            {t.benefits.map((b, i) => (
+            {t.benefits.map((b: string, i: number) => (
               <li key={i} className="tp-benefit r" style={{ '--i': i } as React.CSSProperties}>{b}</li>
             ))}
           </ul>
@@ -80,7 +83,7 @@ export default async function TreatmentPage({ params }: Props) {
         <div className="tp-section">
           <p className="label rl">Diet Plan</p>
           <ul className="tp-benefits stagger">
-            {t.dietPlan.map((d, i) => (
+            {t.dietPlan.map((d: string, i: number) => (
               <li key={i} className="tp-benefit r" style={{ '--i': i } as React.CSSProperties}>{d}</li>
             ))}
           </ul>

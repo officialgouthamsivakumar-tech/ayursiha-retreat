@@ -7,14 +7,17 @@ import Footer from '@/components/Footer'
 import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
-import { treatments } from '@/lib/treatments'
+import { getTreatments } from '@/lib/db'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'Treatments — Ayursiha Retreat',
   description: 'Explore our classical Ayurvedic treatments — Panchakarma, Shirodhara, Abhyanga, Kizhi, Rasayana and more. Every therapy prescribed after a personalised Prakriti assessment.',
 }
 
-export default function TreatmentsPage() {
+export default async function TreatmentsPage() {
+  const treatments = await getTreatments()
   return (
     <>
       <ClientAnimations />

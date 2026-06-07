@@ -5,41 +5,9 @@ import Footer from '@/components/Footer'
 import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
+import { getPhysicians } from '@/lib/db'
 
-const physicians = [
-  {
-    name: 'Dr. Shaheen Siddique M',
-    title: 'Chairman & Managing Director',
-    qualification: 'BAMS, MS Ayu',
-    department: 'Ayurveda',
-    bio: 'Over a decade of clinical practice spanning government service, the National Research Institute for Panchakarma, and senior roles at leading Ayurvedic hospitals. Specialises in Panchakarma, neuro rehabilitation, stroke recovery, and lifestyle diseases.',
-    image: 'https://ayursiha.com/wp-content/uploads/2020/11/Dr-1.webp',
-  },
-  {
-    name: 'Dr. Razeena Muhammed',
-    title: 'Ayurvedic Physician',
-    qualification: 'BAMS, AYU',
-    department: 'Ayurveda',
-    bio: 'An excellent physician with an exemplary track record of more than a decade. Specialises in Panchakarma therapies, neuro rehabilitation, and the management of chronic and lifestyle disorders.',
-    image: 'https://ayursiha.com/wp-content/uploads/2023/11/IMG_9894.jpg',
-  },
-  {
-    name: 'Dr. Merin Jose',
-    title: 'Ayurvedic Physician',
-    qualification: 'BAMS, AYU',
-    department: 'Ayurveda',
-    bio: 'A compassionate and knowledgeable physician, deeply committed to providing personalised care and promoting holistic healing through classical Ayurvedic principles.',
-    image: 'https://ayursiha.com/wp-content/uploads/2024/08/Dr.-Merin-Jose-e1723134988155.jpg',
-  },
-  {
-    name: 'Dr. Muzzammil',
-    title: 'Unani Physician',
-    qualification: 'BUMS',
-    department: 'Unani',
-    bio: 'One of the best known Unani physicians in Kerala. Specialises in the prevention and treatment of lifestyle disorders, acute and chronic diseases through traditional Unani therapeutic methods.',
-    image: 'https://ayursiha.com/wp-content/uploads/2020/11/Dr.Muzzammil.jpg',
-  },
-]
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'About Us — Ayursiha Retreat',
@@ -100,7 +68,8 @@ const pillars = [
   },
 ]
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const physicians = await getPhysicians()
   return (
     <>
       <ClientAnimations />
