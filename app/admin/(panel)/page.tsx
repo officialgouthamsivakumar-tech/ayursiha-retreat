@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import Image from 'next/image'
 import { countRecords } from '@/lib/db'
 
 export default function AdminDashboard() {
@@ -100,9 +99,6 @@ export default function AdminDashboard() {
               <path d="M60 80 C40 65 25 55 10 30" stroke="rgba(45,122,79,0.2)" strokeWidth="1"/>
               <path d="M60 100 C80 85 95 70 110 60" stroke="rgba(45,122,79,0.2)" strokeWidth="1"/>
             </svg>
-          </div>
-          <div className="dash-welcome-logo">
-            <Image src="/logo.png" alt="Ayursiha" width={72} height={72} style={{ objectFit: 'contain' }} />
           </div>
           <div>
             <p className="dash-welcome-eyebrow">Ayursiha Admin</p>
