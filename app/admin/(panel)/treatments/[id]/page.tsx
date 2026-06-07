@@ -167,9 +167,6 @@ export default function TreatmentFormPage() {
                 <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={handleImageChange} />
                 <span className="admin-form-hint">JPEG/PNG/WebP · min 400×300 px · max 5 MB</span>
                 {dimError && <span className="admin-field-error">{dimError}</span>}
-                {form.image && (
-                  <input className="admin-input" style={{ fontSize: '0.78rem', marginTop: '0.25rem' }} value={form.image} onChange={e => set('image', e.target.value)} placeholder="/uploads/treatment.jpg" />
-                )}
               </div>
             </div>
           </div>

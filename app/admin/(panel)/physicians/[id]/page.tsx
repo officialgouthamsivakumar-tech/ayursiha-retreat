@@ -128,9 +128,6 @@ export default function PhysicianFormPage() {
                 <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={handlePhotoChange} />
                 <span className="admin-form-hint">JPEG/PNG/WebP · min 300×300 px · max 5 MB</span>
                 {dimError && <span className="admin-field-error">{dimError}</span>}
-                {form.photo && (
-                  <input className="admin-input" style={{ fontSize: '0.78rem', marginTop: '0.25rem' }} value={form.photo} onChange={e => set('photo', e.target.value)} placeholder="/uploads/photo.jpg" />
-                )}
               </div>
             </div>
           </div>
