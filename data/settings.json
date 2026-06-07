@@ -1,17 +1,17 @@
 {
-  "phone": "+91 487 244 0000",
-  "whatsapp": "+914872440000",
+  "phone": "+91 487 244 0011",
+  "whatsapp": "+914872440012",
   "instagram": "https://www.instagram.com/ayursiha",
   "youtube": "https://www.youtube.com/@ayursiha",
-  "address": "CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara, Kerala 683101",
+  "address": "CAS Group Holhhhdings, 11/310, Thuruth, Aluva, Kerala 683101",
   "heroVideo": "/homevideo.mp4",
   "videos": [
     {
       "id": "hfMoBrBPGuk",
-      "title": "Ayurveda Wellness and Yoga at Ayursiha"
+      "title": "Ayurveda Wellness and Yoga at Ayursiha11"
     },
     {
-      "id": "aNYqqmV1U94",
+      "id": "jMjlemrdsks",
       "title": "Explore Ayursiha Hospital: Holistic Healing and Wellness"
     },
     {
@@ -21,6 +21,49 @@
     {
       "id": "khNWIwwEenM",
       "title": "Tranquil Evenings of Healing at Ayursiha"
+    }
+  ],
+  "credentials": [
+    "Ministry of AYUSH Registered",
+    "Classical Kerala Ayurveda",
+    "Panchakarma Certified",
+    "22 Years of Clinical Practice11",
+    "18 Specialist Physicians",
+    "Authentic Kottakkal Formulations",
+    "ISO 9001 Certified Centre",
+    "4,800+ Patients Healed"
+  ],
+  "pillars": [],
+  "stats": [
+    {
+      "n": "700",
+      "l": "Patients healed"
+    },
+    {
+      "n": "22",
+      "l": "Years of practice"
+    },
+    {
+      "n": "97%",
+      "l": "Patient satisfaction"
+    }
+  ],
+  "aboutStats": [
+    {
+      "n": "2002",
+      "l": "Year Founded"
+    },
+    {
+      "n": "4,100+",
+      "l": "Patients Healed"
+    },
+    {
+      "n": "21+",
+      "l": "Years of Practice"
+    },
+    {
+      "n": "97%",
+      "l": "Patient Satisfaction"
     }
   ]
 }

@@ -1,12 +1,41 @@
 [
   {
-    "id": "44a8e2f1-e608-480d-b83c-053fbc7906da",
+    "id": "df10c1e4-9840-4120-9b7d-a7d51354d82f",
     "idx": "01",
+    "slug": "shirodhara",
+    "tag": "60–90 min",
+    "name": "Shirodhara",
+    "body": "A continuous medicated oil stream poured over the Ajna chakra — proven to reduce cortisol and dissolve chronic anxiety and insomnia.",
+    "image": "/uploads/ab30e399-c57a-4564-a13e-2429fabf7931.png",
+    "long_description": "Shirodhara is one of the most profoundly calming therapies in classical Ayurveda. A warm, steady stream of medicated oil — precisely selected for your constitution — is poured continuously over the Ajna (third eye) chakra and forehead in a rhythmic, pendulum motion. This deeply sensory experience activates the hypothalamus, lowers cortisol levels, and induces a state of meditative calm. At Ayursiha, the session is preceded by a brief Abhyanga (oil massage) of the head and shoulders to prepare the tissues and maximise absorption.",
+    "benefits": [
+      "Clinically proven reduction in cortisol and stress hormones",
+      "Relief from chronic anxiety, depression, and burnout",
+      "Improvement in insomnia and sleep quality",
+      "Alleviation of headaches and migraines",
+      "Enhanced concentration, memory, and sensory acuity",
+      "Deeply calming effect on the nervous system"
+    ],
+    "duration": "10",
+    "ideal": "Those experiencing stress, anxiety, insomnia, burnout, or neurological complaints.",
+    "diet_plan": [
+      "Favour Vata-pacifying foods: warm, oily, and grounding in nature",
+      "Include warm milk with ashwagandha or nutmeg before bedtime",
+      "Avoid stimulants: caffeine, alcohol, and refined sugars",
+      "Eat at regular intervals — do not skip meals or eat late at night",
+      "Light, easily digestible dinners such as soups and soft grains"
+    ],
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 0
+  },
+  {
+    "id": "44a8e2f1-e608-480d-b83c-053fbc7906da",
+    "idx": "02",
     "slug": "ayurvedic-consultation",
     "tag": "90 min",
     "name": "Ayurvedic Consultation",
     "body": "Comprehensive Prakriti and Vikriti analysis with a senior physician. Pulse diagnosis, lifestyle review, and a personalised treatment roadmap.",
-    "image": "/consultation.png",
+    "image": "/uploads/527808cc-1e58-447b-bed1-018cbe7bddf0.png",
     "long_description": "Our Ayurvedic Consultation is the cornerstone of your healing journey at Ayursiha. Conducted by a senior Ayurvedic physician with decades of clinical experience, this session begins with Nadi Pareeksha — the ancient art of pulse diagnosis — to assess your unique constitution (Prakriti) and current state of imbalance (Vikriti). Combined with a thorough review of your lifestyle, diet, sleep patterns, and medical history, our physician creates a precise, personalised treatment roadmap tailored to restore your natural equilibrium.",
     "benefits": [
       "In-depth Prakriti and Vikriti assessment",
@@ -24,67 +53,12 @@
       "Avoid heavy meats, fried foods, and excessive dairy",
       "Eat at consistent times to stabilise Agni (digestive fire)"
     ],
-    "created_at": "2026-06-07T21:13:30.108Z"
-  },
-  {
-    "id": "18833c87-e214-4081-93af-0140b9a1f85a",
-    "idx": "02",
-    "slug": "panchakarma",
-    "tag": "7–21 days",
-    "name": "Panchakarma",
-    "body": "Five classical purification procedures administered in sequence to achieve deep cellular detoxification and metabolic reset.",
-    "image": "/panchakarma.png",
-    "long_description": "Panchakarma — meaning \"five actions\" — is Ayurveda's most powerful therapeutic protocol. At Ayursiha, this multi-day programme is administered under continuous physician supervision, using classical formulations prepared in our in-house pharmacy. The five core procedures — Vamana, Virechana, Basti, Nasya, and Raktamokshana — are sequenced after a preparatory phase (Poorvakarma) of Snehana (oleation) and Swedana (sudation) therapies. The result is a profound cellular detoxification, metabolic reset, and restoration of doshic equilibrium.",
-    "benefits": [
-      "Deep cellular detoxification and metabolic reset",
-      "Elimination of accumulated Ama (toxins)",
-      "Restoration of doshic balance and digestive fire (Agni)",
-      "Relief from chronic conditions including arthritis, insomnia, and skin disorders",
-      "Enhanced mental clarity and emotional wellbeing",
-      "Post-treatment Rasayana for sustained rejuvenation"
-    ],
-    "duration": "7 to 21 days (physician-prescribed)",
-    "ideal": "Those seeking deep detoxification, management of chronic diseases, or a complete health reset.",
-    "diet_plan": [
-      "Follow a strict Kitchari diet (rice and moong dal) throughout the programme",
-      "All meals freshly prepared with medicated ghee as prescribed by your physician",
-      "Avoid raw foods, heavy proteins, alcohol, and caffeine entirely",
-      "Warm water or herbal teas only — no cold beverages",
-      "Meal timings strictly follow physician-prescribed intervals to support purification"
-    ],
-    "created_at": "2026-06-07T21:13:30.108Z"
-  },
-  {
-    "id": "df10c1e4-9840-4120-9b7d-a7d51354d82f",
-    "idx": "03",
-    "slug": "shirodhara",
-    "tag": "60–90 min",
-    "name": "Shirodhara",
-    "body": "A continuous medicated oil stream poured over the Ajna chakra — proven to reduce cortisol and dissolve chronic anxiety and insomnia.",
-    "image": "/shirodhara.png",
-    "long_description": "Shirodhara is one of the most profoundly calming therapies in classical Ayurveda. A warm, steady stream of medicated oil — precisely selected for your constitution — is poured continuously over the Ajna (third eye) chakra and forehead in a rhythmic, pendulum motion. This deeply sensory experience activates the hypothalamus, lowers cortisol levels, and induces a state of meditative calm. At Ayursiha, the session is preceded by a brief Abhyanga (oil massage) of the head and shoulders to prepare the tissues and maximise absorption.",
-    "benefits": [
-      "Clinically proven reduction in cortisol and stress hormones",
-      "Relief from chronic anxiety, depression, and burnout",
-      "Improvement in insomnia and sleep quality",
-      "Alleviation of headaches and migraines",
-      "Enhanced concentration, memory, and sensory acuity",
-      "Deeply calming effect on the nervous system"
-    ],
-    "duration": "60 to 90 minutes",
-    "ideal": "Those experiencing stress, anxiety, insomnia, burnout, or neurological complaints.",
-    "diet_plan": [
-      "Favour Vata-pacifying foods: warm, oily, and grounding in nature",
-      "Include warm milk with ashwagandha or nutmeg before bedtime",
-      "Avoid stimulants: caffeine, alcohol, and refined sugars",
-      "Eat at regular intervals — do not skip meals or eat late at night",
-      "Light, easily digestible dinners such as soups and soft grains"
-    ],
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 1
   },
   {
     "id": "a4bdf626-c682-4b5b-96ea-1ae9a9164fe0",
-    "idx": "04",
+    "idx": "03",
     "slug": "abhyanga",
     "tag": "60 min",
     "name": "Abhyanga",
@@ -108,11 +82,12 @@
       "Stay well-hydrated with warm water or herbal broths throughout the day",
       "Favour sweet, sour, and salty tastes to balance the effects of the therapy"
     ],
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 2
   },
   {
     "id": "9a9093d2-4f93-4a76-b01c-6188dea6c806",
-    "idx": "05",
+    "idx": "04",
     "slug": "kizhi-therapy",
     "tag": "45 min",
     "name": "Kizhi Therapy",
@@ -136,7 +111,37 @@
       "Reduce Kapha-aggravating foods: dairy, sweets, and wheat",
       "Warm water with lemon and ginger first thing each morning"
     ],
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 3
+  },
+  {
+    "id": "18833c87-e214-4081-93af-0140b9a1f85a",
+    "idx": "05",
+    "slug": "panchakarma",
+    "tag": "7–21 days",
+    "name": "Panchakarma",
+    "body": "Five classical purification procedures administered in sequence to achieve deep cellular detoxification and metabolic reset.",
+    "image": "/panchakarma.png",
+    "long_description": "Panchakarma — meaning \"five actions\" — is Ayurveda's most powerful therapeutic protocol. At Ayursiha, this multi-day programme is administered under continuous physician supervision, using classical formulations prepared in our in-house pharmacy. The five core procedures — Vamana, Virechana, Basti, Nasya, and Raktamokshana — are sequenced after a preparatory phase (Poorvakarma) of Snehana (oleation) and Swedana (sudation) therapies. The result is a profound cellular detoxification, metabolic reset, and restoration of doshic equilibrium.",
+    "benefits": [
+      "Deep cellular detoxification and metabolic reset",
+      "Elimination of accumulated Ama (toxins)",
+      "Restoration of doshic balance and digestive fire (Agni)",
+      "Relief from chronic conditions including arthritis, insomnia, and skin disorders",
+      "Enhanced mental clarity and emotional wellbeing",
+      "Post-treatment Rasayana for sustained rejuvenation"
+    ],
+    "duration": "7 to 21 days (physician-prescribed)",
+    "ideal": "Those seeking deep detoxification, management of chronic diseases, or a complete health reset.",
+    "diet_plan": [
+      "Follow a strict Kitchari diet (rice and moong dal) throughout the programme",
+      "All meals freshly prepared with medicated ghee as prescribed by your physician",
+      "Avoid raw foods, heavy proteins, alcohol, and caffeine entirely",
+      "Warm water or herbal teas only — no cold beverages",
+      "Meal timings strictly follow physician-prescribed intervals to support purification"
+    ],
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 4
   },
   {
     "id": "f6a5414d-6e5e-4e16-b7d6-1fab030da167",
@@ -164,6 +169,7 @@
       "Seasonal and locally sourced produce preferred for maximum prana",
       "Physician-prescribed herbal supplements to be taken at specific meal intervals"
     ],
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 5
   }
 ]

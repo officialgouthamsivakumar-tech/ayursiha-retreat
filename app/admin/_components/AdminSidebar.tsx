@@ -109,13 +109,21 @@ export default function AdminSidebar() {
           <p className="admin-nav-section-label">Configuration</p>
           <Link
             href="/admin/settings"
-            className={`admin-nav-link${isActive('/admin/settings') ? ' active' : ''}`}
+            className={`admin-nav-link${pathname === '/admin/settings' ? ' active' : ''}`}
           >
             <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <circle cx="8" cy="8" r="2.5" />
-              <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" />
+              <path d="M3 2h2.5l1 3-1.5 1a9 9 0 004 4l1-1.5 3 1V13a1 1 0 01-1 1C5.4 14 2 10.6 2 3a1 1 0 011-1z" />
             </svg>
-            Site Settings
+            Contact &amp; Media
+          </Link>
+          <Link
+            href="/admin/settings/content"
+            className={`admin-nav-link${pathname.startsWith('/admin/settings/content') ? ' active' : ''}`}
+          >
+            <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M2 4h12M2 8h8M2 12h10" />
+            </svg>
+            Homepage Content
           </Link>
         </div>
 

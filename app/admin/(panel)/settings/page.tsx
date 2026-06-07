@@ -1,91 +1,46 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import type { SiteSettings, VideoEntry, PillarEntry, StatEntry } from '@/lib/db'
+import Link from 'next/link'
+import type { SiteSettings, VideoEntry } from '@/lib/db'
 import AdminToast from '../../_components/AdminToast'
 
 const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
 
 type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
 type FieldErrors = Partial<Record<ScalarKey, string>>
-
-type ArrayErrors = {
-  credentials: (string | undefined)[]
-  videos: ({ id?: string; title?: string } | undefined)[]
-  pillars: ({ name?: string; body?: string } | undefined)[]
-  stats: ({ n?: string; l?: string } | undefined)[]
-  aboutStats: ({ n?: string; l?: string } | undefined)[]
-}
-const emptyAE = (): ArrayErrors => ({ credentials: [], videos: [], pillars: [], stats: [], aboutStats: [] })
-
-function hasAE(e: ArrayErrors) {
-  return e.credentials.some(Boolean) || e.videos.some(Boolean) || e.pillars.some(Boolean) || e.stats.some(Boolean) || e.aboutStats.some(Boolean)
-}
+type VideoErrors = ({ id?: string; title?: string } | undefined)[]
 
 function validate(data: SiteSettings): FieldErrors {
   const e: FieldErrors = {}
   if (!data.phone.trim()) { e.phone = 'Phone number is required.' }
   else if (!/^[+\d][\d\s\-(). ]*$/.test(data.phone.trim())) { e.phone = 'Only digits, spaces, +, -, ( ) are allowed.' }
   else { const d = data.phone.replace(/\D/g, ''); if (d.length < 7) e.phone = 'Too short — minimum 7 digits.'; else if (d.length > 15) e.phone = 'Too long — maximum 15 digits.' }
-
   if (!data.whatsapp.trim()) { e.whatsapp = 'WhatsApp number is required.' }
   else if (!/^\+?\d{7,15}$/.test(data.whatsapp.trim())) { e.whatsapp = 'Digits only with country code, no spaces — e.g. +914872440000' }
-
   if (!data.instagram.trim()) { e.instagram = 'Instagram link is required.' }
   else if (!data.instagram.trim().startsWith('@') && !/^https?:\/\//i.test(data.instagram.trim())) { e.instagram = 'Must be a full URL or an @handle.' }
-
   if (!data.youtube.trim()) { e.youtube = 'YouTube link is required.' }
   else if (!/^https?:\/\//i.test(data.youtube.trim())) { e.youtube = 'Must be a full URL (https://youtube.com/…).' }
-
   if (!data.address.trim()) { e.address = 'Address is required.' }
   else if (data.address.trim().length < 10) { e.address = 'Address is too short (minimum 10 characters).' }
-
   return e
 }
 
-function validateArrays(data: SiteSettings): ArrayErrors {
-  const e = emptyAE()
-
-  data.credentials.forEach((c, i) => {
-    if (!c.trim()) e.credentials[i] = 'Badge text cannot be empty.'
-  })
-
-  data.videos.forEach((v, i) => {
+function validateVideos(videos: SiteSettings['videos']): VideoErrors {
+  return videos.map(v => {
     const vErr: { id?: string; title?: string } = {}
     if (!v.id.trim()) vErr.id = 'Video ID is required.'
     else if (!/^[A-Za-z0-9_-]{11}$/.test(v.id.trim())) vErr.id = 'Must be an 11-character YouTube video ID.'
     if (!v.title.trim()) vErr.title = 'Title is required.'
-    if (Object.keys(vErr).length) e.videos[i] = vErr
+    return Object.keys(vErr).length ? vErr : undefined
   })
-
-  data.pillars.forEach((p, i) => {
-    const pErr: { name?: string; body?: string } = {}
-    if (!p.name.trim()) pErr.name = 'Name is required.'
-    if (!p.body.trim()) pErr.body = 'Description is required.'
-    if (Object.keys(pErr).length) e.pillars[i] = pErr
-  })
-
-  data.stats.forEach((s, i) => {
-    const sErr: { n?: string; l?: string } = {}
-    if (!s.n.trim()) sErr.n = 'Value is required (e.g. 4,800+).'
-    if (!s.l.trim()) sErr.l = 'Label is required (e.g. Patients healed).'
-    if (Object.keys(sErr).length) e.stats[i] = sErr
-  })
-
-  data.aboutStats.forEach((s, i) => {
-    const sErr: { n?: string; l?: string } = {}
-    if (!s.n.trim()) sErr.n = 'Value is required (e.g. 2002).'
-    if (!s.l.trim()) sErr.l = 'Label is required (e.g. Year Founded).'
-    if (Object.keys(sErr).length) e.aboutStats[i] = sErr
-  })
-
-  return e
 }
 
-export default function SettingsPage() {
+export default function ContactSettingsPage() {
   const [form, setForm] = useState<SiteSettings>(empty)
   const [errors, setErrors] = useState<FieldErrors>({})
-  const [ae, setAe] = useState<ArrayErrors>(emptyAE())
+  const [videoErrors, setVideoErrors] = useState<VideoErrors>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [videoUploading, setVideoUploading] = useState(false)
@@ -104,68 +59,19 @@ export default function SettingsPage() {
     if (errors[key]) setErrors(e => ({ ...e, [key]: undefined }))
   }
 
-  // Credentials
-  function setCredential(i: number, val: string) {
-    setForm(f => { const c = [...f.credentials]; c[i] = val; return { ...f, credentials: c } })
-    if (ae.credentials[i]) setAe(e => { const c = [...e.credentials]; c[i] = undefined; return { ...e, credentials: c } })
-  }
-  function addCredential() { setForm(f => ({ ...f, credentials: [...f.credentials, ''] })) }
-  function removeCredential(i: number) {
-    setForm(f => ({ ...f, credentials: f.credentials.filter((_, j) => j !== i) }))
-    setAe(e => ({ ...e, credentials: e.credentials.filter((_, j) => j !== i) }))
-  }
-
-  // Pillars
-  function setPillar(i: number, field: keyof PillarEntry, val: string) {
-    setForm(f => { const p = [...f.pillars]; p[i] = { ...p[i], [field]: val }; return { ...f, pillars: p } })
-    if (ae.pillars[i]?.[field as 'name' | 'body']) setAe(e => { const p = [...e.pillars]; p[i] = { ...p[i], [field]: undefined }; return { ...e, pillars: p } })
-  }
-  function addPillar() { setForm(f => ({ ...f, pillars: [...f.pillars, { step: String(f.pillars.length + 1).padStart(2, '0'), name: '', body: '' }] })) }
-  function removePillar(i: number) {
-    setForm(f => ({ ...f, pillars: f.pillars.filter((_, j) => j !== i) }))
-    setAe(e => ({ ...e, pillars: e.pillars.filter((_, j) => j !== i) }))
-  }
-
-  // Stats (Philosophy)
-  function setStat(i: number, field: keyof StatEntry, val: string) {
-    setForm(f => { const s = [...f.stats]; s[i] = { ...s[i], [field]: val }; return { ...f, stats: s } })
-    if (ae.stats[i]?.[field]) setAe(e => { const s = [...e.stats]; s[i] = { ...s[i], [field]: undefined }; return { ...e, stats: s } })
-  }
-  function addStat() { setForm(f => ({ ...f, stats: [...f.stats, { n: '', l: '' }] })) }
-  function removeStat(i: number) {
-    setForm(f => ({ ...f, stats: f.stats.filter((_, j) => j !== i) }))
-    setAe(e => ({ ...e, stats: e.stats.filter((_, j) => j !== i) }))
-  }
-
-  // About Stats
-  function setAboutStat(i: number, field: keyof StatEntry, val: string) {
-    setForm(f => { const s = [...f.aboutStats]; s[i] = { ...s[i], [field]: val }; return { ...f, aboutStats: s } })
-    if (ae.aboutStats[i]?.[field]) setAe(e => { const s = [...e.aboutStats]; s[i] = { ...s[i], [field]: undefined }; return { ...e, aboutStats: s } })
-  }
-  function addAboutStat() { setForm(f => ({ ...f, aboutStats: [...f.aboutStats, { n: '', l: '' }] })) }
-  function removeAboutStat(i: number) {
-    setForm(f => ({ ...f, aboutStats: f.aboutStats.filter((_, j) => j !== i) }))
-    setAe(e => ({ ...e, aboutStats: e.aboutStats.filter((_, j) => j !== i) }))
-  }
-
   function extractVideoId(raw: string): string {
     const m = raw.match(/(?:v=|youtu\.be\/|embed\/)([A-Za-z0-9_-]{11})/)
     return m ? m[1] : raw.trim()
   }
 
   function setVideo(i: number, field: keyof VideoEntry, value: string) {
-    setForm(f => {
-      const videos = [...f.videos]
-      videos[i] = { ...videos[i], [field]: field === 'id' ? extractVideoId(value) : value }
-      return { ...f, videos }
-    })
-    if (ae.videos[i]?.[field]) setAe(e => { const v = [...e.videos]; v[i] = { ...v[i], [field]: undefined }; return { ...e, videos: v } })
+    setForm(f => { const v = [...f.videos]; v[i] = { ...v[i], [field]: field === 'id' ? extractVideoId(value) : value }; return { ...f, videos: v } })
+    if (videoErrors[i]?.[field]) setVideoErrors(e => { const v = [...e]; v[i] = { ...v[i], [field]: undefined }; return v })
   }
-
   function addVideo() { setForm(f => ({ ...f, videos: [...f.videos, { id: '', title: '' }] })) }
   function removeVideo(i: number) {
     setForm(f => ({ ...f, videos: f.videos.filter((_, j) => j !== i) }))
-    setAe(e => ({ ...e, videos: e.videos.filter((_, j) => j !== i) }))
+    setVideoErrors(e => e.filter((_, j) => j !== i))
   }
 
   async function handleVideoUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -188,11 +94,10 @@ export default function SettingsPage() {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
-    const fieldErrors = validate(form)
-    const arrayErrors = validateArrays(form)
-    if (Object.keys(fieldErrors).length > 0 || hasAE(arrayErrors)) {
-      setErrors(fieldErrors)
-      setAe(arrayErrors)
+    const fe = validate(form)
+    const ve = validateVideos(form.videos)
+    if (Object.keys(fe).length || ve.some(Boolean)) {
+      setErrors(fe); setVideoErrors(ve)
       setToast({ message: 'Please fix the errors below before saving.', type: 'error' })
       return
     }
@@ -200,24 +105,21 @@ export default function SettingsPage() {
     const res = await fetch('/api/admin/settings', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
     const data = await res.json()
     if (!res.ok) { setToast({ message: data.error || 'Failed to save.', type: 'error' }) }
-    else { setForm(data); setAe(emptyAE()); setToast({ message: 'Settings saved successfully.', type: 'success' }) }
+    else { setForm(data); setVideoErrors([]); setToast({ message: 'Settings saved.', type: 'success' }) }
     setSaving(false)
   }
 
   const inp = (key: ScalarKey) => errors[key] ? 'admin-input admin-input--error' : 'admin-input'
 
   if (loading) return (
-    <>
-      <div className="admin-topbar"><span className="admin-topbar-title">Site Settings</span></div>
-      <div className="admin-content"><p style={{ color: '#9ca3af' }}>Loading…</p></div>
-    </>
+    <><div className="admin-topbar"><span className="admin-topbar-title">Contact &amp; Media</span></div><div className="admin-content"><p style={{ color: '#9ca3af' }}>Loading…</p></div></>
   )
 
   return (
     <>
       <div className="admin-topbar">
-        <span className="admin-topbar-title">Site Settings</span>
-        <span className="admin-topbar-date">Contact information &amp; homepage content</span>
+        <span className="admin-topbar-title">Contact &amp; Media</span>
+        <Link href="/admin/settings/content" className="admin-btn admin-btn-ghost admin-btn-sm">Homepage Content →</Link>
       </div>
       <div className="admin-content">
         <form className="admin-form" onSubmit={handleSave} onKeyDown={e => { const tag = (e.target as HTMLElement).tagName; if (e.key === 'Enter' && tag !== 'TEXTAREA' && tag !== 'BUTTON') e.preventDefault() }}>
@@ -310,29 +212,29 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          {/* Videos — Experience section */}
+          {/* YouTube Videos */}
           <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
             <div className="admin-card-header">
               <span className="admin-card-title">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none"/></svg>
-                Videos — Experience the Healing Environment
+                Videos — Experience Section
               </span>
             </div>
             <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <span className="admin-form-hint" style={{ marginTop: 0 }}>Paste a YouTube URL or 11-character video ID. Videos appear in the grid on the homepage.</span>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>Paste a YouTube URL or 11-character video ID.</span>
               {form.videos.map((v, i) => (
                 <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                   <div style={{ flex: '0 0 200px' }}>
                     <label className="admin-label" style={{ fontSize: '0.7rem' }}>YouTube URL / ID *</label>
-                    <input className={ae.videos[i]?.id ? 'admin-input admin-input--error' : 'admin-input'} value={v.id} onChange={e => setVideo(i, 'id', e.target.value)} placeholder="https://youtu.be/abc123" />
-                    {ae.videos[i]?.id && <span className="admin-field-error">{ae.videos[i]?.id}</span>}
+                    <input className={videoErrors[i]?.id ? 'admin-input admin-input--error' : 'admin-input'} value={v.id} onChange={e => setVideo(i, 'id', e.target.value)} placeholder="https://youtu.be/abc123" />
+                    {videoErrors[i]?.id && <span className="admin-field-error">{videoErrors[i]?.id}</span>}
                   </div>
                   <div style={{ flex: 1 }}>
                     <label className="admin-label" style={{ fontSize: '0.7rem' }}>Title *</label>
-                    <input className={ae.videos[i]?.title ? 'admin-input admin-input--error' : 'admin-input'} value={v.title} onChange={e => setVideo(i, 'title', e.target.value)} placeholder="Video title…" />
-                    {ae.videos[i]?.title && <span className="admin-field-error">{ae.videos[i]?.title}</span>}
+                    <input className={videoErrors[i]?.title ? 'admin-input admin-input--error' : 'admin-input'} value={v.title} onChange={e => setVideo(i, 'title', e.target.value)} placeholder="Video title…" />
+                    {videoErrors[i]?.title && <span className="admin-field-error">{videoErrors[i]?.title}</span>}
                   </div>
-                  {v.id && !/\s/.test(v.id) && v.id.length === 11 && (
+                  {v.id && v.id.length === 11 && (
                     <div style={{ paddingTop: '1.6rem' }}>
                       <a href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noopener noreferrer" className="admin-btn admin-btn-ghost admin-btn-sm" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                         Preview <svg width="10" height="10" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M5 2h7v7M12 2L4 10"/></svg>
@@ -342,128 +244,12 @@ export default function SettingsPage() {
                   <button type="button" onClick={() => removeVideo(i)} style={{ paddingTop: '1.6rem', background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.1rem', lineHeight: 1, flexShrink: 0 }} aria-label="Remove">×</button>
                 </div>
               ))}
-              <button type="button" className="admin-add-btn" onClick={addVideo} style={{ alignSelf: 'flex-start' }}>+ Add video</button>
-            </div>
-          </div>
-
-          {/* Credentials Ticker */}
-          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
-            <div className="admin-card-header">
-              <span className="admin-card-title">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M3 8h10M3 4h10M3 12h6" /></svg>
-                Credentials Ticker
-              </span>
-            </div>
-            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <span className="admin-form-hint" style={{ marginTop: 0 }}>Items shown in the scrolling ticker strip below the hero. One badge per line.</span>
-              {form.credentials.map((c, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                  <div className="admin-array-item">
-                    <input className={ae.credentials[i] ? 'admin-input admin-input--error' : 'admin-input'} value={c} onChange={e => setCredential(i, e.target.value)} placeholder="Ministry of AYUSH Registered" />
-                    <button type="button" className="admin-array-remove" onClick={() => removeCredential(i)}>×</button>
-                  </div>
-                  {ae.credentials[i] && <span className="admin-field-error">{ae.credentials[i]}</span>}
-                </div>
-              ))}
-              <button type="button" className="admin-add-btn" onClick={addCredential}>+ Add item</button>
-            </div>
-          </div>
-
-          {/* Philosophy Pillars */}
-          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
-            <div className="admin-card-header">
-              <span className="admin-card-title">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><rect x="2" y="2" width="12" height="12" rx="2" /><path d="M6 8h4M8 6v4" /></svg>
-                Philosophy — Four Pillars
-              </span>
-            </div>
-            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              <span className="admin-form-hint" style={{ marginTop: 0 }}>The four Ayurvedic pillars shown on the homepage Philosophy section.</span>
-              {form.pillars.map((p, i) => (
-                <div key={i} style={{ background: '#f9fafb', border: `1px solid ${ae.pillars[i] ? '#fca5a5' : '#e5e8ed'}`, borderRadius: 8, padding: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                  <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
-                    <div style={{ flex: '0 0 70px' }}>
-                      <label className="admin-label" style={{ fontSize: '0.7rem' }}>Step</label>
-                      <input className="admin-input" value={p.step} onChange={e => setPillar(i, 'step', e.target.value)} placeholder="01" style={{ fontFamily: 'monospace' }} />
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <label className="admin-label" style={{ fontSize: '0.7rem' }}>Name *</label>
-                      <input className={ae.pillars[i]?.name ? 'admin-input admin-input--error' : 'admin-input'} value={p.name} onChange={e => setPillar(i, 'name', e.target.value)} placeholder="Nidan Parivarjan" />
-                      {ae.pillars[i]?.name && <span className="admin-field-error">{ae.pillars[i]?.name}</span>}
-                    </div>
-                    <button type="button" onClick={() => removePillar(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: '1.1rem', lineHeight: 1, marginTop: '1.4rem', flexShrink: 0 }} aria-label="Remove">×</button>
-                  </div>
-                  <div>
-                    <label className="admin-label" style={{ fontSize: '0.7rem' }}>Description *</label>
-                    <textarea className={ae.pillars[i]?.body ? 'admin-textarea admin-input--error' : 'admin-textarea'} value={p.body} onChange={e => setPillar(i, 'body', e.target.value)} placeholder="Brief description of this pillar…" style={{ minHeight: 72 }} />
-                    {ae.pillars[i]?.body && <span className="admin-field-error">{ae.pillars[i]?.body}</span>}
-                  </div>
-                </div>
-              ))}
-              <button type="button" className="admin-add-btn" onClick={addPillar}>+ Add pillar</button>
-            </div>
-          </div>
-
-          {/* About Stats */}
-          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
-            <div className="admin-card-header">
-              <span className="admin-card-title">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M2 14V8h3M6 14V2h4M13 14V5h3" /></svg>
-                About Us — Stats
-              </span>
-            </div>
-            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <span className="admin-form-hint" style={{ marginTop: 0 }}>Stats shown on the About Us page (Year Founded, Patients Healed, etc.).</span>
-              {form.aboutStats.map((s, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                  <div className="admin-array-item">
-                    <div style={{ flex: '0 0 130px', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                      <input className={ae.aboutStats[i]?.n ? 'admin-input admin-input--error' : 'admin-input'} value={s.n} onChange={e => setAboutStat(i, 'n', e.target.value)} placeholder="2002" style={{ fontWeight: 600 }} />
-                      {ae.aboutStats[i]?.n && <span className="admin-field-error">{ae.aboutStats[i]?.n}</span>}
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                      <input className={ae.aboutStats[i]?.l ? 'admin-input admin-input--error' : 'admin-input'} value={s.l} onChange={e => setAboutStat(i, 'l', e.target.value)} placeholder="Year Founded" />
-                      {ae.aboutStats[i]?.l && <span className="admin-field-error">{ae.aboutStats[i]?.l}</span>}
-                    </div>
-                    <button type="button" className="admin-array-remove" onClick={() => removeAboutStat(i)}>×</button>
-                  </div>
-                </div>
-              ))}
-              <button type="button" className="admin-add-btn" onClick={addAboutStat}>+ Add stat</button>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
-            <div className="admin-card-header">
-              <span className="admin-card-title">
-                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><path d="M2 14V8h3M6 14V2h4M13 14V5h3" /></svg>
-                Philosophy — Stats
-              </span>
-            </div>
-            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <span className="admin-form-hint" style={{ marginTop: 0 }}>The achievement stats shown in the Philosophy section (e.g. 4,800+ Patients).</span>
-              {form.stats.map((s, i) => (
-                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                  <div className="admin-array-item">
-                    <div style={{ flex: '0 0 130px', display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                      <input className={ae.stats[i]?.n ? 'admin-input admin-input--error' : 'admin-input'} value={s.n} onChange={e => setStat(i, 'n', e.target.value)} placeholder="4,800+" style={{ fontWeight: 600 }} />
-                      {ae.stats[i]?.n && <span className="admin-field-error">{ae.stats[i]?.n}</span>}
-                    </div>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-                      <input className={ae.stats[i]?.l ? 'admin-input admin-input--error' : 'admin-input'} value={s.l} onChange={e => setStat(i, 'l', e.target.value)} placeholder="Patients healed" />
-                      {ae.stats[i]?.l && <span className="admin-field-error">{ae.stats[i]?.l}</span>}
-                    </div>
-                    <button type="button" className="admin-array-remove" onClick={() => removeStat(i)}>×</button>
-                  </div>
-                </div>
-              ))}
-              <button type="button" className="admin-add-btn" onClick={addStat}>+ Add stat</button>
+              <button type="button" className="admin-add-btn" onClick={addVideo}>+ Add video</button>
             </div>
           </div>
 
           <div className="admin-form-actions">
-            <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>{saving ? 'Saving…' : 'Save Settings'}</button>
+            <button type="submit" className="admin-btn admin-btn-primary" disabled={saving}>{saving ? 'Saving…' : 'Save Changes'}</button>
           </div>
         </form>
       </div>
