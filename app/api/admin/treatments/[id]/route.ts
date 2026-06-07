@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getRecord, updateRecord, deleteRecord } from '@/lib/db'
+import { getRecord, updateWithReorder, deleteRecord } from '@/lib/db'
 
 export async function GET(_: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -11,7 +11,7 @@ export async function GET(_: Request, { params }: { params: Promise<{ id: string
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const body = await request.json()
-  const record = updateRecord('treatments', id, body)
+  const record = updateWithReorder('treatments', id, body)
   if (!record) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   return NextResponse.json(record)
 }

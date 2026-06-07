@@ -1,12 +1,19 @@
 import { getTranslations } from 'next-intl/server'
+import { getSettings } from '@/lib/db'
 
 export default async function Hero() {
-  const t = await getTranslations('hero')
+  const [t, settings] = await Promise.all([
+    getTranslations('hero'),
+    Promise.resolve(getSettings()),
+  ])
+
+  const videoSrc = settings.heroVideo || '/homevideo.mp4'
+  const videoType = videoSrc.endsWith('.webm') ? 'video/webm' : 'video/mp4'
 
   return (
     <section className="hero">
       <video className="hero-video" autoPlay muted loop playsInline>
-        <source src="/homevideo.mp4" type="video/mp4" />
+        <source src={videoSrc} type={videoType} />
       </video>
 
       <div className="hero-overlay" />

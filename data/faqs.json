@@ -1,0 +1,98 @@
+[
+  {
+    "id": "4ec84ead-95f5-49f7-83d3-c03d0936d442",
+    "category": "About Ayurveda",
+    "question": "What is Ayurveda?",
+    "answer": "Ayurveda is the world's oldest complete medical system, originating in India over 5,000 years ago. It is based on the understanding that health is a state of balance between the body, mind, and spirit — governed by three fundamental bio-energies called doshas: Vata, Pitta, and Kapha.",
+    "sort_order": 0,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "ca7ff71b-2680-44c3-a6b1-fade6051641d",
+    "category": "About Ayurveda",
+    "question": "Is Ayurveda scientifically validated?",
+    "answer": "Yes. Many Ayurvedic formulations and practices have been studied extensively and are supported by peer-reviewed research. The Ministry of AYUSH, Government of India, oversees and certifies Ayurvedic practitioners and institutions. At Ayursiha, all treatments are administered by qualified physicians with formal Ayurvedic medical degrees (BAMS/MD).",
+    "sort_order": 1,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "1a87542d-2edd-429a-a720-e03da7d5d068",
+    "category": "About Ayurveda",
+    "question": "Can Ayurveda be used alongside modern medicine?",
+    "answer": "In most cases, yes — but this must be assessed individually. Our physicians will review your current medications and medical history during your consultation. We work in an integrative manner and will advise you transparently if any treatment is contraindicated alongside your existing care.",
+    "sort_order": 2,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "23611c60-08c5-4b2a-b2e6-2269e3f8319c",
+    "category": "Your First Visit",
+    "question": "What happens during my first consultation?",
+    "answer": "Your initial consultation lasts approximately 90 minutes. Our physician will conduct Nadi Pareeksha (pulse diagnosis), examine your tongue, eyes, and skin, and take a thorough history covering your diet, sleep, stress, and medical background. From this, your Prakriti (constitution) and Vikriti (current imbalance) are determined, and a personalised treatment plan is prescribed.",
+    "sort_order": 0,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "881606d8-4e2f-433e-bbcb-9a75dc492cf6",
+    "category": "Your First Visit",
+    "question": "Do I need to prepare anything before my visit?",
+    "answer": "Arrive with a light stomach — avoid heavy meals for at least two hours before your appointment. Bring any relevant medical reports, prescriptions, or test results. Wear comfortable, loose-fitting clothing. Avoid applying strong perfumes or oils on the day of treatment.",
+    "sort_order": 1,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "890c33d4-0f3d-477f-a258-49733b3f9d26",
+    "category": "Your First Visit",
+    "question": "How long will my treatment programme last?",
+    "answer": "This varies based on your condition and goals. A single therapy session may last 45–90 minutes. Panchakarma programmes typically run 7 to 21 days. Chronic conditions may require a structured programme of 4–8 weeks. Your physician will prescribe a specific timeline during your consultation.",
+    "sort_order": 2,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "4aa3d12c-dd27-4e03-b345-9bc052cb5efb",
+    "category": "Treatments",
+    "question": "Are the treatments painful?",
+    "answer": "Ayurvedic therapies are generally deeply relaxing and non-invasive. Some procedures, such as Virechana (therapeutic purgation) or Nasya (nasal administration), may involve mild temporary discomfort, but are carefully managed by our physicians and therapists. You will be fully briefed before any procedure begins.",
+    "sort_order": 0,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "db8f6f22-0798-4229-8800-1f2367b1a501",
+    "category": "Treatments",
+    "question": "Can I choose my own treatments?",
+    "answer": "We encourage you to share your goals and areas of concern. However, specific therapies are always prescribed by our physician based on your Prakriti assessment — not self-selected. Administering incorrect treatments can aggravate imbalances. Trust in the clinical process is central to the Ayursiha experience.",
+    "sort_order": 1,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "ee6aff35-58c1-403b-83e2-dd32185828a6",
+    "category": "Treatments",
+    "question": "What oils and herbs are used?",
+    "answer": "We use classical formulations prepared according to traditional Ayurvedic texts. Our in-house pharmacy prepares medicated oils (taila), ghee (ghrita), and herbal decoctions (kashaya) fresh for each patient. All ingredients are ethically sourced and free from synthetic additives.",
+    "sort_order": 2,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "74049f52-6a55-4049-b43b-d683491a2a59",
+    "category": "Practical Information",
+    "question": "Where are you located?",
+    "answer": "Ayursiha Retreat is located at 11/310 Thuruth, Aluva, Chowara, Kerala 683101. We are easily accessible from Aluva, Kochi, and Ernakulam. Detailed directions and transportation guidance will be shared upon booking.",
+    "sort_order": 0,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "bad9cda6-bd0d-4c91-b9dc-41dbf5d8389b",
+    "category": "Practical Information",
+    "question": "What are your operating hours?",
+    "answer": "We are open Monday to Saturday, 8:00 am to 7:00 pm. Consultations and treatments are by appointment only. We are closed on Sundays and public holidays.",
+    "sort_order": 1,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  },
+  {
+    "id": "f010f1e8-9e06-42ce-a857-02c12fc1f479",
+    "category": "Practical Information",
+    "question": "How do I book a consultation?",
+    "answer": "You can book directly through our website by clicking \"Book Consultation\", calling us at +91 487 244 0000, or emailing ayursihahospital@gmail.com. Our team will confirm your appointment within 24 hours and share pre-visit guidance.",
+    "sort_order": 2,
+    "created_at": "2026-06-07T21:13:30.108Z"
+  }
+]

@@ -105,6 +105,20 @@ export default function AdminSidebar() {
         </div>
 
         <div className="admin-nav-section">
+          <p className="admin-nav-section-label">Configuration</p>
+          <Link
+            href="/admin/settings"
+            className={`admin-nav-link${isActive('/admin/settings') ? ' active' : ''}`}
+          >
+            <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+              <circle cx="8" cy="8" r="2.5" />
+              <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.1 3.1l1.4 1.4M11.5 11.5l1.4 1.4M3.1 12.9l1.4-1.4M11.5 4.5l1.4-1.4" />
+            </svg>
+            Site Settings
+          </Link>
+        </div>
+
+        <div className="admin-nav-section">
           <p className="admin-nav-section-label">Site</p>
           <a href="/" target="_blank" rel="noopener" className="admin-nav-link">
             <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">

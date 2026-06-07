@@ -35,26 +35,26 @@ function writeData(name: string, data: Row[]): void {
 
 // ─── Seed data ────────────────────────────────────────────────────────────────
 
-const treatmentSeed: Row[] = staticTreatments.map(t => ({
+const treatmentSeed: Row[] = staticTreatments.map((t, i) => ({
   id: randomUUID(),
-  idx: t.idx, slug: t.slug, tag: t.tag, name: t.name, body: t.body,
+  idx: t.idx, sort_order: i, slug: t.slug, tag: t.tag, name: t.name, body: t.body,
   image: t.image, long_description: t.longDescription, benefits: t.benefits,
   duration: t.duration, ideal: t.ideal, diet_plan: t.dietPlan,
   created_at: new Date().toISOString(),
 }))
 
-const testimonialSeed: Row[] = staticTestimonials.map(t => ({
+const testimonialSeed: Row[] = staticTestimonials.map((t, i) => ({
   id: randomUUID(),
-  quote: t.quote, lang: t.lang, name: t.name, role: t.role,
+  sort_order: i, quote: t.quote, lang: t.lang, name: t.name, role: t.role,
   initial: t.initial, color: t.color, rtl: t.rtl,
   created_at: new Date().toISOString(),
 }))
 
 const physicianSeed: Row[] = [
-  { id: randomUUID(), name: 'Dr. Shaheen Siddique M', title: 'Chairman & Managing Director', qualification: 'BAMS, MS Ayu', department: 'Ayurveda', bio: 'Over a decade of clinical practice spanning government service, the National Research Institute for Panchakarma, and senior roles at leading Ayurvedic hospitals. Specialises in Panchakarma, neuro rehabilitation, stroke recovery, and lifestyle diseases.', image: 'https://ayursiha.com/wp-content/uploads/2020/11/Dr-1.webp', created_at: new Date().toISOString() },
-  { id: randomUUID(), name: 'Dr. Razeena Muhammed', title: 'Ayurvedic Physician', qualification: 'BAMS, AYU', department: 'Ayurveda', bio: 'An excellent physician with an exemplary track record of more than a decade. Specialises in Panchakarma therapies, neuro rehabilitation, and the management of chronic and lifestyle disorders.', image: 'https://ayursiha.com/wp-content/uploads/2023/11/IMG_9894.jpg', created_at: new Date().toISOString() },
-  { id: randomUUID(), name: 'Dr. Merin Jose', title: 'Ayurvedic Physician', qualification: 'BAMS, AYU', department: 'Ayurveda', bio: 'A compassionate and knowledgeable physician, deeply committed to providing personalised care and promoting holistic healing through classical Ayurvedic principles.', image: 'https://ayursiha.com/wp-content/uploads/2024/08/Dr.-Merin-Jose-e1723134988155.jpg', created_at: new Date().toISOString() },
-  { id: randomUUID(), name: 'Dr. Muzzammil', title: 'Unani Physician', qualification: 'BUMS', department: 'Unani', bio: 'One of the best known Unani physicians in Kerala. Specialises in the prevention and treatment of lifestyle disorders, acute and chronic diseases through traditional Unani therapeutic methods.', image: 'https://ayursiha.com/wp-content/uploads/2020/11/Dr.Muzzammil.jpg', created_at: new Date().toISOString() },
+  { id: randomUUID(), sort_order: 0, name: 'Dr. Shaheen Siddique M', title: 'Chairman & Managing Director', qualification: 'BAMS, MS Ayu', department: 'Ayurveda', bio: 'Over a decade of clinical practice spanning government service, the National Research Institute for Panchakarma, and senior roles at leading Ayurvedic hospitals. Specialises in Panchakarma, neuro rehabilitation, stroke recovery, and lifestyle diseases.', image: 'https://ayursiha.com/wp-content/uploads/2020/11/Dr-1.webp', created_at: new Date().toISOString() },
+  { id: randomUUID(), sort_order: 1, name: 'Dr. Razeena Muhammed', title: 'Ayurvedic Physician', qualification: 'BAMS, AYU', department: 'Ayurveda', bio: 'An excellent physician with an exemplary track record of more than a decade. Specialises in Panchakarma therapies, neuro rehabilitation, and the management of chronic and lifestyle disorders.', image: 'https://ayursiha.com/wp-content/uploads/2023/11/IMG_9894.jpg', created_at: new Date().toISOString() },
+  { id: randomUUID(), sort_order: 2, name: 'Dr. Merin Jose', title: 'Ayurvedic Physician', qualification: 'BAMS, AYU', department: 'Ayurveda', bio: 'A compassionate and knowledgeable physician, deeply committed to providing personalised care and promoting holistic healing through classical Ayurvedic principles.', image: 'https://ayursiha.com/wp-content/uploads/2024/08/Dr.-Merin-Jose-e1723134988155.jpg', created_at: new Date().toISOString() },
+  { id: randomUUID(), sort_order: 3, name: 'Dr. Muzzammil', title: 'Unani Physician', qualification: 'BUMS', department: 'Unani', bio: 'One of the best known Unani physicians in Kerala. Specialises in the prevention and treatment of lifestyle disorders, acute and chronic diseases through traditional Unani therapeutic methods.', image: 'https://ayursiha.com/wp-content/uploads/2020/11/Dr.Muzzammil.jpg', created_at: new Date().toISOString() },
 ]
 
 const faqSeed: Row[] = [
@@ -80,6 +80,55 @@ function getSeed(entity: string): Row[] {
     case 'faqs':         return faqSeed
     default:             return []
   }
+}
+
+// ─── Settings ────────────────────────────────────────────────────────────────
+
+export type VideoEntry = { id: string; title: string }
+
+export type SiteSettings = {
+  phone: string
+  whatsapp: string
+  instagram: string
+  youtube: string
+  address: string
+  heroVideo: string
+  videos: VideoEntry[]
+}
+
+const defaultSettings: SiteSettings = {
+  phone: '+91 487 244 0000',
+  whatsapp: '+914872440000',
+  instagram: 'https://www.instagram.com/ayursiha',
+  youtube: 'https://www.youtube.com/@ayursiha',
+  address: 'CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara, Kerala 683101',
+  heroVideo: '/homevideo.mp4',
+  videos: [
+    { id: 'hfMoBrBPGuk', title: 'Ayurveda Wellness and Yoga at Ayursiha' },
+    { id: 'aNYqqmV1U94', title: 'Explore Ayursiha Hospital: Holistic Healing and Wellness' },
+    { id: 'jALuXZMXUWE', title: 'Ayursiha Hospital Promo — Best Ayurveda & Unani Wellness' },
+    { id: 'khNWIwwEenM', title: 'Tranquil Evenings of Healing at Ayursiha' },
+  ],
+}
+
+export function getSettings(): SiteSettings {
+  ensureDir()
+  const file = join(DATA_DIR, 'settings.json')
+  if (!existsSync(file)) {
+    writeFileSync(file, JSON.stringify(defaultSettings, null, 2))
+    return defaultSettings
+  }
+  try {
+    return { ...defaultSettings, ...JSON.parse(readFileSync(file, 'utf-8')) as Partial<SiteSettings> }
+  } catch {
+    return defaultSettings
+  }
+}
+
+export function saveSettings(data: SiteSettings): SiteSettings {
+  ensureDir()
+  writeFileSync(join(DATA_DIR, 'settings.json'), JSON.stringify(data, null, 2))
+  return data
 }
 
 // ─── Admin CRUD ───────────────────────────────────────────────────────────────
@@ -109,6 +158,35 @@ export function updateRecord(entity: string, id: string, data: Row): Row | null 
   return records[i]
 }
 
+export function updateWithReorder(entity: string, id: string, data: Row): Row | null {
+  const records = getAllRecords(entity)
+  if (!records.find(r => r.id === id)) return null
+
+  const sorted = [...records].sort((a, b) =>
+    Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0)
+  )
+
+  const oldPos = sorted.findIndex(r => r.id === id)
+  const newPos = Math.max(0, Math.min(Number(data.sort_order ?? oldPos), sorted.length - 1))
+  const updated: Row = { ...sorted[oldPos], ...data, id }
+
+  if (newPos !== oldPos) {
+    sorted.splice(oldPos, 1)
+    sorted.splice(newPos, 0, updated)
+  } else {
+    sorted[oldPos] = updated
+  }
+
+  const reordered: Row[] = sorted.map((r, i) => ({
+    ...r,
+    sort_order: i,
+    ...(entity === 'treatments' ? { idx: String(i + 1).padStart(2, '0') } : {}),
+  }))
+
+  writeData(entity, reordered)
+  return reordered.find(r => r.id === id) ?? null
+}
+
 export function deleteRecord(entity: string, id: string): boolean {
   const records = getAllRecords(entity)
   const filtered = records.filter(r => r.id !== id)
@@ -121,12 +199,14 @@ export function countRecords(entity: string): number {
   return getAllRecords(entity).length
 }
 
-// ─── Public queries (used by public site pages) ───────────────────────────────
+// ─── Public queries ───────────────────────────────────────────────────────────
 
 export async function getTreatments(): Promise<Treatment[]> {
   const rows = getAllRecords('treatments')
   if (!rows.length) return staticTreatments
-  return rows.map(mapTreatment)
+  return rows
+    .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
+    .map(mapTreatment)
 }
 
 export async function getTreatmentBySlug(slug: string): Promise<Treatment | undefined> {
@@ -139,28 +219,32 @@ export async function getTreatmentBySlug(slug: string): Promise<Treatment | unde
 export async function getTestimonials(): Promise<Testimonial[]> {
   const rows = getAllRecords('testimonials')
   if (!rows.length) return staticTestimonials
-  return rows.map(row => ({
-    quote: String(row.quote ?? ''),
-    lang: String(row.lang ?? 'en'),
-    name: String(row.name ?? ''),
-    role: String(row.role ?? ''),
-    initial: String(row.initial ?? ''),
-    color: String(row.color ?? '#2d7a4f'),
-    rtl: Boolean(row.rtl),
-  }))
+  return rows
+    .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
+    .map(row => ({
+      quote: String(row.quote ?? ''),
+      lang: String(row.lang ?? 'en'),
+      name: String(row.name ?? ''),
+      role: String(row.role ?? ''),
+      initial: String(row.initial ?? ''),
+      color: String(row.color ?? '#2d7a4f'),
+      rtl: Boolean(row.rtl),
+    }))
 }
 
 export async function getPhysicians(): Promise<Physician[]> {
   const rows = getAllRecords('physicians')
   if (!rows.length) return []
-  return rows.map(row => ({
-    name: String(row.name ?? ''),
-    title: String(row.title ?? ''),
-    qualification: String(row.qualification ?? ''),
-    department: String(row.department ?? ''),
-    bio: String(row.bio ?? ''),
-    image: String(row.image ?? ''),
-  }))
+  return rows
+    .sort((a, b) => Number(a.sort_order ?? 0) - Number(b.sort_order ?? 0))
+    .map(row => ({
+      name: String(row.name ?? ''),
+      title: String(row.title ?? ''),
+      qualification: String(row.qualification ?? ''),
+      department: String(row.department ?? ''),
+      bio: String(row.bio ?? ''),
+      image: String(row.image ?? ''),
+    }))
 }
 
 export async function getFaqs(): Promise<FaqCategory[]> {

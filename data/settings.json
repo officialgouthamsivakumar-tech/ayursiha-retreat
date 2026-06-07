@@ -1,0 +1,26 @@
+{
+  "phone": "+91 487 244 0000",
+  "whatsapp": "+914872440000",
+  "instagram": "https://www.instagram.com/ayursiha",
+  "youtube": "https://www.youtube.com/@ayursiha",
+  "address": "CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara, Kerala 683101",
+  "heroVideo": "/homevideo.mp4",
+  "videos": [
+    {
+      "id": "hfMoBrBPGuk",
+      "title": "Ayurveda Wellness and Yoga at Ayursiha"
+    },
+    {
+      "id": "aNYqqmV1U94",
+      "title": "Explore Ayursiha Hospital: Holistic Healing and Wellness"
+    },
+    {
+      "id": "jALuXZMXUWE",
+      "title": "Ayursiha Hospital Promo — Best Ayurveda & Unani Wellness"
+    },
+    {
+      "id": "khNWIwwEenM",
+      "title": "Tranquil Evenings of Healing at Ayursiha"
+    }
+  ]
+}
