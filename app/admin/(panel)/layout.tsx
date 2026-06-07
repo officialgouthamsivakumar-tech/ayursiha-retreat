@@ -1,5 +1,5 @@
-import '../styles/admin.css'
-import AdminSidebar from './_components/AdminSidebar'
+import '../../styles/admin.css'
+import AdminSidebar from '../_components/AdminSidebar'
 
 export const metadata = { title: 'Admin — Ayursiha Retreat' }
 
