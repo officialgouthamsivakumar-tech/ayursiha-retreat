@@ -73,7 +73,7 @@ export default function AdminSidebar() {
   return (
     <aside className="admin-sidebar">
       <Link href="/admin" className="admin-logo">
-        <Image src="/logo.png" alt="Ayursiha" width={110} height={48} style={{ objectFit: 'contain', objectPosition: 'left' }} />
+        <Image src="/logo.png" alt="Ayursiha" width={110} height={48} style={{ objectFit: 'contain', objectPosition: 'left', filter: 'brightness(0) invert(1)' }} />
         <span className="admin-logo-sub">Admin Panel</span>
       </Link>
 
