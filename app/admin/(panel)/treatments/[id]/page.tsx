@@ -38,6 +38,7 @@ export default function TreatmentFormPage() {
   const [entityCount, setEntityCount] = useState(0)
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
   const [dimError, setDimError] = useState('')
+  const [durationError, setDurationError] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
   const prevImageRef = useRef('')
 
@@ -109,6 +110,11 @@ export default function TreatmentFormPage() {
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault()
+    if (form.duration && (isNaN(Number(form.duration)) || Number(form.duration) < 1)) {
+      setDurationError('Duration must be a positive number.')
+      return
+    }
+    setDurationError('')
     setSaving(true)
     const payload = { ...form, benefits: form.benefits.filter(Boolean), diet_plan: form.diet_plan.filter(Boolean) }
     const res = await fetch(isNew ? '/api/admin/treatments' : `/api/admin/treatments/${id}`, {
@@ -197,8 +203,18 @@ export default function TreatmentFormPage() {
 
           <div className="admin-form-row">
             <div className="admin-form-group">
-              <label className="admin-label">Duration</label>
-              <input className="admin-input" value={form.duration} onChange={e => set('duration', e.target.value)} placeholder="90 minutes" />
+              <label className="admin-label">Duration (minutes)</label>
+              <input
+                type="number"
+                className={durationError ? 'admin-input admin-input--error' : 'admin-input'}
+                value={form.duration}
+                onChange={e => { set('duration', e.target.value); if (durationError) setDurationError('') }}
+                placeholder="90"
+                min="1"
+              />
+              {durationError
+                ? <span className="admin-field-error">{durationError}</span>
+                : <span className="admin-form-hint">Enter a number in minutes, e.g. 60</span>}
             </div>
             <div className="admin-form-group">
               <label className="admin-label">Ideal For</label>
