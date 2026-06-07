@@ -10,11 +10,11 @@ const schema = {
       logo: 'https://ayursiha.com/logo.png',
       image: 'https://ayursiha.com/og-image.jpg',
       description:
-        'Ministry of AYUSH registered Ayurvedic healing centre in Thrissur, Kerala. Authentic Panchakarma, Shirodhara, Abhyanga and personalised wellness programmes since 2002.',
+        'Ministry of AYUSH registered Ayurvedic healing centre in Aluva, Kerala. Authentic Panchakarma, Shirodhara, Abhyanga and personalised wellness programmes since 2002.',
       foundingDate: '2002',
       priceRange: '₹₹₹',
       telephone: '+914872440000',
-      email: 'consult@ayursiha.com',
+      email: 'ayursihahospital@gmail.com',
       address: {
         '@type': 'PostalAddress',
         streetAddress: 'CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara',

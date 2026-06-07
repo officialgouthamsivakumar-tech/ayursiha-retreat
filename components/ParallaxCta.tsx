@@ -1,24 +1,24 @@
+'use client'
+import { useTranslations } from 'next-intl'
+
 export default function ParallaxCta() {
+  const t = useTranslations('parallaxCta')
+
   return (
     <div className="pcta" id="cta">
       <div className="pcta-bg" id="pctaBg" />
       <div className="pcta-body">
-        <p className="label r" style={{ color: 'var(--amber)' }}>Begin Your Journey</p>
+        <p className="label r" style={{ color: 'var(--amber)' }}>{t('label')}</p>
         <h2 className="pcta-h ws r" id="ctaH2">
-          Your body already<br /><em>knows how to heal.</em>
+          {t('headingLine1')}<br /><em>{t('headingLine2')}</em>
         </h2>
-        <p className="pcta-sub r">
-          Book a complimentary 30-minute introductory call with one of our physicians. No
-          commitment — just a conversation about where you are and where you want to be.
-        </p>
+        <p className="pcta-sub r">{t('sub')}</p>
         <div className="pcta-row r">
-          <a href="mailto:consult@ayursiha.com" className="btn btn-gold">
-            Book Free Consultation
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M2 7h10M8 3l4 4-4 4" />
-            </svg>
-          </a>
-          <a href="tel:+914872440000" className="btn btn-ghost">+91 487 244 0000</a>
+          <button className="btn btn-gold" onClick={() => window.dispatchEvent(new CustomEvent('openBooking'))}>
+            {t('bookFree')}
+            <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          </button>
+          <a href={`tel:${t('call').replace(/\s/g, '')}`} className="btn btn-ghost">{t('call')}</a>
         </div>
       </div>
     </div>

@@ -1,13 +1,10 @@
 import React from 'react'
+import { getTranslations } from 'next-intl/server'
 
-const details = [
-  'Customised oils: Brahmi, Ksheerabala, or Chandanadi — chosen per Vikriti',
-  'Duration: 45–75 minutes, calibrated per condition severity',
-  'Indicated for: anxiety, insomnia, migraines, neurological conditions',
-  'Preceded by Abhyanga for maximum therapeutic effect',
-]
+export default async function FeatureSection() {
+  const t = await getTranslations('feature')
+  const details = t.raw('details') as string[]
 
-export default function FeatureSection() {
   return (
     <section className="feature">
       <div className="feature-inner">
@@ -29,21 +26,12 @@ export default function FeatureSection() {
         </div>
 
         <div className="feature-content">
-          <p className="label r">Signature Treatment</p>
+          <p className="label r">{t('label')}</p>
           <h2 className="display feature-heading ws r" id="featH2">
-            Shirodhara — the supreme therapy for the mind
+            {t('heading')}
           </h2>
-          <p className="feature-body r">
-            Of all the treatments in classical Ayurveda, Shirodhara stands apart. The sustained
-            stream of warm, medicated oil on the forehead triggers a profound shift in the nervous
-            system — measurably reducing cortisol, inducing deep parasympathetic rest, and quieting
-            the mental chatter that underlies most modern conditions.
-          </p>
-          <p className="feature-body r">
-            At Ayursiha, our Shirodhara uses customised medicated oils prepared in-house according
-            to your dosha, current imbalance, and the season. The oil, the temperature, the
-            duration — every variable is clinical, not routine.
-          </p>
+          <p className="feature-body r">{t('body1')}</p>
+          <p className="feature-body r">{t('body2')}</p>
           <div className="feature-details stagger">
             {details.map((d, i) => (
               <div key={i} className="feature-detail r" style={{ '--i': i } as React.CSSProperties}>
@@ -52,10 +40,8 @@ export default function FeatureSection() {
             ))}
           </div>
           <a href="#cta" className="btn btn-dark r">
-            Enquire About Shirodhara
-            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.6">
-              <path d="M2 7h10M8 3l4 4-4 4" />
-            </svg>
+            {t('cta')}
+            <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </a>
         </div>
 

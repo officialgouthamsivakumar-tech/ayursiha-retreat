@@ -1,0 +1,210 @@
+{
+  "nav": {
+    "treatments": "Treatments",
+    "experience": "Experience",
+    "about": "About Us",
+    "stories": "Stories",
+    "bookConsultation": "Book Consultation",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "phone": "+91 487 244 0000",
+    "email": "ayursihahospital@gmail.com"
+  },
+  "hero": {
+    "headingLine1": "Where ancient",
+    "headingLine2": "medicine",
+    "headingLine3": "meets you.",
+    "sub": "Personalised Ayurvedic care rooted in authentic Kerala tradition. Every treatment begins with understanding who you are — not just what ails you.",
+    "cta": "Explore Treatments",
+    "scrollDown": "Scroll Down"
+  },
+  "philosophy": {
+    "label": "Our Approach",
+    "quote": "We treat the whole person, their constitution, their history, their life, not just the condition they walk in with.",
+    "sectionLabel": "Classical Ayurveda",
+    "heading": "Healing rooted in 5,000 years of science",
+    "body1": "Ayurveda is not alternative medicine — it is the world's oldest complete medical system. At Ayursiha, we practice it as it was intended: rigorously, personally, and with deep respect for the texts from which it came.",
+    "body2": "Every consultation begins with a comprehensive {prakriti} assessment — your unique doshic constitution. From there, every therapy, every herb, every dietary recommendation is calibrated to you alone. There are no templates here.",
+    "prakritiHeading": "Official Prakriti Assessment",
+    "prakritiGovLabel": "Government of India · Ministry of AYUSH",
+    "prakritiText": "The validated body-constitution framework established by the Ministry of AYUSH — conducted before every treatment plan is prescribed.",
+    "prakritiLink": "AYUSH Official Portal",
+    "pillarStep": "Step {step}",
+    "stats": {
+      "patientsHealed": "Patients healed",
+      "yearsOfPractice": "Years of practice",
+      "patientSatisfaction": "Patient satisfaction"
+    }
+  },
+  "treatments": {
+    "label": "Classical Therapies",
+    "heading": "Treatments that honour the tradition",
+    "subhead": "Every treatment is prescribed after a thorough Prakriti and Vikriti assessment — duration, oils, herbs, and technique, all calibrated to your unique constitution.",
+    "viewAll": "View All Treatments",
+    "duration": "Duration",
+    "idealFor": "Ideal for",
+    "learnMore": "Learn More",
+    "aboutTreatment": "About this treatment",
+    "whatToExpect": "What to expect",
+    "dietPlan": "Diet Plan",
+    "ctaNote": "All treatments are prescribed after a thorough Prakriti assessment. Book a consultation to receive your personalised plan."
+  },
+  "feature": {
+    "label": "Signature Treatment",
+    "heading": "Shirodhara — the supreme therapy for the mind",
+    "body1": "Of all the treatments in classical Ayurveda, Shirodhara stands apart. The sustained stream of warm, medicated oil on the forehead triggers a profound shift in the nervous system — measurably reducing cortisol, inducing deep parasympathetic rest, and quieting the mental chatter that underlies most modern conditions.",
+    "body2": "At Ayursiha, our Shirodhara uses customised medicated oils prepared in-house according to your dosha, current imbalance, and the season. The oil, the temperature, the duration — every variable is clinical, not routine.",
+    "cta": "Enquire About Shirodhara",
+    "details": [
+      "Customised oils: Brahmi, Ksheerabala, or Chandanadi — chosen per Vikriti",
+      "Duration: 45–75 minutes, calibrated per condition severity",
+      "Indicated for: anxiety, insomnia, migraines, neurological conditions",
+      "Preceded by Abhyanga for maximum therapeutic effect"
+    ]
+  },
+  "testimonials": {
+    "heading": "Stories of transformation",
+    "aside": "Over 4,800 patients have found their way back to health through Ayursiha — in their own words, in their own languages.",
+    "swipeHint": "Swipe to read more",
+    "region": "Patient testimonials"
+  },
+  "parallaxCta": {
+    "label": "Begin Your Journey",
+    "headingLine1": "Your body already",
+    "headingLine2": "knows how to heal.",
+    "sub": "Book a complimentary 30-minute introductory call with one of our physicians. No commitment — just a conversation about where you are and where you want to be.",
+    "bookFree": "Book Free Consultation",
+    "call": "+91 487 244 0000"
+  },
+  "yoga": {
+    "label": "Wellness Practice",
+    "heading": "Yoga & Meditation Sessions",
+    "body": "Guided daily yoga and pranayama sessions tailored to complement your Ayurvedic treatment. Practised at sunrise in our open-air pavilion — aligned with the rhythms of nature and your unique constitution.",
+    "cta": "Join a Session",
+    "highlights": {
+      "dailyValue": "Daily",
+      "dailyLabel": "Morning Sessions",
+      "levelsValue": "All Levels",
+      "levelsLabel": "Beginner to Advanced",
+      "personalisedValue": "Personalised",
+      "personalisedLabel": "To Your Prakriti"
+    }
+  },
+  "booking": {
+    "label": "Ayursiha Retreat",
+    "title": "Book a Consultation",
+    "sub": "Our physician will review your details and contact you to schedule your session.",
+    "fields": {
+      "fullName": "Full Name",
+      "phone": "Phone",
+      "email": "Email",
+      "treatment": "Treatment of Interest",
+      "date": "Preferred Date",
+      "message": "Message",
+      "messageOptional": "(optional)"
+    },
+    "placeholders": {
+      "fullName": "Your full name",
+      "phone": "+91 00000 00000",
+      "email": "your@email.com",
+      "treatment": "Select a treatment",
+      "message": "Tell us about your health goals or concerns…"
+    },
+    "treatmentOptions": [
+      "Ayurvedic Consultation",
+      "Panchakarma",
+      "Shirodhara",
+      "Abhyanga",
+      "Kizhi Therapy",
+      "Rasayana Programme",
+      "Not sure yet"
+    ],
+    "submit": "Send Request",
+    "close": "Close",
+    "done": "Done",
+    "successTitle": "We'll be in touch",
+    "successBody": "Our team will contact you within 24 hours to confirm your consultation."
+  },
+  "footer": {
+    "brandName": "Ayursiha Retreat",
+    "brandDesc": "A Ministry of AYUSH registered Ayurvedic healing centre in Aluva, Kerala — practising classical Ayurveda with clinical rigour since 2002.",
+    "phone": "+91 487 244 0000",
+    "email": "ayursihahospital@gmail.com",
+    "address": "CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara, Kerala 683101",
+    "hours": "Mon – Sat · 8:00 am – 7:00 pm",
+    "colTreatments": "Treatments",
+    "colCentre": "Centre",
+    "colVisit": "Visit",
+    "colFollow": "Follow",
+    "links": {
+      "aboutUs": "About Us",
+      "experience": "Experience",
+      "stories": "Stories",
+      "faqs": "FAQs"
+    },
+    "copyright": "© 2026 Ayursiha Ayurvedic Healing Centre, Aluva",
+    "tagline": "Designed with intention and care.",
+    "social": {
+      "instagram": "Instagram",
+      "facebook": "Facebook",
+      "youtube": "YouTube"
+    }
+  },
+  "map": {
+    "title": "Find Us",
+    "iframeTitle": "Ayursiha Location"
+  },
+  "about": {
+    "heroLabel": "Ayursiha Retreat",
+    "heroHeading": "About Us",
+    "heroSub": "A Ministry of AYUSH registered Ayurvedic healing centre in Aluva, Kerala — since 2002.",
+    "storyLabel": "Our Story",
+    "storyHeading": "Rooted in Kerala. Built on science.",
+    "body1": "Ayursiha was founded in 2002 under the CAS Group Holdings with a single conviction: that authentic Ayurveda, practised with the rigour of a medical institution, can heal conditions that modern medicine struggles to address.",
+    "body2": "Over two decades and more than 4,800 patients later, that conviction has only deepened. Located in Aluva, Kerala — the heartland of classical Ayurvedic tradition — we remain one of the few centres in India where every treatment plan is designed by a qualified physician and rooted in the original texts.",
+    "body3": "We are registered with the Ministry of AYUSH, Government of India, and hold ISO 9001:2015, GMP, and NABH accreditations — not as marketing credentials, but as a commitment to our patients.",
+    "missionQuote": "We treat the whole person — their constitution, their history, their life — not just the condition they walk in with.",
+    "pillarsLabel": "What We Stand For",
+    "pillarsHeading": "Our guiding principles",
+    "teamLabel": "Our Physicians",
+    "teamHeading": "The people behind your care",
+    "ctaHeading": "Ready to begin your healing?",
+    "ctaSub": "Speak with one of our physicians and discover the treatment plan designed for you."
+  },
+  "experience": {
+    "heroLabel": "Ayursiha Retreat",
+    "heroHeading": "The Ayursiha Experience",
+    "heroSub": "Escape the hurried pace. Transform your mind, body, and soul through classical Ayurveda in the heart of Kerala.",
+    "introLabel": "Our Philosophy",
+    "introHeading": "Discover. Heal. Restore.",
+    "introBody1": "At Ayursiha, guests leave the demands of daily life behind to embark on a journey of genuine transformation. Walk through our open-air corridors. Rest in our treatment suites. Practise yoga as the sun rises over Kerala. Every detail of your stay — your meals, your therapies, your daily rhythm — is designed with a single purpose: to return you to yourself.",
+    "introBody2": "We are one of the few Ayurvedic centres in India where every programme is built from scratch by a qualified physician and rooted in the original texts. No templates. No compromises. Only classical medicine, practised with rigour and care.",
+    "narrativeHeading": "Practised for 5,000 years. Personalised for you.",
+    "narrativeBody": "The healing traditions of Kerala Ayurveda have been handed down through generations of physicians — refined, tested, and deepened over millennia. At Ayursiha, we carry this lineage with humility and precision. Our centre in Aluva sits in the heartland of this tradition, where the rivers, the climate, and the herbs themselves are part of the medicine. Every stay here is an invitation to step into that story and write your own chapter of healing.",
+    "discoverLink": "Discover",
+    "ctaHeading": "Embrace the Ayursiha Life.",
+    "ctaSub": "Begin your journey with a physician consultation and discover the programme designed for you."
+  },
+  "treatmentsPage": {
+    "heroLabel": "Classical Therapies",
+    "heroHeading": "Our Treatments",
+    "heroSub": "Every treatment is prescribed after a thorough Prakriti assessment — duration, oils, herbs, and technique all calibrated to you alone.",
+    "introLabel": "Our Approach",
+    "introHeading": "Treatments that honour the tradition.",
+    "introBody": "At Ayursiha, no treatment is administered without first understanding who you are. Every session begins with a comprehensive Prakriti and Vikriti assessment — a complete picture of your constitution, your current imbalances, and your health history. Only then does your physician prescribe the precise therapy, formulation, and duration that will bring you back to balance.",
+    "ctaHeading": "Begin with a consultation.",
+    "ctaSub": "Our physicians will assess your constitution and recommend the treatments designed for you."
+  },
+  "faq": {
+    "heroLabel": "Ayursiha Retreat",
+    "heroHeading": "Frequently Asked Questions",
+    "heroSub": "Everything you need to know before your visit.",
+    "ctaText": "Still have questions? Our team is happy to help.",
+    "bookCta": "Book a Consultation"
+  },
+  "common": {
+    "bookConsultation": "Book Consultation",
+    "bookFreeConsultation": "Book Free Consultation",
+    "openBookingAriaLabel": "Book a consultation"
+  }
+}

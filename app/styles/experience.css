@@ -1,0 +1,147 @@
+/* ══════════════════════════════════════════
+   EXPERIENCE (home page photo cards)
+══════════════════════════════════════════ */
+.experience { padding: 8rem 0; background: var(--parchment); }
+.exp-hd { margin-bottom: 4rem; }
+.exp-heading { font-size: clamp(2.2rem, 3.5vw, 3.2rem); margin-top: .8rem; }
+
+.exp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+.exp-card {
+  position: relative;
+  height: 420px;
+  border-radius: 12px; overflow: hidden;
+  background-size: cover; background-position: center;
+  cursor: pointer;
+}
+.exp-card-n {
+  position: absolute; top: 1.2rem; left: 1.2rem; z-index: 2;
+  font-size: .6rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: rgba(255,255,255,.75); transition: opacity .4s;
+}
+.exp-card:hover .exp-card-n { opacity: 0; }
+
+.exp-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(1,18,24,.92) 0%, rgba(1,18,24,.65) 60%, rgba(1,18,24,.2) 100%);
+  display: flex; align-items: flex-end;
+  padding: 2rem 1.8rem;
+  opacity: 0; transition: opacity .45s var(--ease);
+}
+.exp-card:hover .exp-card-overlay { opacity: 1; }
+
+.exp-card-content {
+  transform: translateY(18px); transition: transform .45s var(--ease);
+  text-align: center; width: 100%;
+}
+.exp-card:hover .exp-card-content { transform: translateY(0); }
+
+.exp-card-title { font-family: var(--serif); font-size: 1.35rem; font-weight: 400; color: #fff; margin-bottom: .7rem; line-height: 1.25; }
+.exp-card-text  { font-size: .83rem; line-height: 1.75; color: rgba(255,255,255,.7); margin-bottom: 1.2rem; }
+.exp-card-cta {
+  display: inline-block;
+  font-size: .6rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--amber); border-bottom: 1px solid var(--amber); padding-bottom: 2px;
+}
+
+/* ══════════════════════════════════════════
+   EXPERIENCE PAGE
+══════════════════════════════════════════ */
+.ex-hero {
+  position: relative; height: 88vh; min-height: 560px;
+  display: flex; align-items: flex-end; overflow: hidden;
+}
+.ex-hero-img { object-fit: cover; object-position: center; }
+.ex-hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(1,18,24,.82) 0%, rgba(1,18,24,.25) 60%, transparent 100%);
+}
+.ex-hero-content { position: relative; z-index: 2; padding: 5rem; max-width: 720px; }
+.ex-hero-label { position: absolute; top: 7rem; left: 5rem; z-index: 3; color: var(--amber); }
+.ex-hero-h {
+  font-family: var(--serif);
+  font-size: clamp(3.2rem, 7vw, 5.8rem);
+  font-weight: 400; color: #fff; line-height: 1.05; margin-bottom: 1.5rem;
+}
+.ex-hero-h em { font-style: italic; }
+.ex-hero-rule { width: 48px; height: 1.5px; background: var(--gold); border: none; margin-bottom: 1.2rem; }
+.ex-hero-sub { font-size: 1rem; color: rgba(255,255,255,.65); line-height: 1.8; }
+
+@keyframes exHeroIn {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ex-hi-0 { animation: exHeroIn .7s cubic-bezier(.22,1,.36,1) both .15s; }
+.ex-hi-1 { animation: exHeroIn .9s cubic-bezier(.22,1,.36,1) both .35s; }
+.ex-hi-2 { animation: exHeroIn .6s cubic-bezier(.22,1,.36,1) both .7s; }
+.ex-hi-3 { animation: exHeroIn .8s cubic-bezier(.22,1,.36,1) both .85s; }
+
+.ex-intro { padding: 7rem 2rem; background: var(--parchment); }
+.ex-intro-inner { text-align: center; }
+.ex-intro-h {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400; color: var(--ink); margin-bottom: 2rem; line-height: 1.2;
+}
+.ex-intro-body {
+  font-size: 1rem; line-height: 1.95; color: var(--muted);
+  margin-bottom: 1rem; max-width: 720px; margin-inline: auto;
+}
+
+.ex-narrative { padding: 6rem 2rem; background: var(--forest); text-align: center; }
+.ex-narrative-h {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400; color: #fff; line-height: 1.3; margin-bottom: 2rem;
+}
+.ex-narrative-h em { font-style: italic; opacity: .75; }
+.ex-narrative-body { font-size: .97rem; line-height: 1.95; color: rgba(255,255,255,.6); max-width: 720px; margin: 0 auto; }
+
+.ex-cards { display: flex; flex-direction: column; }
+.ex-card { display: grid; grid-template-columns: 1fr 1fr; min-height: 600px; }
+.ex-card--reverse { direction: rtl; }
+.ex-card--reverse > * { direction: ltr; }
+.ex-card-img-wrap { position: relative; overflow: hidden; min-height: 500px; }
+.ex-card-img { object-fit: cover; object-position: center; transition: transform .8s cubic-bezier(0.22,1,0.36,1); }
+.ex-card:hover .ex-card-img { transform: scale(1.04); }
+.ex-card-text {
+  padding: 5rem; display: flex; flex-direction: column; justify-content: center;
+  background: var(--parchment);
+}
+.ex-card--reverse .ex-card-text { background: var(--linen); }
+.ex-card-label { margin-bottom: 1rem; }
+.ex-card-h {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 2.8vw, 2.6rem);
+  font-weight: 400; color: var(--ink); margin-bottom: 1.5rem; line-height: 1.2;
+}
+.ex-card-body { font-size: .95rem; line-height: 1.95; color: var(--muted); margin-bottom: 2rem; }
+.ex-card-link {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .75rem; font-weight: 600; letter-spacing: .16em;
+  text-transform: uppercase; color: var(--forest);
+  border-bottom: 1px solid var(--forest); padding-bottom: .2rem;
+  transition: gap .3s, color .2s; align-self: flex-start;
+}
+.ex-card-link:hover { gap: 1rem; color: var(--gold); border-color: var(--gold); }
+.ex-card-link svg { width: 14px; height: 14px; }
+
+@media (max-width: 1100px) { .exp-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 900px) {
+  .ex-card { grid-template-columns: 1fr; min-height: auto; }
+  .ex-card--reverse { direction: ltr; }
+  .ex-card-img-wrap { min-height: 380px; }
+  .ex-card-text { padding: 3.5rem 2rem; }
+  .ex-hero-content { padding: 3rem 2rem 4rem; }
+}
+@media (max-width: 768px) {
+  .ex-hero { height: 70vh; min-height: 460px; }
+  .ex-hero-label { top: 5rem; left: 1.6rem; }
+  .ex-intro { padding: 4rem 1.6rem; }
+  .ex-narrative { padding: 4rem 1.6rem; }
+  .exp-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .ex-card-img-wrap { min-height: 280px; }
+  .ex-card-text { padding: 2.5rem 1.5rem; }
+}
+@media (max-width: 480px) { .ex-hero-h { font-size: 2.6rem; } }

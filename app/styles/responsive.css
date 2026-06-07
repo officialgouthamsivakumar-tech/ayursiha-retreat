@@ -1,0 +1,15 @@
+/* ══════════════════════════════════════════
+   GLOBAL RESPONSIVE
+   (component-level breakpoints live in
+    their own CSS files)
+══════════════════════════════════════════ */
+
+/* Wrap padding at mid-breakpoint */
+@media (max-width: 768px) {
+  .wrap, .wrap--sm { padding: 0 1.6rem; }
+}
+
+/* Wrap padding at small breakpoint */
+@media (max-width: 480px) {
+  .wrap, .wrap--sm { padding: 0 1.2rem; }
+}

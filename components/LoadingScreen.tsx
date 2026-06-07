@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react'
 import Image from 'next/image'
 
 export default function LoadingScreen() {
-  const [phase, setPhase] = useState<'visible' | 'fading' | 'done'>('visible')
+  const [phase, setPhase] = useState<'visible' | 'fading' | 'done'>('done')
 
   useEffect(() => {
+    if (sessionStorage.getItem('loaded')) return
+    sessionStorage.setItem('loaded', '1')
+    setPhase('visible')
     const fadeTimer = setTimeout(() => setPhase('fading'), 1800)
     const doneTimer = setTimeout(() => setPhase('done'), 2600)
     return () => { clearTimeout(fadeTimer); clearTimeout(doneTimer) }
