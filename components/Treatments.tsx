@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { getTranslations } from 'next-intl/server'
 import { getTreatments } from '@/lib/db'
 
@@ -21,8 +22,18 @@ export default async function Treatments() {
             key={idx}
             href={`/treatments/${slug}`}
             className="t-card r t-card--bg"
-            style={{ backgroundImage: `url(${image})` }}
           >
+            {image && (
+              <Image
+                src={image}
+                alt={name}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="t-card-img"
+                style={{ objectFit: 'cover' }}
+                unoptimized={image.startsWith('/api/')}
+              />
+            )}
             <div className="t-card-bg-overlay" />
             <div className="t-card-inner">
               <div className="t-card-top">
