@@ -7,7 +7,7 @@ import Footer from '@/components/Footer'
 import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
-import { getTreatments } from '@/lib/db'
+import { getTreatments, getSettings } from '@/lib/db'
 
 export const revalidate = 60
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 }
 
 export default async function TreatmentsPage() {
-  const treatments = await getTreatments()
+  const [treatments, settings] = await Promise.all([getTreatments(), Promise.resolve(getSettings())])
   return (
     <>
       <ClientAnimations />
@@ -27,7 +27,7 @@ export default async function TreatmentsPage() {
       <main id="main-content">
       {/* ── HERO ── */}
       <div className="au-hero">
-        <Image src="/treatments-bg.jpg" alt="Ayursiha Treatments" fill className="au-hero-img" priority />
+        <Image src={settings.treatmentsHeroImage || '/treatments-bg.jpg'} alt="Ayursiha Treatments" fill className="au-hero-img" priority unoptimized={settings.treatmentsHeroImage?.startsWith('/api/')} />
         <div className="au-hero-overlay" />
         <p className="label au-hero-label r">Classical Therapies</p>
         <div className="au-hero-content">

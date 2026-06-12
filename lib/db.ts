@@ -96,6 +96,7 @@ export type SiteSettings = {
   address: string
   heroVideo: string
   aboutHeroImage: string
+  treatmentsHeroImage: string
   experienceImages: string[]
   experienceHeroImage: string
   experiencePageImages: string[]
@@ -114,6 +115,7 @@ const defaultSettings: SiteSettings = {
   address: 'CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara, Kerala 683101',
   heroVideo: '/homevideo.mp4',
   aboutHeroImage: '/abhyanga.jpg',
+  treatmentsHeroImage: '/treatments-bg.jpg',
   experienceImages: ['/shirodhara.png', '/panchakarma.png', '/abhyanga.jpg', '/rasayana.png'],
   experienceHeroImage: '/shirodhara.png',
   experiencePageImages: ['/panchakarma.png', '/consultation.png', '/yoga.png', '/rasayana.png'],

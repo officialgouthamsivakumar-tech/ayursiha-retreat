@@ -6,9 +6,9 @@ import Link from 'next/link'
 import type { SiteSettings, VideoEntry } from '@/lib/db'
 import AdminToast from '../../_components/AdminToast'
 
-const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', aboutHeroImage: '', experienceImages: ['', '', '', ''], experienceHeroImage: '', experiencePageImages: ['', '', '', ''], videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
+const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', aboutHeroImage: '', treatmentsHeroImage: '', experienceImages: ['', '', '', ''], experienceHeroImage: '', experiencePageImages: ['', '', '', ''], videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
 
-type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'aboutHeroImage' | 'experienceImages' | 'experienceHeroImage' | 'experiencePageImages' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
+type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'aboutHeroImage' | 'treatmentsHeroImage' | 'experienceImages' | 'experienceHeroImage' | 'experiencePageImages' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
 type FieldErrors = Partial<Record<ScalarKey, string>>
 type VideoErrors = ({ id?: string; title?: string } | undefined)[]
 
@@ -50,6 +50,7 @@ export default function ContactSettingsPage() {
   const videoFileRef = useRef<HTMLInputElement>(null)
   const aboutImgRef = useRef<HTMLInputElement>(null)
   const expImgRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)]
+  const treatmentsImgRef = useRef<HTMLInputElement>(null)
   const expHeroRef = useRef<HTMLInputElement>(null)
   const expPageRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)]
 
@@ -98,14 +99,14 @@ export default function ContactSettingsPage() {
     setVideoUploading(false); reset()
   }
 
-  async function handleImageUpload(key: 'aboutHeroImage' | 'experienceHeroImage' | 'experienceImages' | 'experiencePageImages', idx: number | null, file: File) {
+  async function handleImageUpload(key: 'aboutHeroImage' | 'treatmentsHeroImage' | 'experienceHeroImage' | 'experienceImages' | 'experiencePageImages', idx: number | null, file: File) {
     const uploadKey = key + (idx !== null ? idx : '')
     setImgUploading(s => ({ ...s, [uploadKey]: true }))
     const fd = new FormData(); fd.append('file', file)
     const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
     const data = await res.json()
     if (res.ok) {
-      if (key === 'aboutHeroImage' || key === 'experienceHeroImage') {
+      if (key === 'aboutHeroImage' || key === 'treatmentsHeroImage' || key === 'experienceHeroImage') {
         const old = form[key]
         setForm(f => ({ ...f, [key]: data.url }))
         if (old?.startsWith('/api/uploads/')) fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: old }) }).catch(() => {})
@@ -261,6 +262,34 @@ export default function ContactSettingsPage() {
                   {imgUploading['aboutHeroImage'] ? 'Uploading…' : form.aboutHeroImage ? 'Replace Image' : 'Upload Image'}
                 </button>
                 <input ref={aboutImgRef} type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload('aboutHeroImage', null, f); e.target.value = '' }} />
+                <span className="admin-form-hint">JPEG/PNG/WebP · min 1200×600 px recommended</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Treatments Hero Image */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Treatments Page — Hero Background Image
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+              {form.treatmentsHeroImage ? (
+                <div style={{ width: 200, height: 120, borderRadius: 8, overflow: 'hidden', border: '1px solid #e5e8ed', flexShrink: 0, position: 'relative', background: '#f5f7fa' }}>
+                  <Image src={form.treatmentsHeroImage} alt="Treatments hero" fill style={{ objectFit: 'cover' }} unoptimized />
+                </div>
+              ) : (
+                <div style={{ width: 200, height: 120, borderRadius: 8, border: '1px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: '#fafbfc' }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <button type="button" className="admin-btn admin-btn-ghost" onClick={() => treatmentsImgRef.current?.click()} disabled={imgUploading['treatmentsHeroImage']}>
+                  {imgUploading['treatmentsHeroImage'] ? 'Uploading…' : form.treatmentsHeroImage ? 'Replace Image' : 'Upload Image'}
+                </button>
+                <input ref={treatmentsImgRef} type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload('treatmentsHeroImage', null, f); e.target.value = '' }} />
                 <span className="admin-form-hint">JPEG/PNG/WebP · min 1200×600 px recommended</span>
               </div>
             </div>
