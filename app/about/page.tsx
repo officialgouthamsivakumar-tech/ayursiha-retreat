@@ -75,11 +75,12 @@ export default async function AboutPage() {
       {/* ── HERO BANNER ── */}
       <div className="au-hero">
         <Image
-          src="/abhyanga.jpg"
+          src={settings.aboutHeroImage || '/abhyanga.jpg'}
           alt="Ayursiha Retreat"
           fill
           className="au-hero-img"
           priority
+          unoptimized={settings.aboutHeroImage?.startsWith('/api/')}
         />
         <div className="au-hero-overlay" />
         <p className="label au-hero-label r">Ayursiha Retreat</p>

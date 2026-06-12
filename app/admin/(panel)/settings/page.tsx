@@ -1,13 +1,14 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import type { SiteSettings, VideoEntry } from '@/lib/db'
 import AdminToast from '../../_components/AdminToast'
 
-const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
+const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', aboutHeroImage: '', experienceImages: ['', '', '', ''], videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
 
-type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
+type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'aboutHeroImage' | 'experienceImages' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
 type FieldErrors = Partial<Record<ScalarKey, string>>
 type VideoErrors = ({ id?: string; title?: string } | undefined)[]
 
@@ -44,8 +45,11 @@ export default function ContactSettingsPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [videoUploading, setVideoUploading] = useState(false)
+  const [imgUploading, setImgUploading] = useState<Record<string, boolean>>({})
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null)
   const videoFileRef = useRef<HTMLInputElement>(null)
+  const aboutImgRef = useRef<HTMLInputElement>(null)
+  const expImgRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)]
 
   useEffect(() => {
     fetch('/api/admin/settings')
@@ -90,6 +94,25 @@ export default function ContactSettingsPage() {
       if (oldPath.startsWith('/uploads/') || oldPath.startsWith('/api/uploads/')) fetch('/api/admin/upload/video', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) })
     } else { setToast({ message: data.error || 'Upload failed.', type: 'error' }) }
     setVideoUploading(false); reset()
+  }
+
+  async function handleImageUpload(key: 'aboutHeroImage' | 'experienceImages', idx: number | null, file: File) {
+    const uploadKey = key + (idx !== null ? idx : '')
+    setImgUploading(s => ({ ...s, [uploadKey]: true }))
+    const fd = new FormData(); fd.append('file', file)
+    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+    const data = await res.json()
+    if (res.ok) {
+      if (key === 'aboutHeroImage') {
+        const old = form.aboutHeroImage
+        setForm(f => ({ ...f, aboutHeroImage: data.url }))
+        if (old?.startsWith('/api/uploads/')) fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: old }) }).catch(() => {})
+      } else {
+        setForm(f => { const imgs = [...(f.experienceImages ?? ['', '', '', ''])]; imgs[idx!] = data.url; return { ...f, experienceImages: imgs } })
+      }
+      setToast({ message: 'Image uploaded.', type: 'success' })
+    } else { setToast({ message: data.error || 'Upload failed.', type: 'error' }) }
+    setImgUploading(s => ({ ...s, [uploadKey]: false }))
   }
 
   async function handleSave(e: React.FormEvent) {
@@ -209,6 +232,71 @@ export default function ContactSettingsPage() {
                 {form.heroVideo && <span style={{ fontSize: '0.78rem', color: '#6b7280', wordBreak: 'break-all' }}>{form.heroVideo}</span>}
               </div>
               <span className="admin-form-hint" style={{ marginTop: 0 }}>Recommended: <strong>1920 × 1080 px</strong>, 10–30 s loop &nbsp;·&nbsp; Max <strong>200 MB</strong> &nbsp;·&nbsp; MP4 or WebM</span>
+            </div>
+          </div>
+
+          {/* About Hero Image */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                About Page — Hero Background Image
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+              {form.aboutHeroImage ? (
+                <div style={{ width: 200, height: 120, borderRadius: 8, overflow: 'hidden', border: '1px solid #e5e8ed', flexShrink: 0, position: 'relative', background: '#f5f7fa' }}>
+                  <Image src={form.aboutHeroImage} alt="About hero" fill style={{ objectFit: 'cover' }} unoptimized />
+                </div>
+              ) : (
+                <div style={{ width: 200, height: 120, borderRadius: 8, border: '1px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: '#fafbfc' }}>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <button type="button" className="admin-btn admin-btn-ghost" onClick={() => aboutImgRef.current?.click()} disabled={imgUploading['aboutHeroImage']}>
+                  {imgUploading['aboutHeroImage'] ? 'Uploading…' : form.aboutHeroImage ? 'Replace Image' : 'Upload Image'}
+                </button>
+                <input ref={aboutImgRef} type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload('aboutHeroImage', null, f); e.target.value = '' }} />
+                <span className="admin-form-hint">JPEG/PNG/WebP · min 1200×600 px recommended</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Experience Card Images */}
+          <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+            <div className="admin-card-header">
+              <span className="admin-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" style={{ marginRight: 6 }}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                Experience Section — Card Images
+              </span>
+            </div>
+            <div style={{ padding: '1.25rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <span className="admin-form-hint" style={{ marginTop: 0 }}>Background images for the 4 experience cards on the homepage.</span>
+              {['Arrive & Assess', 'Your Personal Plan', 'Daily Treatments', 'Lasting Restoration'].map((label, i) => {
+                const img = form.experienceImages?.[i] ?? ''
+                const uploadKey = 'experienceImages' + i
+                return (
+                  <div key={i} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                    {img ? (
+                      <div style={{ width: 120, height: 72, borderRadius: 6, overflow: 'hidden', border: '1px solid #e5e8ed', flexShrink: 0, position: 'relative', background: '#f5f7fa' }}>
+                        <Image src={img} alt={label} fill style={{ objectFit: 'cover' }} unoptimized />
+                      </div>
+                    ) : (
+                      <div style={{ width: 120, height: 72, borderRadius: 6, border: '1px dashed #d1d5db', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: '#fafbfc' }}>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                      </div>
+                    )}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+                      <span className="admin-label" style={{ marginBottom: 0 }}>Card {i + 1} — {label}</span>
+                      <button type="button" className="admin-btn admin-btn-ghost admin-btn-sm" onClick={() => expImgRefs[i].current?.click()} disabled={imgUploading[uploadKey]}>
+                        {imgUploading[uploadKey] ? 'Uploading…' : img ? 'Replace' : 'Upload'}
+                      </button>
+                      <input ref={expImgRefs[i]} type="file" accept="image/jpeg,image/png,image/webp" style={{ display: 'none' }} onChange={e => { const f = e.target.files?.[0]; if (f) handleImageUpload('experienceImages', i, f); e.target.value = '' }} />
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           </div>
 

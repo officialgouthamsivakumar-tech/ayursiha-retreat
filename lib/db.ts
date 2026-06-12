@@ -95,6 +95,8 @@ export type SiteSettings = {
   youtube: string
   address: string
   heroVideo: string
+  aboutHeroImage: string
+  experienceImages: string[]
   videos: VideoEntry[]
   credentials: string[]
   pillars: PillarEntry[]
@@ -109,6 +111,13 @@ const defaultSettings: SiteSettings = {
   youtube: 'https://www.youtube.com/@ayursiha',
   address: 'CAS Group Holdings, 11/310, Thuruth, Aluva, Chowara, Kerala 683101',
   heroVideo: '/homevideo.mp4',
+  aboutHeroImage: '/abhyanga.jpg',
+  experienceImages: [
+    'https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80',
+  ],
   videos: [
     { id: 'hfMoBrBPGuk', title: 'Ayurveda Wellness and Yoga at Ayursiha' },
     { id: 'aNYqqmV1U94', title: 'Explore Ayursiha Hospital: Holistic Healing and Wellness' },

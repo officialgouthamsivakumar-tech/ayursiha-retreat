@@ -1,31 +1,17 @@
-const highlights = [
-  {
-    n: '01',
-    title: 'Arrive & Assess',
-    body: 'Your journey begins with a private consultation — pulse diagnosis, tongue analysis, and a full review of your constitution and history.',
-    image: 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    n: '02',
-    title: 'Your Personal Plan',
-    body: 'Every therapy, herb, and dietary guideline is prescribed specifically for you. No shared protocols. No templates.',
-    image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    n: '03',
-    title: 'Daily Treatments',
-    body: 'Unhurried, immersive sessions in our purpose-built suites — administered by certified practitioners trained in classical Kerala Ayurveda.',
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    n: '04',
-    title: 'Lasting Restoration',
-    body: 'Herbal protocols, dietary guidance, and follow-up consultations ensure your healing continues long after you leave.',
-    image: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80',
-  },
+import Image from 'next/image'
+import { getSettings } from '@/lib/db'
+
+const cards = [
+  { n: '01', title: 'Arrive & Assess',      body: 'Your journey begins with a private consultation — pulse diagnosis, tongue analysis, and a full review of your constitution and history.' },
+  { n: '02', title: 'Your Personal Plan',   body: 'Every therapy, herb, and dietary guideline is prescribed specifically for you. No shared protocols. No templates.' },
+  { n: '03', title: 'Daily Treatments',     body: 'Unhurried, immersive sessions in our purpose-built suites — administered by certified practitioners trained in classical Kerala Ayurveda.' },
+  { n: '04', title: 'Lasting Restoration',  body: 'Herbal protocols, dietary guidance, and follow-up consultations ensure your healing continues long after you leave.' },
 ]
 
-export default function Experience() {
+export default async function Experience() {
+  const settings = getSettings()
+  const images = settings.experienceImages ?? []
+
   return (
     <section className="experience" id="experience">
       <div className="wrap">
@@ -37,17 +23,30 @@ export default function Experience() {
         </div>
 
         <div className="exp-grid">
-          {highlights.map(({ n, title, body, image }) => (
-            <div key={n} className="exp-card r" style={{ backgroundImage: `url(${image})` }}>
-              <span className="exp-card-n">{n}</span>
-              <div className="exp-card-overlay">
-                <div className="exp-card-content">
-                  <div className="exp-card-title">{title}</div>
-                  <p className="exp-card-text">{body}</p>
+          {cards.map(({ n, title, body }, i) => {
+            const img = images[i] || ''
+            return (
+              <div key={n} className="exp-card r">
+                {img && (
+                  <Image
+                    src={img}
+                    alt={title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                    style={{ objectFit: 'cover' }}
+                    unoptimized={img.startsWith('/api/')}
+                  />
+                )}
+                <span className="exp-card-n">{n}</span>
+                <div className="exp-card-overlay">
+                  <div className="exp-card-content">
+                    <div className="exp-card-title">{title}</div>
+                    <p className="exp-card-text">{body}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

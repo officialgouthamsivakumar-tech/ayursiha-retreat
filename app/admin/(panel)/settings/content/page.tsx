@@ -5,7 +5,7 @@ import Link from 'next/link'
 import type { SiteSettings, PillarEntry, StatEntry } from '@/lib/db'
 import AdminToast from '../../../_components/AdminToast'
 
-const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
+const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', aboutHeroImage: '', experienceImages: ['', '', '', ''], videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
 
 type CredentialErrors = (string | undefined)[]
 type PillarErrors = ({ step?: string; name?: string; body?: string } | undefined)[]
