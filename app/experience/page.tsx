@@ -5,52 +5,27 @@ import Footer from '@/components/Footer'
 import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
+import { getSettings } from '@/lib/db'
+
+export const revalidate = 60
 
 export const metadata: Metadata = {
   title: 'The Experience — Ayursiha Retreat',
   description: 'Discover the Ayursiha experience — classical Ayurvedic healing, personalised programmes, yoga, and lasting restoration in Kerala.',
 }
 
-const experiences = [
-  {
-    label: 'Elemental Wellness',
-    title: 'Panchakarma & Classical Healing',
-    body: 'Immerse yourself in the oldest and most complete system of medicine in the world. Our Panchakarma programmes are meticulously designed by qualified physicians — combining Shodhana purification, Shaman balancing therapies, and classical herbal formulations to restore your body at a cellular level. Every session is unhurried, purposeful, and deeply personal.',
-    link: '/#treatments',
-    image: '/panchakarma.png',
-    imageAlt: 'Panchakarma therapy at Ayursiha',
-    reverse: false,
-  },
-  {
-    label: 'Bespoke Programmes',
-    title: 'Your Personalised Healing Plan',
-    body: 'No two constitutions are the same — and no two treatment plans at Ayursiha are the same. Your stay begins with a comprehensive Prakriti assessment: pulse diagnosis, tongue analysis, and a full review of your medical history. From this, your physician designs a protocol entirely your own — specific therapies, herbal formulations, dietary guidelines, and a daily rhythm calibrated to your constitution.',
-    link: '/about',
-    image: '/consultation.png',
-    imageAlt: 'Personalised Ayurvedic consultation',
-    reverse: true,
-  },
-  {
-    label: 'Mindful Movement',
-    title: 'Yoga & Meditation Sessions',
-    body: 'Practised at sunrise in our open-air pavilion, daily yoga and pranayama sessions are tailored to complement your Ayurvedic treatment plan and your unique Prakriti. Guided by experienced instructors, each session aligns your body with the natural rhythms of the day — amplifying the healing effect of every therapy and cultivating a stillness that extends far beyond your stay.',
-    link: '/#yoga',
-    image: '/yoga.png',
-    imageAlt: 'Yoga session at Ayursiha',
-    reverse: false,
-  },
-  {
-    label: 'Lasting Restoration',
-    title: 'Rasayana & Post-Stay Care',
-    body: 'Healing at Ayursiha does not end at discharge. Before you leave, your physician prepares a complete post-stay protocol — classical Rasayana rejuvenation herbs, dietary recommendations, lifestyle adjustments, and scheduled follow-up consultations. Your take-home kit and ongoing physician access ensure that the restoration you began here continues to deepen long after you return home.',
-    link: '/#treatments',
-    image: '/rasayana.png',
-    imageAlt: 'Rasayana herbal preparations',
-    reverse: true,
-  },
+const experienceCards = [
+  { label: 'Elemental Wellness',    title: 'Panchakarma & Classical Healing',   body: 'Immerse yourself in the oldest and most complete system of medicine in the world. Our Panchakarma programmes are meticulously designed by qualified physicians — combining Shodhana purification, Shaman balancing therapies, and classical herbal formulations to restore your body at a cellular level. Every session is unhurried, purposeful, and deeply personal.',         link: '/#treatments', imageAlt: 'Panchakarma therapy at Ayursiha',        reverse: false },
+  { label: 'Bespoke Programmes',    title: 'Your Personalised Healing Plan',    body: 'No two constitutions are the same — and no two treatment plans at Ayursiha are the same. Your stay begins with a comprehensive Prakriti assessment: pulse diagnosis, tongue analysis, and a full review of your medical history. From this, your physician designs a protocol entirely your own — specific therapies, herbal formulations, dietary guidelines, and a daily rhythm calibrated to your constitution.', link: '/about',        imageAlt: 'Personalised Ayurvedic consultation',   reverse: true  },
+  { label: 'Mindful Movement',      title: 'Yoga & Meditation Sessions',        body: 'Practised at sunrise in our open-air pavilion, daily yoga and pranayama sessions are tailored to complement your Ayurvedic treatment plan and your unique Prakriti. Guided by experienced instructors, each session aligns your body with the natural rhythms of the day — amplifying the healing effect of every therapy and cultivating a stillness that extends far beyond your stay.',          link: '/#yoga',       imageAlt: 'Yoga session at Ayursiha',              reverse: false },
+  { label: 'Lasting Restoration',   title: 'Rasayana & Post-Stay Care',         body: 'Healing at Ayursiha does not end at discharge. Before you leave, your physician prepares a complete post-stay protocol — classical Rasayana rejuvenation herbs, dietary recommendations, lifestyle adjustments, and scheduled follow-up consultations. Your take-home kit and ongoing physician access ensure that the restoration you began here continues to deepen long after you return home.',       link: '/#treatments', imageAlt: 'Rasayana herbal preparations',           reverse: true  },
 ]
 
-export default function ExperiencePage() {
+export default async function ExperiencePage() {
+  const settings = getSettings()
+  const heroImg = settings.experienceHeroImage || '/shirodhara.png'
+  const pageImgs = settings.experiencePageImages ?? ['/panchakarma.png', '/consultation.png', '/yoga.png', '/rasayana.png']
+
   return (
     <>
       <ClientAnimations />
@@ -60,7 +35,7 @@ export default function ExperiencePage() {
       <main id="main-content">
       {/* ── HERO ── */}
       <div className="ex-hero">
-        <Image src="/shirodhara.png" alt="The Ayursiha Experience" fill className="ex-hero-img" priority />
+        <Image src={heroImg} alt="The Ayursiha Experience" fill className="ex-hero-img" priority unoptimized={!heroImg.startsWith('/') || heroImg.startsWith('/api/')} />
         <div className="ex-hero-overlay" />
         <p className="label ex-hero-label ex-hi-0">Ayursiha Retreat</p>
         <div className="ex-hero-content">
@@ -108,10 +83,12 @@ export default function ExperiencePage() {
 
       {/* ── EXPERIENCE CARDS ── */}
       <section className="ex-cards">
-        {experiences.map(({ label, title, body, link, image, imageAlt, reverse }) => (
+        {experienceCards.map(({ label, title, body, link, imageAlt, reverse }, i) => {
+          const src = pageImgs[i] || '/panchakarma.png'
+          return (
           <div key={title} className={`ex-card${reverse ? ' ex-card--reverse' : ''}`}>
             <div className="ex-card-img-wrap rs">
-              <Image src={image} alt={imageAlt} fill className="ex-card-img" />
+              <Image src={src} alt={imageAlt} fill className="ex-card-img" unoptimized={!src.startsWith('/') || src.startsWith('/api/')} />
             </div>
             <div className="ex-card-text">
               <p className={`label ex-card-label ${reverse ? 'rr' : 'rl'}`}>{label}</p>
@@ -119,7 +96,8 @@ export default function ExperiencePage() {
               <p className={`ex-card-body ${reverse ? 'rr' : 'rl'}`}>{body}</p>
             </div>
           </div>
-        ))}
+          )
+        })}
       </section>
 
       {/* ── CLOSING CTA ── */}

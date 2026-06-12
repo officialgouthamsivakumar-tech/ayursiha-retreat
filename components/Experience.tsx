@@ -34,7 +34,7 @@ export default async function Experience() {
                     fill
                     sizes="(max-width: 768px) 100vw, 25vw"
                     style={{ objectFit: 'cover' }}
-                    unoptimized={img.startsWith('/api/')}
+                    unoptimized={!img.startsWith('/') || img.startsWith('/api/')}
                   />
                 )}
                 <span className="exp-card-n">{n}</span>
