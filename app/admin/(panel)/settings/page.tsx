@@ -87,7 +87,7 @@ export default function ContactSettingsPage() {
       const oldPath = form.heroVideo
       setForm(f => ({ ...f, heroVideo: data.url }))
       setToast({ message: 'Background video uploaded.', type: 'success' })
-      if (oldPath.startsWith('/uploads/')) fetch('/api/admin/upload/video', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) })
+      if (oldPath.startsWith('/uploads/') || oldPath.startsWith('/api/uploads/')) fetch('/api/admin/upload/video', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) })
     } else { setToast({ message: data.error || 'Upload failed.', type: 'error' }) }
     setVideoUploading(false); reset()
   }

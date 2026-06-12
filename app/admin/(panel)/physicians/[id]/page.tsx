@@ -68,7 +68,7 @@ export default function PhysicianFormPage() {
     const data = await res.json()
     if (!res.ok) { setDimError(data.error || 'Upload failed.'); setUploading(false); return }
     const oldPath = prevPhotoRef.current
-    if (oldPath.startsWith('/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) }).catch(() => {}) }
+    if (oldPath.startsWith('/uploads/') || oldPath.startsWith('/api/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) }).catch(() => {}) }
     set('photo', data.url)
     prevPhotoRef.current = data.url
     setUploading(false)
@@ -91,7 +91,7 @@ export default function PhysicianFormPage() {
 
   async function handleDelete() {
     if (!confirm('Delete this physician?')) return
-    if (form.photo.startsWith('/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: form.photo }) }).catch(() => {}) }
+    if (form.photo.startsWith('/uploads/') || form.photo.startsWith('/api/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: form.photo }) }).catch(() => {}) }
     const res = await fetch(`/api/admin/physicians/${id}`, { method: 'DELETE' })
     if (res.ok) router.push('/admin/physicians')
     else setToast({ message: 'Failed to delete.', type: 'error' })

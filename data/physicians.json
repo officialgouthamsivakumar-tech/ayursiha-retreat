@@ -1,5 +1,17 @@
 [
   {
+    "id": "9978b302-c501-4074-95ca-0d6735fc4fce",
+    "name": "Dr. Merin Jose",
+    "title": "Ayurvedic Physician",
+    "qualification": "BAMS, AYU",
+    "department": "Ayurveda",
+    "bio": "A compassionate and knowledgeable physician, deeply committed to providing personalised care and promoting holistic healing through classical Ayurvedic principles.",
+    "image": "/api/uploads/2451e09a-7fc8-49a7-861c-a92b5af08fd7.png",
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 0,
+    "photo": "/api/uploads/2451e09a-7fc8-49a7-861c-a92b5af08fd7.png"
+  },
+  {
     "id": "e779a928-6239-44a2-ad0e-e9ffc24a01c8",
     "name": "Dr. Shaheen Siddique M",
     "title": "Chairman & Managing Director",
@@ -7,7 +19,8 @@
     "department": "Ayurveda",
     "bio": "Over a decade of clinical practice spanning government service, the National Research Institute for Panchakarma, and senior roles at leading Ayurvedic hospitals. Specialises in Panchakarma, neuro rehabilitation, stroke recovery, and lifestyle diseases.",
     "image": "https://ayursiha.com/wp-content/uploads/2020/11/Dr-1.webp",
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 1
   },
   {
     "id": "f9935490-4cb7-470c-9e95-dde9fe12f731",
@@ -16,18 +29,10 @@
     "qualification": "BAMS, AYU",
     "department": "Ayurveda",
     "bio": "An excellent physician with an exemplary track record of more than a decade. Specialises in Panchakarma therapies, neuro rehabilitation, and the management of chronic and lifestyle disorders.",
-    "image": "https://ayursiha.com/wp-content/uploads/2023/11/IMG_9894.jpg",
-    "created_at": "2026-06-07T21:13:30.108Z"
-  },
-  {
-    "id": "9978b302-c501-4074-95ca-0d6735fc4fce",
-    "name": "Dr. Merin Jose",
-    "title": "Ayurvedic Physician",
-    "qualification": "BAMS, AYU",
-    "department": "Ayurveda",
-    "bio": "A compassionate and knowledgeable physician, deeply committed to providing personalised care and promoting holistic healing through classical Ayurvedic principles.",
-    "image": "https://ayursiha.com/wp-content/uploads/2024/08/Dr.-Merin-Jose-e1723134988155.jpg",
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "image": "/api/uploads/935518a2-a071-4031-86a4-7912b1398500.png",
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 2,
+    "photo": "/api/uploads/935518a2-a071-4031-86a4-7912b1398500.png"
   },
   {
     "id": "cdf9851b-de30-4599-b803-cba49719a0c6",
@@ -37,6 +42,7 @@
     "department": "Unani",
     "bio": "One of the best known Unani physicians in Kerala. Specialises in the prevention and treatment of lifestyle disorders, acute and chronic diseases through traditional Unani therapeutic methods.",
     "image": "https://ayursiha.com/wp-content/uploads/2020/11/Dr.Muzzammil.jpg",
-    "created_at": "2026-06-07T21:13:30.108Z"
+    "created_at": "2026-06-07T21:13:30.108Z",
+    "sort_order": 3
   }
 ]
