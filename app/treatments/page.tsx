@@ -18,6 +18,8 @@ export const metadata: Metadata = {
 
 export default async function TreatmentsPage() {
   const [treatments, settings] = await Promise.all([getTreatments(), Promise.resolve(getSettings())])
+  const tp = settings.treatmentsPageContent
+
   return (
     <>
       <ClientAnimations />
@@ -29,29 +31,20 @@ export default async function TreatmentsPage() {
       <div className="au-hero">
         <Image src={settings.treatmentsHeroImage || '/treatments-bg.jpg'} alt="Ayursiha Treatments" fill className="au-hero-img" priority unoptimized={settings.treatmentsHeroImage?.startsWith('/api/')} />
         <div className="au-hero-overlay" />
-        <p className="label au-hero-label r">Classical Therapies</p>
+        <p className="label au-hero-label r">{tp.heroLabel}</p>
         <div className="au-hero-content">
-          <h1 className="au-hero-h ws">Our Treatments</h1>
+          <h1 className="au-hero-h ws">{tp.heroHeading}</h1>
           <p className="au-hero-rule r" />
-          <p className="au-hero-sub r">
-            Every treatment is prescribed after a thorough Prakriti assessment —<br />
-            duration, oils, herbs, and technique all calibrated to you alone.
-          </p>
+          <p className="au-hero-sub r">{tp.heroSub}</p>
         </div>
       </div>
 
       {/* ── INTRO ── */}
       <section className="ex-intro">
         <div className="wrap--sm ex-intro-inner">
-          <p className="label r" style={{ textAlign: 'center', marginBottom: '1.2rem' }}>Our Approach</p>
-          <h2 className="ex-intro-h ws r">Treatments that honour the tradition.</h2>
-          <p className="ex-intro-body r">
-            At Ayursiha, no treatment is administered without first understanding who you are.
-            Every session begins with a comprehensive Prakriti and Vikriti assessment — a complete
-            picture of your constitution, your current imbalances, and your health history.
-            Only then does your physician prescribe the precise therapy, formulation, and duration
-            that will bring you back to balance.
-          </p>
+          <p className="label r" style={{ textAlign: 'center', marginBottom: '1.2rem' }}>{tp.introLabel}</p>
+          <h2 className="ex-intro-h ws r">{tp.introHeading}</h2>
+          <p className="ex-intro-body r">{tp.introBody}</p>
         </div>
       </section>
 
@@ -89,10 +82,8 @@ export default async function TreatmentsPage() {
       {/* ── CTA ── */}
       <section className="about-cta" id="cta">
         <div className="wrap about-cta-inner">
-          <h2 className="about-cta-h ws r">Begin with a consultation.</h2>
-          <p className="about-cta-sub r">
-            Our physicians will assess your constitution and recommend the treatments designed for you.
-          </p>
+          <h2 className="about-cta-h ws r">{tp.ctaHeading}</h2>
+          <p className="about-cta-sub r">{tp.ctaSub}</p>
           <div className="r"><OpenBookingBtn /></div>
         </div>
       </section>

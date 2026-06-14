@@ -87,6 +87,90 @@ function getSeed(entity: string): Row[] {
 export type VideoEntry = { id: string; title: string }
 export type PillarEntry = { step: string; name: string; body: string }
 export type StatEntry = { n: string; l: string }
+export type YogaHighlight = { value: string; label: string }
+export type ExperienceCard = { label: string; title: string; body: string }
+export type AboutPillar  = { title: string; body: string }
+
+export type HomeContent = {
+  heroHeadingLine1: string
+  heroHeadingLine2: string
+  heroHeadingLine3: string
+  heroSub: string
+  heroCta: string
+  philosophyLabel: string
+  philosophyQuote: string
+  philosophySectionLabel: string
+  philosophyHeading: string
+  philosophyBody1: string
+  yogaLabel: string
+  yogaHeading: string
+  yogaBody: string
+  yogaCta: string
+  yogaBgImage: string
+  yogaHighlights: YogaHighlight[]
+  treatmentsLabel: string
+  treatmentsHeading: string
+  treatmentsSubhead: string
+  treatmentsViewAll: string
+  videoLabel: string
+  videoHeading: string
+  videoDescription: string
+  videoViewMore: string
+  testimonialsHeading: string
+  testimonialsAside: string
+  parallaxLabel: string
+  parallaxHeadingLine1: string
+  parallaxHeadingLine2: string
+  parallaxSub: string
+  parallaxBookFree: string
+}
+
+export type ExperiencePageContent = {
+  heroLabel: string
+  heroHeading: string
+  heroSub: string
+  introLabel: string
+  introHeading: string
+  introBody1: string
+  introBody2: string
+  narrativeHeadingLine1: string
+  narrativeHeadingLine2: string
+  narrativeBody: string
+  cards: ExperienceCard[]
+  ctaHeading: string
+  ctaSub: string
+}
+
+export type AboutPageContent = {
+  heroLabel: string
+  heroHeading: string
+  heroSub: string
+  storyLabel: string
+  storyHeadingLine1: string
+  storyHeadingLine2: string
+  storyBody1: string
+  storyBody2: string
+  storyBody3: string
+  missionQuote: string
+  pillarsLabel: string
+  pillarsHeading: string
+  pillars: AboutPillar[]
+  teamLabel: string
+  teamHeading: string
+  ctaHeading: string
+  ctaSub: string
+}
+
+export type TreatmentsPageContent = {
+  heroLabel: string
+  heroHeading: string
+  heroSub: string
+  introLabel: string
+  introHeading: string
+  introBody: string
+  ctaHeading: string
+  ctaSub: string
+}
 
 export type SiteSettings = {
   phone: string
@@ -105,6 +189,10 @@ export type SiteSettings = {
   pillars: PillarEntry[]
   stats: StatEntry[]
   aboutStats: StatEntry[]
+  homeContent: HomeContent
+  experiencePageContent: ExperiencePageContent
+  aboutPageContent: AboutPageContent
+  treatmentsPageContent: TreatmentsPageContent
 }
 
 const defaultSettings: SiteSettings = {
@@ -152,6 +240,97 @@ const defaultSettings: SiteSettings = {
     { n: '22+',    l: 'Years of Practice' },
     { n: '97%',    l: 'Patient Satisfaction' },
   ],
+  homeContent: {
+    heroHeadingLine1: 'Where ancient',
+    heroHeadingLine2: 'medicine',
+    heroHeadingLine3: 'meets you.',
+    heroSub: 'Personalised Ayurvedic care rooted in authentic Kerala tradition. Every treatment begins with understanding who you are — not just what ails you.',
+    heroCta: 'Explore Treatments',
+    philosophyLabel: 'Our Approach',
+    philosophyQuote: 'We treat the whole person, their constitution, their history, their life, not just the condition they walk in with.',
+    philosophySectionLabel: 'Classical Ayurveda',
+    philosophyHeading: 'Healing rooted in 5,000 years of science',
+    philosophyBody1: 'Ayurveda is not alternative medicine — it is the world\'s oldest complete medical system. At Ayursiha, we practice it as it was intended: rigorously, personally, and with deep respect for the texts from which it came.',
+    yogaLabel: 'Wellness Practice',
+    yogaHeading: 'Yoga & Meditation Sessions',
+    yogaBody: 'Guided daily yoga and pranayama sessions tailored to complement your Ayurvedic treatment. Practised at sunrise in our open-air pavilion — aligned with the rhythms of nature and your unique constitution.',
+    yogaCta: 'Join a Session',
+    yogaBgImage: '/yoga.png',
+    yogaHighlights: [
+      { value: 'Daily',        label: 'Morning Sessions' },
+      { value: 'All Levels',   label: 'Beginner to Advanced' },
+      { value: 'Personalised', label: 'To Your Prakriti' },
+    ],
+    treatmentsLabel: 'Classical Therapies',
+    treatmentsHeading: 'Treatments that honour the tradition',
+    treatmentsSubhead: 'Every treatment is prescribed after a thorough Prakriti and Vikriti assessment — duration, oils, herbs, and technique, all calibrated to your unique constitution.',
+    treatmentsViewAll: 'View All Treatments',
+    videoLabel: 'Inside Ayursiha',
+    videoHeading: 'Experience the healing environment',
+    videoDescription: 'A glimpse into the treatments, spaces, and care that define life at Ayursiha — before you arrive.',
+    videoViewMore: 'View More on YouTube',
+    testimonialsHeading: 'Stories of transformation',
+    testimonialsAside: 'Over 4,800 patients have found their way back to health through Ayursiha — in their own words, in their own languages.',
+    parallaxLabel: 'Begin Your Journey',
+    parallaxHeadingLine1: 'Your body already',
+    parallaxHeadingLine2: 'knows how to heal.',
+    parallaxSub: 'Book a complimentary 30-minute introductory call with one of our physicians. No commitment — just a conversation about where you are and where you want to be.',
+    parallaxBookFree: 'Book Free Consultation',
+  },
+  experiencePageContent: {
+    heroLabel: 'Ayursiha Retreat',
+    heroHeading: 'The Ayursiha Experience',
+    heroSub: 'Escape the hurried pace. Transform your mind, body, and soul through classical Ayurveda in the heart of Kerala.',
+    introLabel: 'Our Philosophy',
+    introHeading: 'Discover. Heal. Restore.',
+    introBody1: 'At Ayursiha, guests leave the demands of daily life behind to embark on a journey of genuine transformation. Walk through our open-air corridors. Rest in our treatment suites. Practise yoga as the sun rises over Kerala. Every detail of your stay — your meals, your therapies, your daily rhythm — is designed with a single purpose: to return you to yourself.',
+    introBody2: 'We are one of the few Ayurvedic centres in India where every programme is built from scratch by a qualified physician and rooted in the original texts. No templates. No compromises. Only classical medicine, practised with rigour and care.',
+    narrativeHeadingLine1: 'Practised for 5,000 years.',
+    narrativeHeadingLine2: 'Personalised for you.',
+    narrativeBody: 'The healing traditions of Kerala Ayurveda have been handed down through generations of physicians — refined, tested, and deepened over millennia. At Ayursiha, we carry this lineage with humility and precision. Our centre in Aluva sits in the heartland of this tradition, where the rivers, the climate, and the herbs themselves are part of the medicine. Every stay here is an invitation to step into that story and write your own chapter of healing.',
+    cards: [
+      { label: 'Elemental Wellness',  title: 'Panchakarma & Classical Healing',  body: 'Immerse yourself in the oldest and most complete system of medicine in the world. Our Panchakarma programmes are meticulously designed by qualified physicians — combining Shodhana purification, Shaman balancing therapies, and classical herbal formulations to restore your body at a cellular level. Every session is unhurried, purposeful, and deeply personal.' },
+      { label: 'Bespoke Programmes',  title: 'Your Personalised Healing Plan',   body: 'No two constitutions are the same — and no two treatment plans at Ayursiha are the same. Your stay begins with a comprehensive Prakriti assessment: pulse diagnosis, tongue analysis, and a full review of your medical history. From this, your physician designs a protocol entirely your own — specific therapies, herbal formulations, dietary guidelines, and a daily rhythm calibrated to your constitution.' },
+      { label: 'Mindful Movement',    title: 'Yoga & Meditation Sessions',        body: 'Practised at sunrise in our open-air pavilion, daily yoga and pranayama sessions are tailored to complement your Ayurvedic treatment plan and your unique Prakriti. Guided by experienced instructors, each session aligns your body with the natural rhythms of the day — amplifying the healing effect of every therapy and cultivating a stillness that extends far beyond your stay.' },
+      { label: 'Lasting Restoration', title: 'Rasayana & Post-Stay Care',         body: 'Healing at Ayursiha does not end at discharge. Before you leave, your physician prepares a complete post-stay protocol — classical Rasayana rejuvenation herbs, dietary recommendations, lifestyle adjustments, and scheduled follow-up consultations. Your take-home kit and ongoing physician access ensure that the restoration you began here continues to deepen long after you return home.' },
+    ],
+    ctaHeading: 'Embrace the Ayursiha Life.',
+    ctaSub: 'Begin your journey with a physician consultation and discover the programme designed for you.',
+  },
+  aboutPageContent: {
+    heroLabel: 'Ayursiha Retreat',
+    heroHeading: 'About Us',
+    heroSub: 'A Ministry of AYUSH registered Ayurvedic healing centre in Aluva, Kerala — since 2002.',
+    storyLabel: 'Our Story',
+    storyHeadingLine1: 'Rooted in Kerala.',
+    storyHeadingLine2: 'Built on science.',
+    storyBody1: 'Ayursiha was founded in 2002 under the CAS Group Holdings with a single conviction: that authentic Ayurveda, practised with the rigour of a medical institution, can heal conditions that modern medicine struggles to address.',
+    storyBody2: 'Over two decades and more than 4,800 patients later, that conviction has only deepened. Located in Aluva, Kerala — the heartland of classical Ayurvedic tradition — we remain one of the few centres in India where every treatment plan is designed by a qualified physician and rooted in the original texts.',
+    storyBody3: 'We are registered with the Ministry of AYUSH, Government of India, and hold ISO 9001:2015, GMP, and NABH accreditations — not as marketing credentials, but as a commitment to our patients.',
+    missionQuote: 'We treat the whole person — their constitution, their history, their life — not just the condition they walk in with.',
+    pillarsLabel: 'What We Stand For',
+    pillarsHeading: 'Our guiding principles',
+    pillars: [
+      { title: 'Classical Integrity',   body: 'We follow the original Ayurvedic texts — Charaka Samhita, Sushruta Samhita, and Ashtanga Hridayam — without dilution or commercialisation.' },
+      { title: 'Physician-Led Care',    body: 'Every treatment plan is designed and supervised by qualified BAMS-degree physicians. No templates — only personalised protocols.' },
+      { title: 'Root-Cause Focus',      body: 'We never suppress symptoms. Every therapy identifies and eliminates the underlying doshic imbalance at its source.' },
+      { title: 'Lasting Restoration',  body: 'Healing does not end at discharge. Follow-up consultations, herbal protocols, and dietary guidance ensure continued wellbeing.' },
+    ],
+    teamLabel: 'Our Physicians',
+    teamHeading: 'The people behind your care',
+    ctaHeading: 'Ready to begin your healing?',
+    ctaSub: 'Speak with one of our physicians and discover the treatment plan designed for you.',
+  },
+  treatmentsPageContent: {
+    heroLabel: 'Classical Therapies',
+    heroHeading: 'Our Treatments',
+    heroSub: 'Every treatment is prescribed after a thorough Prakriti assessment — duration, oils, herbs, and technique all calibrated to you alone.',
+    introLabel: 'Our Approach',
+    introHeading: 'Treatments that honour the tradition.',
+    introBody: 'At Ayursiha, no treatment is administered without first understanding who you are. Every session begins with a comprehensive Prakriti and Vikriti assessment — a complete picture of your constitution, your current imbalances, and your health history. Only then does your physician prescribe the precise therapy, formulation, and duration that will bring you back to balance.',
+    ctaHeading: 'Begin with a consultation.',
+    ctaSub: 'Our physicians will assess your constitution and recommend the treatments designed for you.',
+  },
 }
 
 export function getSettings(): SiteSettings {
@@ -162,7 +341,15 @@ export function getSettings(): SiteSettings {
     return defaultSettings
   }
   try {
-    return { ...defaultSettings, ...JSON.parse(readFileSync(file, 'utf-8')) as Partial<SiteSettings> }
+    const parsed = JSON.parse(readFileSync(file, 'utf-8')) as Partial<SiteSettings>
+    return {
+      ...defaultSettings,
+      ...parsed,
+      homeContent:            { ...defaultSettings.homeContent,            ...(parsed.homeContent            ?? {}) },
+      experiencePageContent:  { ...defaultSettings.experiencePageContent,  ...(parsed.experiencePageContent  ?? {}) },
+      aboutPageContent:       { ...defaultSettings.aboutPageContent,       ...(parsed.aboutPageContent       ?? {}) },
+      treatmentsPageContent:  { ...defaultSettings.treatmentsPageContent,  ...(parsed.treatmentsPageContent  ?? {}) },
+    }
   } catch {
     return defaultSettings
   }

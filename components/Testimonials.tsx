@@ -1,18 +1,23 @@
 import { getTranslations } from 'next-intl/server'
 import TestimonialsScroll from '@/components/TestimonialsScroll'
-import { getTestimonials } from '@/lib/db'
+import { getSettings, getTestimonials } from '@/lib/db'
 
 export default async function Testimonials() {
-  const [t, testimonials] = await Promise.all([getTranslations('testimonials'), getTestimonials()])
+  const [t, settings, testimonials] = await Promise.all([
+    getTranslations('testimonials'),
+    Promise.resolve(getSettings()),
+    getTestimonials(),
+  ])
+  const hc = settings.homeContent
 
   return (
     <section className="testi" id="testi">
       <div className="wrap">
         <div className="testi-hd">
           <h2 className="display testi-heading ws r" id="testiH2">
-            {t('heading')}
+            {hc.testimonialsHeading}
           </h2>
-          <p className="testi-aside r">{t('aside')}</p>
+          <p className="testi-aside r">{hc.testimonialsAside}</p>
         </div>
       </div>
       <TestimonialsScroll count={testimonials.length}>

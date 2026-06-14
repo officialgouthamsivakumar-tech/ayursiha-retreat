@@ -6,9 +6,27 @@ import Link from 'next/link'
 import type { SiteSettings, VideoEntry } from '@/lib/db'
 import AdminToast from '../../_components/AdminToast'
 
-const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', aboutHeroImage: '', treatmentsHeroImage: '', experienceImages: ['', '', '', ''], experienceHeroImage: '', experiencePageImages: ['', '', '', ''], videos: [], credentials: [], pillars: [], stats: [], aboutStats: [] }
+const emptyHomeContent = {
+  heroHeadingLine1: '', heroHeadingLine2: '', heroHeadingLine3: '',
+  heroSub: '', heroCta: '',
+  philosophyLabel: '', philosophyQuote: '', philosophySectionLabel: '',
+  philosophyHeading: '', philosophyBody1: '',
+  yogaLabel: '', yogaHeading: '', yogaBody: '', yogaCta: '', yogaBgImage: '',
+  yogaHighlights: [{ value: '', label: '' }, { value: '', label: '' }, { value: '', label: '' }],
+  treatmentsLabel: '', treatmentsHeading: '', treatmentsSubhead: '', treatmentsViewAll: '',
+  videoLabel: '', videoHeading: '', videoDescription: '', videoViewMore: '',
+  testimonialsHeading: '', testimonialsAside: '',
+  parallaxLabel: '', parallaxHeadingLine1: '', parallaxHeadingLine2: '',
+  parallaxSub: '', parallaxBookFree: '',
+}
 
-type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'aboutHeroImage' | 'treatmentsHeroImage' | 'experienceImages' | 'experienceHeroImage' | 'experiencePageImages' | 'credentials' | 'pillars' | 'stats' | 'aboutStats'>
+const emptyExperience = { heroLabel: '', heroHeading: '', heroSub: '', introLabel: '', introHeading: '', introBody1: '', introBody2: '', narrativeHeadingLine1: '', narrativeHeadingLine2: '', narrativeBody: '', cards: [{ label: '', title: '', body: '' }, { label: '', title: '', body: '' }, { label: '', title: '', body: '' }, { label: '', title: '', body: '' }], ctaHeading: '', ctaSub: '' }
+const emptyAbout = { heroLabel: '', heroHeading: '', heroSub: '', storyLabel: '', storyHeadingLine1: '', storyHeadingLine2: '', storyBody1: '', storyBody2: '', storyBody3: '', missionQuote: '', pillarsLabel: '', pillarsHeading: '', pillars: [{ title: '', body: '' }, { title: '', body: '' }, { title: '', body: '' }, { title: '', body: '' }], teamLabel: '', teamHeading: '', ctaHeading: '', ctaSub: '' }
+const emptyTreatments = { heroLabel: '', heroHeading: '', heroSub: '', introLabel: '', introHeading: '', introBody: '', ctaHeading: '', ctaSub: '' }
+
+const empty: SiteSettings = { phone: '', whatsapp: '', instagram: '', youtube: '', address: '', heroVideo: '', aboutHeroImage: '', treatmentsHeroImage: '', experienceImages: ['', '', '', ''], experienceHeroImage: '', experiencePageImages: ['', '', '', ''], videos: [], credentials: [], pillars: [], stats: [], aboutStats: [], homeContent: emptyHomeContent as SiteSettings['homeContent'], experiencePageContent: emptyExperience as SiteSettings['experiencePageContent'], aboutPageContent: emptyAbout as SiteSettings['aboutPageContent'], treatmentsPageContent: emptyTreatments as SiteSettings['treatmentsPageContent'] }
+
+type ScalarKey = Exclude<keyof SiteSettings, 'videos' | 'heroVideo' | 'aboutHeroImage' | 'treatmentsHeroImage' | 'experienceImages' | 'experienceHeroImage' | 'experiencePageImages' | 'credentials' | 'pillars' | 'stats' | 'aboutStats' | 'homeContent'>
 type FieldErrors = Partial<Record<ScalarKey, string>>
 type VideoErrors = ({ id?: string; title?: string } | undefined)[]
 

@@ -1,19 +1,22 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { getTranslations } from 'next-intl/server'
-import { getTreatments } from '@/lib/db'
+import { getSettings, getTreatments } from '@/lib/db'
 
 export default async function Treatments() {
-  const [t, treatments] = await Promise.all([getTranslations('treatments'), getTreatments()])
+  const [settings, treatments] = await Promise.all([
+    Promise.resolve(getSettings()),
+    getTreatments(),
+  ])
+  const hc = settings.homeContent
 
   return (
     <section className="treatments" id="treatments">
       <div className="treat-header-wrap">
-        <p className="label r">{t('label')}</p>
+        <p className="label r">{hc.treatmentsLabel}</p>
         <h2 className="display treat-heading ws r" id="treatH2">
-          {t('heading')}
+          {hc.treatmentsHeading}
         </h2>
-        <p className="treat-subhead r">{t('subhead')}</p>
+        <p className="treat-subhead r">{hc.treatmentsSubhead}</p>
       </div>
 
       <div className="treat-grid">
@@ -50,7 +53,7 @@ export default async function Treatments() {
 
       <div className="treat-view-all">
         <Link href="/treatments" className="btn btn-gold">
-          {t('viewAll')}
+          {hc.treatmentsViewAll}
           <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron">
             <path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

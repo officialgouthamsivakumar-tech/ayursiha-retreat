@@ -118,12 +118,39 @@ export default function AdminSidebar() {
           </Link>
           <Link
             href="/admin/settings/content"
-            className={`admin-nav-link${pathname.startsWith('/admin/settings/content') ? ' active' : ''}`}
+            className={`admin-nav-link${pathname === '/admin/settings/content' ? ' active' : ''}`}
           >
             <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-              <path d="M2 4h12M2 8h8M2 12h10" />
+              <rect x="1" y="1" width="14" height="14" rx="2"/><path d="M4 10h8M4 7h5"/>
             </svg>
-            Homepage Content
+            Homepage
+          </Link>
+          <Link
+            href="/admin/settings/content/experience"
+            className={`admin-nav-link${pathname.startsWith('/admin/settings/content/experience') ? ' active' : ''}`}
+          >
+            <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M8 2c0 0-4 2-4 6s4 6 4 6 4-2 4-6-4-6-4-6z"/>
+            </svg>
+            Experience Page
+          </Link>
+          <Link
+            href="/admin/settings/content/about"
+            className={`admin-nav-link${pathname.startsWith('/admin/settings/content/about') ? ' active' : ''}`}
+          >
+            <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+              <circle cx="8" cy="5" r="3"/><path d="M2 14c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+            </svg>
+            About Us Page
+          </Link>
+          <Link
+            href="/admin/settings/content/treatments"
+            className={`admin-nav-link${pathname.startsWith('/admin/settings/content/treatments') ? ' active' : ''}`}
+          >
+            <svg className="admin-nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+              <path d="M8 2v12M2 8h12"/><circle cx="8" cy="8" r="6"/>
+            </svg>
+            Treatments Page
           </Link>
         </div>
 

@@ -31,6 +31,7 @@ function IndiaFlag() {
 
 export default async function Philosophy() {
   const [t, settings] = await Promise.all([getTranslations('philosophy'), Promise.resolve(getSettings())])
+  const hc = settings.homeContent
   const pillars = settings.pillars
   const stats = settings.stats
 
@@ -40,9 +41,9 @@ export default async function Philosophy() {
         <div className="phil-inner">
 
           <div className="phil-left">
-            <p className="label rl">{t('label')}</p>
+            <p className="label rl">{hc.philosophyLabel}</p>
             <blockquote className="phil-quote rl" style={{ marginTop: '1rem' }}>
-              {t('quote')}
+              {hc.philosophyQuote}
             </blockquote>
             <div className="phil-stats stagger">
               {stats.map(({ n, l }, i) => (
@@ -55,11 +56,11 @@ export default async function Philosophy() {
           </div>
 
           <div className="phil-right">
-            <p className="label rr">{t('sectionLabel')}</p>
+            <p className="label rr">{hc.philosophySectionLabel}</p>
             <h2 className="display phil-heading ws rr" id="philH2">
-              {t('heading')}
+              {hc.philosophyHeading}
             </h2>
-            <p className="phil-body rr">{t('body1')}</p>
+            <p className="phil-body rr">{hc.philosophyBody1}</p>
             <p className="phil-body rr">
               Every consultation begins with a comprehensive <strong className="phil-prakriti-inline">Prakriti assessment</strong> — your unique
               doshic constitution. From there, every therapy, every herb, every dietary
