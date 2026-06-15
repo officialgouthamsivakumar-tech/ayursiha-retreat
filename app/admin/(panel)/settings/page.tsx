@@ -118,22 +118,27 @@ export default function ContactSettingsPage() {
   }
 
   async function handleImageUpload(key: 'aboutHeroImage' | 'treatmentsHeroImage' | 'experienceHeroImage' | 'experienceImages' | 'experiencePageImages', idx: number | null, file: File) {
+    if (file.size > 5 * 1024 * 1024) { setToast({ message: 'Image must be smaller than 5 MB.', type: 'error' }); return }
     const uploadKey = key + (idx !== null ? idx : '')
     setImgUploading(s => ({ ...s, [uploadKey]: true }))
-    const fd = new FormData(); fd.append('file', file)
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-    const data = await res.json()
-    if (res.ok) {
-      if (key === 'aboutHeroImage' || key === 'treatmentsHeroImage' || key === 'experienceHeroImage') {
-        const old = form[key]
-        setForm(f => ({ ...f, [key]: data.url }))
-        if (old?.startsWith('/api/uploads/')) fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: old }) }).catch(() => {})
-      } else {
-        const arrKey = key as 'experienceImages' | 'experiencePageImages'
-        setForm(f => { const imgs = [...(f[arrKey] ?? ['', '', '', ''])]; imgs[idx!] = data.url; return { ...f, [arrKey]: imgs } })
-      }
-      setToast({ message: 'Image uploaded.', type: 'success' })
-    } else { setToast({ message: data.error || 'Upload failed.', type: 'error' }) }
+    try {
+      const fd = new FormData(); fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok) {
+        if (key === 'aboutHeroImage' || key === 'treatmentsHeroImage' || key === 'experienceHeroImage') {
+          const old = form[key]
+          setForm(f => ({ ...f, [key]: data.url }))
+          if (old?.startsWith('/api/uploads/')) fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: old }) }).catch(() => {})
+        } else {
+          const arrKey = key as 'experienceImages' | 'experiencePageImages'
+          setForm(f => { const imgs = [...(f[arrKey] ?? ['', '', '', ''])]; imgs[idx!] = data.url; return { ...f, [arrKey]: imgs } })
+        }
+        setToast({ message: 'Image uploaded.', type: 'success' })
+      } else { setToast({ message: data.error || 'Upload failed.', type: 'error' }) }
+    } catch {
+      setToast({ message: 'Upload failed. Please try again.', type: 'error' })
+    }
     setImgUploading(s => ({ ...s, [uploadKey]: false }))
   }
 

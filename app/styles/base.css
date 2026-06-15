@@ -117,6 +117,11 @@ img { display: block; max-width: 100%; }
 }
 
 /* ── BUTTONS ── */
+@keyframes btn-shine {
+  0%   { transform: translateX(-120%) skewX(-20deg); }
+  100% { transform: translateX(220%) skewX(-20deg); }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -134,6 +139,23 @@ img { display: block; max-width: 100%; }
   border-radius: 8px;
   transition: all .3s var(--ease);
   white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0)   0%,
+    rgba(255,255,255,0.28) 50%,
+    rgba(255,255,255,0)   100%
+  );
+  animation: btn-shine 3.2s ease-in-out infinite;
+  pointer-events: none;
 }
 .btn svg, .btn .btn-chevron { width: 10px; height: 14px; flex-shrink: 0; transition: transform .25s; }
 .btn:hover svg, .btn:hover .btn-chevron { transform: translateX(3px); }
@@ -142,6 +164,8 @@ img { display: block; max-width: 100%; }
 .btn-dark:hover  { background: #8e6826; }
 .btn-gold  { background: var(--gold); color: #fff; }
 .btn-gold:hover  { background: #8e6826; }
+.btn-forest { background: var(--forest); color: #fff; }
+.btn-forest:hover { background: var(--pine); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(4,102,116,.35); }
 .btn-ghost { background: transparent; border: 1.5px solid rgba(255,255,255,.38); color: #fff; }
 .btn-ghost:hover { border-color: #fff; background: rgba(255,255,255,.08); transform: none; box-shadow: none; }
 .btn-outline { background: var(--gold); color: #fff; border: none; }

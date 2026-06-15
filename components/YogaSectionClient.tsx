@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import YogaModal from './YogaModal'
+import Btn from './Btn'
 
 interface YogaHighlight {
   value: string
@@ -44,10 +45,7 @@ export default function YogaSectionClient({ label, heading, body, cta, bgImage, 
             ))}
           </div>
 
-          <button className="btn btn-gold r" onClick={() => setModalOpen(true)}>
-            {cta}
-            <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </button>
+          <Btn variant="gold" className="r" onClick={() => setModalOpen(true)}>{cta}</Btn>
         </div>
       </section>
     </>

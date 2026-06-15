@@ -1,4 +1,5 @@
 import { getSettings } from '@/lib/db'
+import Btn from './Btn'
 
 export default async function Hero() {
   const settings = getSettings()
@@ -23,10 +24,7 @@ export default async function Hero() {
         <p className="hero-sub">{hc.heroSub}</p>
 
         <div className="hero-actions">
-          <a href="#treatments" className="btn btn-gold">
-            {hc.heroCta}
-            <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </a>
+          <Btn href="#treatments">{hc.heroCta}</Btn>
         </div>
       </div>
 

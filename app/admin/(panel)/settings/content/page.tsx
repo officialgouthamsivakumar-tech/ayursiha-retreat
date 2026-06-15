@@ -137,19 +137,27 @@ export default function ContentSettingsPage() {
     const file = e.target.files?.[0]
     if (!file) return
     e.target.value = ''
+    if (file.size > 5 * 1024 * 1024) {
+      setToast({ message: 'Image must be smaller than 5 MB.', type: 'error' })
+      return
+    }
     setImgUploading(true)
-    const fd = new FormData(); fd.append('file', file)
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
-    const data = await res.json()
-    if (res.ok) {
-      const old = form.homeContent.yogaBgImage
-      setForm(f => ({ ...f, homeContent: { ...f.homeContent, yogaBgImage: data.url } }))
-      if (old?.startsWith('/api/uploads/')) {
-        fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: old }) }).catch(() => {})
+    try {
+      const fd = new FormData(); fd.append('file', file)
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (res.ok) {
+        const old = form.homeContent.yogaBgImage
+        setForm(f => ({ ...f, homeContent: { ...f.homeContent, yogaBgImage: data.url } }))
+        if (old?.startsWith('/api/uploads/')) {
+          fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: old }) }).catch(() => {})
+        }
+        setToast({ message: 'Yoga background image uploaded.', type: 'success' })
+      } else {
+        setToast({ message: data.error || 'Upload failed.', type: 'error' })
       }
-      setToast({ message: 'Yoga background image uploaded.', type: 'success' })
-    } else {
-      setToast({ message: data.error || 'Upload failed.', type: 'error' })
+    } catch {
+      setToast({ message: 'Upload failed. Please try again.', type: 'error' })
     }
     setImgUploading(false)
   }

@@ -1,4 +1,5 @@
 import { getSettings } from '@/lib/db'
+import Btn from './Btn'
 
 export default async function VideoSection() {
   const settings = getSettings()
@@ -25,12 +26,12 @@ export default async function VideoSection() {
           ))}
         </div>
         <div className="vs-more r">
-          <a href={settings.youtube} target="_blank" rel="noopener noreferrer" className="btn btn-outline">
+          <Btn variant="outline" href={settings.youtube} external chevron={false}>
             {hc.videoViewMore}
             <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5" width="12" height="12">
               <path d="M5 2h7v7M12 2L4 10" />
             </svg>
-          </a>
+          </Btn>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 'use client'
+import Btn from './Btn'
 
 interface Props {
   label: string
@@ -22,11 +23,8 @@ export default function ParallaxCtaClient({ label, headingLine1, headingLine2, s
         </h2>
         <p className="pcta-sub r">{sub}</p>
         <div className="pcta-row r">
-          <button className="btn btn-gold" onClick={() => window.dispatchEvent(new CustomEvent('openBooking'))}>
-            {bookFree}
-            <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </button>
-          <a href={telHref} className="btn btn-ghost">{phone}</a>
+          <Btn variant="gold" onClick={() => window.dispatchEvent(new CustomEvent('openBooking'))}>{bookFree}</Btn>
+          <Btn variant="ghost" href={telHref} chevron={false}>{phone}</Btn>
         </div>
       </div>
     </div>

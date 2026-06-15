@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { getSettings, getTreatments } from '@/lib/db'
+import Btn from './Btn'
 
 export default async function Treatments() {
   const [settings, treatments] = await Promise.all([
@@ -52,12 +53,7 @@ export default async function Treatments() {
       </div>
 
       <div className="treat-view-all">
-        <Link href="/treatments" className="btn btn-gold">
-          {hc.treatmentsViewAll}
-          <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron">
-            <path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+        <Btn variant="gold" href="/treatments">{hc.treatmentsViewAll}</Btn>
       </div>
     </section>
   )

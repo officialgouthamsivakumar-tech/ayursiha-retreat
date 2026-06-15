@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
 import { useCustomEvent } from '@/hooks/useCustomEvent'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
+import Btn from './Btn'
 
 export default function BookingModal() {
   const t = useTranslations('booking')
@@ -53,7 +54,7 @@ export default function BookingModal() {
             </div>
             <h3 className="bm-success-h">{t('successTitle')}</h3>
             <p className="bm-success-p">Thank you, {form.name.split(' ')[0]}. {t('successBody')}</p>
-            <button className="btn btn-gold" onClick={close} style={{ marginTop: '1.5rem' }}>{t('done')}</button>
+            <Btn variant="gold" onClick={close} chevron={false} style={{ marginTop: '1.5rem' }}>{t('done')}</Btn>
           </div>
         ) : (
           <>
@@ -99,10 +100,7 @@ export default function BookingModal() {
                 <textarea className="bm-input bm-textarea" name="message" placeholder={t('placeholders.message')} rows={3} value={form.message} onChange={handleChange} />
               </div>
 
-              <button type="submit" className="btn btn-gold bm-submit">
-                {t('submit')}
-                <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </button>
+              <Btn variant="gold" type="submit" className="bm-submit">{t('submit')}</Btn>
             </form>
           </>
         )}

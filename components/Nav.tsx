@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import Image from 'next/image'
 import { useScrollPosition } from '@/hooks/useScrollPosition'
+import Btn from './Btn'
 
 function scrollToEl(id: string) {
   return (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -64,12 +65,13 @@ export default function Nav() {
             <li><a href="/about" className={pathname === '/about' ? 'nav-active' : ''}>{t('about')}</a></li>
             <li><a href={isHome ? '#testi' : '/#testi'} onClick={isHome ? scrollToEl('testi') : undefined}>{t('stories')}</a></li>
           </ul>
-          <button
-            className={`btn btn-gold nav-cta${hideCta ? ' nav-cta--hidden' : ''}`}
+          <Btn
+            className={`nav-cta${hideCta ? ' nav-cta--hidden' : ''}`}
             onClick={() => window.dispatchEvent(new CustomEvent('openBooking'))}
+            chevron={false}
           >
             {t('bookConsultation')}
-          </button>
+          </Btn>
           <button
             className={`nav-menu-btn${menuOpen ? ' open' : ''}`}
             aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
@@ -109,12 +111,13 @@ export default function Nav() {
               </a>
             </li>
           </ul>
-          <button
-            className="btn btn-gold nav-drawer-book"
+          <Btn
+            className="nav-drawer-book"
             onClick={() => { close(); window.dispatchEvent(new CustomEvent('openBooking')) }}
+            chevron={false}
           >
             {t('bookConsultation')}
-          </button>
+          </Btn>
           <div className="nav-drawer-contacts">
             <span>{t('phone')}</span>
             <span>{t('email')}</span>
