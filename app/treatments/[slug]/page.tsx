@@ -7,7 +7,7 @@ import FooterMinimal from '@/components/FooterMinimal'
 import ClientAnimations from '@/components/ClientAnimations'
 import BookingModal from '@/components/BookingModal'
 import OpenBookingBtn from '@/components/OpenBookingBtn'
-import { getTreatments, getTreatmentBySlug } from '@/lib/db'
+import { getTreatments, getTreatmentBySlug, getSettings } from '@/lib/db'
 
 export const revalidate = 60
 
@@ -32,11 +32,12 @@ export default async function TreatmentPage({ params }: Props) {
   const { slug } = await params
   const t = await getTreatmentBySlug(slug)
   if (!t) notFound()
+  const settings = getSettings()
 
   return (
     <>
       <ClientAnimations />
-      <BookingModal />
+      <BookingModal whatsapp={settings.whatsapp} />
       <Nav />
 
       <main id="main-content">

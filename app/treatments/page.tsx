@@ -23,7 +23,7 @@ export default async function TreatmentsPage() {
   return (
     <>
       <ClientAnimations />
-      <BookingModal />
+      <BookingModal whatsapp={settings.whatsapp} />
       <Nav />
 
       <main id="main-content">

@@ -5,7 +5,11 @@ import { useCustomEvent } from '@/hooks/useCustomEvent'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
 import Btn from './Btn'
 
-export default function BookingModal() {
+interface Props {
+  whatsapp?: string
+}
+
+export default function BookingModal({ whatsapp = '+914872440000' }: Props) {
   const t = useTranslations('booking')
   const [open, setOpen] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -28,6 +32,21 @@ export default function BookingModal() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
+
+    const lines = [
+      `\u{1F33F} *New Consultation Request*`,
+      `\n*Name:* ${form.name}`,
+      form.phone && `*Phone:* ${form.phone}`,
+      `*Email:* ${form.email}`,
+      form.treatment && `*Treatment:* ${form.treatment}`,
+      form.date && `*Preferred Date:* ${form.date}`,
+      form.message && `\n*Message:*\n_${form.message}_`,
+    ].filter(Boolean)
+
+    const waNumber = whatsapp.replace(/\D/g, '')
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(lines.join('\n'))}`
+    window.open(waUrl, '_blank', 'noopener,noreferrer')
+
     setSubmitted(true)
   }
 

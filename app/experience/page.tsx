@@ -27,7 +27,7 @@ export default async function ExperiencePage() {
   return (
     <>
       <ClientAnimations />
-      <BookingModal />
+      <BookingModal whatsapp={settings.whatsapp} />
       <Nav />
 
       <main id="main-content">

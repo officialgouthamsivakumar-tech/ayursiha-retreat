@@ -44,7 +44,7 @@ export default async function AboutPage() {
   return (
     <>
       <ClientAnimations />
-      <BookingModal />
+      <BookingModal whatsapp={settings.whatsapp} />
       <Nav />
 
       <main id="main-content">

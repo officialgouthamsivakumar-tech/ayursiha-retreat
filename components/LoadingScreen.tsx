@@ -22,7 +22,7 @@ export default function LoadingScreen() {
         <Image
           src="/logo.png"
           alt="Ayursiha Retreat"
-          width={320}
+          width={221}
           height={137}
           priority
           className="loader-img"

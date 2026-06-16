@@ -51,7 +51,7 @@ export default function Nav() {
           <Image
             src="/logo.png"
             alt="Ayursiha Retreat"
-            width={300}
+            width={206}
             height={128}
             className="nav-logo"
             priority

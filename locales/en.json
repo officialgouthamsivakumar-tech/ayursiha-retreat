@@ -119,11 +119,11 @@
       "Rasayana Programme",
       "Not sure yet"
     ],
-    "submit": "Send Request",
+    "submit": "Send via WhatsApp",
     "close": "Close",
     "done": "Done",
-    "successTitle": "We'll be in touch",
-    "successBody": "Our team will contact you within 24 hours to confirm your consultation."
+    "successTitle": "Sent on WhatsApp",
+    "successBody": "Your request has opened in WhatsApp — just hit send and our team will confirm your consultation shortly."
   },
   "footer": {
     "brandName": "Ayursiha Retreat",
