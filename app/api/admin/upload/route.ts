@@ -24,14 +24,18 @@ export async function POST(request: Request) {
   const buffer = Buffer.from(await file.arrayBuffer())
   writeFileSync(join(uploadDir, filename), buffer)
 
-  return NextResponse.json({ url: `/uploads/${filename}` })
+  return NextResponse.json({ url: `/api/uploads/${filename}` })
 }
 
 export async function DELETE(request: Request) {
   const body = await request.json() as { path?: string }
   const filePath = body.path ?? ''
-  if (!filePath.startsWith('/uploads/')) return NextResponse.json({ error: 'Invalid path' }, { status: 400 })
-  const abs = join(process.cwd(), 'public', filePath)
+  // Accept both old /uploads/ paths and new /api/uploads/ paths
+  const isOld = filePath.startsWith('/uploads/')
+  const isNew = filePath.startsWith('/api/uploads/')
+  if (!isOld && !isNew) return NextResponse.json({ error: 'Invalid path' }, { status: 400 })
+  const filename = filePath.split('/').pop() ?? ''
+  const abs = join(process.cwd(), 'public', 'uploads', filename)
   if (existsSync(abs)) unlinkSync(abs)
   return NextResponse.json({ ok: true })
 }

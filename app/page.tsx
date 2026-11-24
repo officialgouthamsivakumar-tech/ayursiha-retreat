@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import CredentialsTicker from '@/components/CredentialsTicker'
@@ -12,12 +14,15 @@ import ClientAnimations from '@/components/ClientAnimations'
 import BookingModal from '@/components/BookingModal'
 import Fab from '@/components/Fab'
 import MapSection from '@/components/MapSection'
+import { getSettings } from '@/lib/db'
 
 export default function Home() {
+  const settings = getSettings()
+
   return (
     <>
       <ClientAnimations />
-      <BookingModal />
+      <BookingModal whatsapp={settings.whatsapp} />
       <Nav />
       <main id="main-content">
         <Hero />

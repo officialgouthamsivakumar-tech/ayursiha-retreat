@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { FaqCategory } from '@/types'
+import Btn from '@/components/Btn'
 
 function FaqItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false)
@@ -34,15 +35,9 @@ export default function FaqClient({ faqs }: { faqs: FaqCategory[] }) {
 
       <div className="faq-cta" id="cta">
         <p className="faq-cta-text">Still have questions? Our team is happy to help.</p>
-        <button
-          className="btn btn-gold"
-          onClick={() => window.dispatchEvent(new CustomEvent('openBooking'))}
-        >
+        <Btn variant="gold" onClick={() => window.dispatchEvent(new CustomEvent('openBooking'))}>
           Book a Consultation
-          <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron">
-            <path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
+        </Btn>
       </div>
     </>
   )

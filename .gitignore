@@ -2,3 +2,6 @@ node_modules/
 .next/
 .env.local
 .env*.local
+
+# Runtime data — managed by the admin panel, not git
+data/*.json

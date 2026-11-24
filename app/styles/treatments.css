@@ -11,8 +11,9 @@
 .treat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
 
 .t-card { position: relative; height: 380px; overflow: hidden; cursor: pointer; background: var(--forest); }
-.t-card--bg { background-size: cover; background-position: center; transition: transform .6s var(--ease); }
+.t-card--bg { transition: transform .6s var(--ease); }
 .t-card--bg:hover { transform: scale(1.02); }
+.t-card-img { object-fit: cover; z-index: 0; }
 .t-card-bg-overlay {
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(to top, rgba(1,30,36,.95) 0%, rgba(1,30,36,.45) 55%, rgba(1,30,36,.15) 100%);

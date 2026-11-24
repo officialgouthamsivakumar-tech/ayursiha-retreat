@@ -2,18 +2,18 @@ import Nav from '@/components/Nav'
 import FooterMinimal from '@/components/FooterMinimal'
 import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
-import { getFaqs } from '@/lib/db'
+import { getFaqs, getSettings } from '@/lib/db'
 import FaqClient from './FaqClient'
 
 export const revalidate = 60
 
 export default async function FaqPage() {
-  const faqs = await getFaqs()
+  const [faqs, settings] = await Promise.all([getFaqs(), Promise.resolve(getSettings())])
 
   return (
     <>
       <ClientAnimations />
-      <BookingModal />
+      <BookingModal whatsapp={settings.whatsapp} />
       <Nav />
 
       <div className="faq-hero">

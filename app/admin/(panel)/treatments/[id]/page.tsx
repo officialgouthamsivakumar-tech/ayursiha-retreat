@@ -102,7 +102,7 @@ export default function TreatmentFormPage() {
     const data = await res.json()
     if (!res.ok) { setDimError(data.error || 'Upload failed.'); setUploading(false); return }
     const oldPath = prevImageRef.current
-    if (oldPath.startsWith('/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) }).catch(() => {}) }
+    if (oldPath.startsWith('/uploads/') || oldPath.startsWith('/api/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: oldPath }) }).catch(() => {}) }
     set('image', data.url)
     prevImageRef.current = data.url
     setUploading(false)
@@ -130,7 +130,7 @@ export default function TreatmentFormPage() {
 
   async function handleDelete() {
     if (!confirm('Delete this treatment? This cannot be undone.')) return
-    if (form.image.startsWith('/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: form.image }) }).catch(() => {}) }
+    if (form.image.startsWith('/uploads/') || form.image.startsWith('/api/uploads/')) { fetch('/api/admin/upload', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ path: form.image }) }).catch(() => {}) }
     const res = await fetch(`/api/admin/treatments/${id}`, { method: 'DELETE' })
     if (res.ok) router.push('/admin/treatments')
     else setToast({ message: 'Failed to delete.', type: 'error' })

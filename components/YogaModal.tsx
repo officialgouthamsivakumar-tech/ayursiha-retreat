@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useFocusTrap } from '@/hooks/useFocusTrap'
+import Btn from './Btn'
 
 const levelOptions = ['Beginner', 'Intermediate', 'Advanced']
 
@@ -62,7 +63,7 @@ export default function YogaModal({ open, onClose }: Props) {
             </div>
             <h3 className="bm-success-h">You&apos;re registered!</h3>
             <p className="bm-success-p">Thank you, {form.name.split(' ')[0]}. Our team will contact you within 24 hours to confirm your yoga session.</p>
-            <button className="btn btn-gold" onClick={close} style={{ marginTop: '1.5rem' }}>Done</button>
+            <Btn variant="gold" onClick={close} chevron={false} style={{ marginTop: '1.5rem' }}>Done</Btn>
           </div>
         ) : (
           <>
@@ -109,10 +110,7 @@ export default function YogaModal({ open, onClose }: Props) {
                 <textarea className="bm-input bm-textarea" name="message" placeholder="Any health conditions or goals we should know about…" rows={3} value={form.message} onChange={handleChange} />
               </div>
 
-              <button type="submit" className="btn btn-gold bm-submit">
-                Register for Session
-                <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-              </button>
+              <Btn variant="gold" type="submit" className="bm-submit">Register for Session</Btn>
             </form>
           </>
         )}

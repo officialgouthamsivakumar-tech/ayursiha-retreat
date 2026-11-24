@@ -1,18 +1,23 @@
 import Link from 'next/link'
-import { getTranslations } from 'next-intl/server'
-import { getTreatments } from '@/lib/db'
+import Image from 'next/image'
+import { getSettings, getTreatments } from '@/lib/db'
+import Btn from './Btn'
 
 export default async function Treatments() {
-  const [t, treatments] = await Promise.all([getTranslations('treatments'), getTreatments()])
+  const [settings, treatments] = await Promise.all([
+    Promise.resolve(getSettings()),
+    getTreatments(),
+  ])
+  const hc = settings.homeContent
 
   return (
     <section className="treatments" id="treatments">
       <div className="treat-header-wrap">
-        <p className="label r">{t('label')}</p>
+        <p className="label r">{hc.treatmentsLabel}</p>
         <h2 className="display treat-heading ws r" id="treatH2">
-          {t('heading')}
+          {hc.treatmentsHeading}
         </h2>
-        <p className="treat-subhead r">{t('subhead')}</p>
+        <p className="treat-subhead r">{hc.treatmentsSubhead}</p>
       </div>
 
       <div className="treat-grid">
@@ -21,8 +26,18 @@ export default async function Treatments() {
             key={idx}
             href={`/treatments/${slug}`}
             className="t-card r t-card--bg"
-            style={{ backgroundImage: `url(${image})` }}
           >
+            {image && (
+              <Image
+                src={image}
+                alt={name}
+                fill
+                sizes="(max-width: 768px) 100vw, 33vw"
+                className="t-card-img"
+                style={{ objectFit: 'cover' }}
+                unoptimized={image.startsWith('/api/')}
+              />
+            )}
             <div className="t-card-bg-overlay" />
             <div className="t-card-inner">
               <div className="t-card-top">
@@ -38,12 +53,7 @@ export default async function Treatments() {
       </div>
 
       <div className="treat-view-all">
-        <Link href="/treatments" className="btn btn-gold">
-          {t('viewAll')}
-          <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron">
-            <path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </Link>
+        <Btn variant="gold" href="/treatments">{hc.treatmentsViewAll}</Btn>
       </div>
     </section>
   )

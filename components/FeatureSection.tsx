@@ -1,5 +1,6 @@
 import React from 'react'
 import { getTranslations } from 'next-intl/server'
+import Btn from './Btn'
 
 export default async function FeatureSection() {
   const t = await getTranslations('feature')
@@ -39,10 +40,7 @@ export default async function FeatureSection() {
               </div>
             ))}
           </div>
-          <a href="#cta" className="btn btn-dark r">
-            {t('cta')}
-            <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          </a>
+          <Btn variant="dark" href="#cta" className="r">{t('cta')}</Btn>
         </div>
 
       </div>

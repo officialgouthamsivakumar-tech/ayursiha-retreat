@@ -10,9 +10,10 @@
   position: relative;
   height: 420px;
   border-radius: 12px; overflow: hidden;
-  background-size: cover; background-position: center;
+  background: var(--forest);
   cursor: pointer;
 }
+.exp-card img { object-fit: cover; z-index: 0; }
 .exp-card-n {
   position: absolute; top: 1.2rem; left: 1.2rem; z-index: 2;
   font-size: .6rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
@@ -21,7 +22,7 @@
 .exp-card:hover .exp-card-n { opacity: 0; }
 
 .exp-card-overlay {
-  position: absolute; inset: 0;
+  position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(to top, rgba(1,18,24,.92) 0%, rgba(1,18,24,.65) 60%, rgba(1,18,24,.2) 100%);
   display: flex; align-items: flex-end;
   padding: 2rem 1.8rem;

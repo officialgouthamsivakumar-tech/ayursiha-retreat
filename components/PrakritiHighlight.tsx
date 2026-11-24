@@ -1,4 +1,5 @@
 import React from 'react'
+import Btn from './Btn'
 
 function IndiaFlag() {
   const cx = 15, cy = 10, outerR = 2.8, innerR = 0.6
@@ -63,10 +64,7 @@ export default function PrakritiHighlight() {
           </p>
 
           <div className="pkh-actions r">
-            <a href="/#cta" className="btn btn-gold">
-              Book Your Assessment
-              <svg viewBox="0 0 8 14" fill="none" stroke="currentColor" strokeWidth="1.8" className="btn-chevron"><path d="M1 1l6 6-6 6" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </a>
+            <Btn variant="gold" href="/#cta">Book Your Assessment</Btn>
             <a
               href="https://prakriti.ayush.gov.in/"
               target="_blank"
