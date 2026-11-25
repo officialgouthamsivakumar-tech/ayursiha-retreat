@@ -72,7 +72,6 @@ export default async function BrochurePage() {
                   <a href={`#${t.slug}`}>
                     <span className="bro-index-n">{t.idx || String(i + 1).padStart(2, '0')}</span>
                     <span className="bro-index-name">{t.name}</span>
-                    <span className="bro-index-tag">{t.tag}</span>
                   </a>
                 </li>
               ))}
@@ -96,7 +95,6 @@ export default async function BrochurePage() {
                     unoptimized={isUpload(t.image)}
                   />
                   <span className="bro-media-n" aria-hidden="true">{n}</span>
-                  {t.tag && <span className="bro-media-tag">{t.tag}</span>}
                 </div>
 
                 <div className="bro-text">

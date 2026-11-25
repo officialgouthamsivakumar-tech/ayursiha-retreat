@@ -72,7 +72,7 @@
 .bro-index { padding: 6rem 0 4rem; background: var(--parchment); }
 .bro-index-list { list-style: none; margin-top: 2.2rem; display: grid; gap: .7rem; counter-reset: none; }
 .bro-index-list a {
-  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 1.2rem;
+  display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 1.2rem;
   padding: 1.05rem 1.3rem; border: 1px solid var(--border); border-radius: 12px;
   background: #fff; transition: transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s;
 }
