@@ -1,12 +1,8 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
-import Nav from '@/components/Nav'
-import FooterMinimal from '@/components/FooterMinimal'
-import BookingModal from '@/components/BookingModal'
 import ClientAnimations from '@/components/ClientAnimations'
-import OpenBookingBtn from '@/components/OpenBookingBtn'
-import BrochureProgress, { BrochurePrintBtn } from '@/components/BrochureProgress'
+import BrochureProgress from '@/components/BrochureProgress'
 import { getSettings } from '@/lib/db'
 import { spaMenu, formatInr } from '@/lib/spaMenu'
 
@@ -37,14 +33,11 @@ function Leaf({ className }: { className: string }) {
 export default function BrochurePage() {
   const settings = getSettings()
   const cover = settings.treatmentsHeroImage || '/treatments-bg.jpg'
-  const wa = (settings.whatsapp || '').replace(/[^\d]/g, '')
 
   return (
     <>
       <ClientAnimations />
-      <BookingModal whatsapp={settings.whatsapp} />
       <BrochureProgress />
-      <Nav />
 
       <main id="main-content" className="bro">
         {/* ── COVER ── */}
@@ -122,48 +115,7 @@ export default function BrochurePage() {
             </div>
           ))}
         </section>
-
-        {/* ── CONTACT / BOOK ── */}
-        <section className="bro-contact" id="cta">
-          <div className="wrap bro-contact-inner">
-            <div className="bro-contact-text">
-              <p className="label r">Begin your healing</p>
-              <h2 className="bro-contact-h ws">Book a consultation with our physician</h2>
-              <ul className="bro-contact-list stagger">
-                {settings.phone && (
-                  <li className="r" style={{ '--i': 0 } as React.CSSProperties}>
-                    <span>Call</span>
-                    <a href={`tel:${settings.phone.replace(/\s/g, '')}`}>{settings.phone}</a>
-                  </li>
-                )}
-                {wa && (
-                  <li className="r" style={{ '--i': 1 } as React.CSSProperties}>
-                    <span>WhatsApp</span>
-                    <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer">Chat with us</a>
-                  </li>
-                )}
-                {settings.address && (
-                  <li className="r" style={{ '--i': 2 } as React.CSSProperties}>
-                    <span>Visit</span>
-                    <p>{settings.address}</p>
-                  </li>
-                )}
-              </ul>
-              <div className="bro-contact-actions r">
-                <OpenBookingBtn />
-                <BrochurePrintBtn />
-              </div>
-            </div>
-
-            <figure className="bro-qr rs">
-              <Image src="/brochure/qr" alt="QR code linking to this brochure" width={180} height={180} unoptimized />
-              <figcaption>Scan to open this brochure on your phone</figcaption>
-            </figure>
-          </div>
-        </section>
       </main>
-
-      <FooterMinimal />
     </>
   )
 }

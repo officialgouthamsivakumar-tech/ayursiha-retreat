@@ -26,14 +26,3 @@ export default function BrochureProgress() {
 
   return <div className="bro-progress" aria-hidden="true"><div ref={bar} /></div>
 }
-
-export function BrochurePrintBtn() {
-  return (
-    <button type="button" className="bro-print" onClick={() => window.print()}>
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
-        <path d="M4 6V2h8v4M4 12H2.5V6.5h11V12H12M4 9.5h8V14H4z" />
-      </svg>
-      Save as PDF
-    </button>
-  )
-}
