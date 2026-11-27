@@ -1,149 +1,155 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Nav from '@/components/Nav'
+import FooterMinimal from '@/components/FooterMinimal'
+import BookingModal from '@/components/BookingModal'
+import ClientAnimations from '@/components/ClientAnimations'
+import OpenBookingBtn from '@/components/OpenBookingBtn'
+import BrochureProgress, { BrochurePrintBtn } from '@/components/BrochureProgress'
 import { getTreatments, getSettings } from '@/lib/db'
-import BrochureReveal from '@/components/BrochureReveal'
-import './brochure.css'
 
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Brochure — Ayursiha Retreat',
+  title: 'Treatment Brochure',
   description:
-    'An animated guide to Ayursiha’s classical Ayurvedic treatments — Panchakarma, Shirodhara, Abhyanga, Kizhi, Rasayana and more.',
+    'The Ayursiha Retreat treatment brochure — every classical Ayurvedic therapy we offer, with benefits, duration and diet guidance.',
+}
+
+const isUpload = (src?: string) => !!src && src.startsWith('/api/')
+
+function Leaf({ className }: { className: string }) {
+  return (
+    <svg className={className} viewBox="0 0 40 40" aria-hidden="true">
+      <path d="M20 2C9 10 6 24 20 38 34 24 31 10 20 2Z" fill="currentColor" opacity=".9" />
+      <path d="M20 6v30" stroke="rgba(255,255,255,.45)" strokeWidth="1" fill="none" />
+    </svg>
+  )
 }
 
 export default async function BrochurePage() {
-  const treatments = await getTreatments()
-  const settings = getSettings()
-  const telHref = `tel:${settings.phone.replace(/\s/g, '')}`
-  const waHref = `https://wa.me/${settings.whatsapp.replace(/[^\d]/g, '')}`
+  const [treatments, settings] = await Promise.all([getTreatments(), Promise.resolve(getSettings())])
+  const total = String(treatments.length).padStart(2, '0')
+  const cover = settings.treatmentsHeroImage || '/treatments-bg.jpg'
+  const wa = (settings.whatsapp || '').replace(/[^\d]/g, '')
 
   return (
-    <div className="bro">
-      <BrochureReveal />
+    <>
+      <ClientAnimations />
+      <BookingModal whatsapp={settings.whatsapp} />
+      <BrochureProgress />
+      <Nav />
 
-      {/* ── COVER ── */}
-      <header className="bro-cover">
-        <div className="bro-cover-bg" aria-hidden="true" />
-        <div className="bro-cover-grad" aria-hidden="true" />
-        <div className="bro-cover-inner">
-          <img src="/logo.png" alt="Ayursiha" className="bro-logo" />
-          <p className="bro-kicker">Treatment Brochure</p>
-          <h1 className="bro-title">
-            Classical healing,<br /><em>made for you.</em>
-          </h1>
-          <div className="bro-rule" />
-          <p className="bro-sub">
-            Every therapy at Ayursiha is prescribed after a Prakriti assessment.
-            Explore each treatment below.
-          </p>
-        </div>
-        <div className="bro-scroll" aria-hidden="true">
-          Scroll
-          <span />
-        </div>
-      </header>
+      <main id="main-content" className="bro">
+        {/* ── COVER ── */}
+        <header className="bro-cover">
+          <Image src={cover} alt="" fill priority className="bro-cover-img" sizes="100vw" unoptimized={isUpload(cover)} />
+          <div className="bro-cover-overlay" />
+          <Leaf className="bro-leaf bro-leaf--1" />
+          <Leaf className="bro-leaf bro-leaf--2" />
+          <Leaf className="bro-leaf bro-leaf--3" />
+          <div className="bro-cover-content">
+            <p className="label bro-cover-label r">Treatment Brochure</p>
+            <h1 className="bro-cover-h ws">Classical Ayurvedic Therapies</h1>
+            <span className="bro-cover-rule" />
+            <p className="bro-cover-sub r">
+              {treatments.length} healing treatments, prescribed after your personal Prakriti assessment
+            </p>
+          </div>
+          <a href="#bro-index" className="bro-scroll" aria-label="Open the brochure">
+            <span />
+          </a>
+        </header>
 
-      {/* ── INTRO ── */}
-      <section className="bro-intro">
-        <p className="bro-label" data-reveal="fade">Our Approach</p>
-        <h2 className="bro-intro-h" data-reveal="fade" style={{ '--d': '120ms' } as React.CSSProperties}>
-          No treatment begins before we understand who you are.
-        </h2>
-        <p className="bro-intro-p" data-reveal="fade" style={{ '--d': '240ms' } as React.CSSProperties}>
-          Each session starts with a comprehensive Prakriti and Vikriti assessment. Only then does the
-          physician prescribe the therapy, formulation and duration suited to you.
-        </p>
-      </section>
+        {/* ── CONTENTS ── */}
+        <section className="bro-index" id="bro-index">
+          <div className="wrap--sm">
+            <p className="label r" style={{ textAlign: 'center' }}>Inside this brochure</p>
+            <ol className="bro-index-list stagger">
+              {treatments.map((t, i) => (
+                <li key={t.slug} className="r" style={{ '--i': i } as React.CSSProperties}>
+                  <a href={`#${t.slug}`}>
+                    <span className="bro-index-n">{t.idx || String(i + 1).padStart(2, '0')}</span>
+                    <span className="bro-index-name">{t.name}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
 
-      {/* ── CONTENTS ── */}
-      <nav className="bro-toc" aria-label="Treatments">
-        <ul className="bro-toc-list">
-          {treatments.map(t => (
-            <li key={t.idx} data-reveal="fade">
-              <a href={`#${t.slug}`}>
-                <span className="bro-toc-idx">{t.idx}</span>
-                {t.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* ── TREATMENT CHAPTERS ── */}
-      {treatments.map((t, i) => {
-        const flip = i % 2 === 1
-        return (
-          <section
-            key={t.idx}
-            id={t.slug}
-            className={`bro-chapter${flip ? ' bro-chapter--flip' : ''}`}
-          >
-            <div className="bro-chapter-inner">
-              <div className="bro-chapter-media" data-reveal={flip ? 'right' : 'left'}>
-                <Image
-                  src={t.image}
-                  alt={t.name}
-                  fill
-                  sizes="(max-width: 860px) 100vw, 520px"
-                  className="bro-chapter-img"
-                />
-                <span className="bro-chapter-num">{t.idx}</span>
-              </div>
-
-              <div className="bro-chapter-text" data-reveal={flip ? 'left' : 'right'} style={{ '--d': '150ms' } as React.CSSProperties}>
-                <span className="bro-chapter-tag">{t.tag}</span>
-                <h3 className="bro-chapter-name">{t.name}</h3>
-                <p className="bro-chapter-body">{t.longDescription}</p>
-
-                <div className="bro-chapter-meta">
-                  <div>
-                    <span>Duration</span>
-                    {t.duration}
-                  </div>
-                  <div>
-                    <span>Ideal for</span>
-                    {t.ideal}
-                  </div>
+        {/* ── TREATMENT PAGES ── */}
+        {treatments.map((t, i) => {
+          const n = t.idx || String(i + 1).padStart(2, '0')
+          return (
+            <article key={t.slug} id={t.slug} className={`bro-page${i % 2 ? ' bro-page--flip' : ''}`}>
+              <div className="bro-page-inner wrap">
+                <div className="bro-media rs">
+                  <Image
+                    src={t.image}
+                    alt={t.name}
+                    fill
+                    className="bro-media-img"
+                    sizes="(max-width: 900px) 100vw, 50vw"
+                    unoptimized={isUpload(t.image)}
+                  />
+                  <span className="bro-media-n" aria-hidden="true">{n}</span>
                 </div>
 
-                <h4 className="bro-diet-h">What to expect</h4>
-                <ul className="bro-points" data-reveal="fade">
-                  {t.benefits.map((b, j) => (
-                    <li key={j} style={{ '--d': `${j * 110}ms` } as React.CSSProperties}>{b}</li>
-                  ))}
-                </ul>
+                <div className="bro-text">
+                  <p className="bro-count r">
+                    <span>{n}</span> / {total}
+                  </p>
+                  <h2 className="bro-name ws">{t.name}</h2>
+                  <p className="bro-body r">{t.body || t.longDescription}</p>
+                </div>
+              </div>
+            </article>
+          )
+        })}
 
-                <h4 className="bro-diet-h">Diet plan</h4>
-                <ul className="bro-points" data-reveal="fade">
-                  {t.dietPlan.map((d, j) => (
-                    <li key={j} style={{ '--d': `${j * 110}ms` } as React.CSSProperties}>{d}</li>
-                  ))}
-                </ul>
+        {/* ── CONTACT / BOOK ── */}
+        <section className="bro-contact" id="cta">
+          <div className="wrap bro-contact-inner">
+            <div className="bro-contact-text">
+              <p className="label r">Begin your healing</p>
+              <h2 className="bro-contact-h ws">Book a consultation with our physician</h2>
+              <ul className="bro-contact-list stagger">
+                {settings.phone && (
+                  <li className="r" style={{ '--i': 0 } as React.CSSProperties}>
+                    <span>Call</span>
+                    <a href={`tel:${settings.phone.replace(/\s/g, '')}`}>{settings.phone}</a>
+                  </li>
+                )}
+                {wa && (
+                  <li className="r" style={{ '--i': 1 } as React.CSSProperties}>
+                    <span>WhatsApp</span>
+                    <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer">Chat with us</a>
+                  </li>
+                )}
+                {settings.address && (
+                  <li className="r" style={{ '--i': 2 } as React.CSSProperties}>
+                    <span>Visit</span>
+                    <p>{settings.address}</p>
+                  </li>
+                )}
+              </ul>
+              <div className="bro-contact-actions r">
+                <OpenBookingBtn />
+                <BrochurePrintBtn />
               </div>
             </div>
-          </section>
-        )
-      })}
 
-      {/* ── CLOSING ── */}
-      <section className="bro-close">
-        <p className="label" data-reveal="fade">Begin with a consultation</p>
-        <h2 className="bro-close-h" data-reveal="fade" style={{ '--d': '120ms' } as React.CSSProperties}>
-          Your personalised plan starts with a conversation.
-        </h2>
-        <p className="bro-close-p" data-reveal="fade" style={{ '--d': '240ms' } as React.CSSProperties}>
-          Our physicians will assess your constitution and recommend the treatments designed for you.
-        </p>
-        <div data-reveal="fade" style={{ '--d': '360ms' } as React.CSSProperties}>
-          <a className="bro-btn" href={waHref}>Book on WhatsApp</a>
-        </div>
-        <div className="bro-close-contact">
-          <a href={telHref}>{settings.phone}</a>
-          <span>{settings.address}</span>
-        </div>
-      </section>
-    </div>
+            <figure className="bro-qr rs">
+              <Image src="/brochure/qr" alt="QR code linking to this brochure" width={180} height={180} unoptimized />
+              <figcaption>Scan to open this brochure on your phone</figcaption>
+            </figure>
+          </div>
+        </section>
+      </main>
+
+      <FooterMinimal />
+    </>
   )
 }

@@ -17,6 +17,7 @@ function scrollToEl(id: string) {
 export default function Nav() {
   const pathname = usePathname()
   const isHome = pathname === '/'
+  const isBrochure = pathname === '/brochure'
   const t = useTranslations('nav')
   const solid = useScrollPosition(50)
   const [hideCta, setHideCta] = useState(false)
@@ -72,14 +73,14 @@ export default function Nav() {
           >
             {t('bookConsultation')}
           </Btn>
-          <button
+          {!isBrochure && <button
             className={`nav-menu-btn${menuOpen ? ' open' : ''}`}
             aria-label={menuOpen ? t('closeMenu') : t('openMenu')}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(o => !o)}
           >
             <span /><span /><span />
-          </button>
+          </button>}
         </div>
       </nav>
 

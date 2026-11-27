@@ -5,3 +5,4 @@ node_modules/
 
 # Runtime data — managed by the admin panel, not git
 data/*.json
+data/.backup-*/
