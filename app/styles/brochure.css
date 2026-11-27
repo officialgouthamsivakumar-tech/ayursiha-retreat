@@ -243,3 +243,48 @@
 .bro-page-inner { align-items: center; }
 .bro-media { position: relative; top: 0; }
 .bro-body { margin-bottom: 0; font-size: 1.05rem; }
+
+/* ── Spa & wellness menu (items from the printed spa brochure) ── */
+.bro-index-list a { grid-template-columns: auto 1fr auto; }
+.bro-index-price { font-family: var(--serif); font-size: 1.1rem; color: var(--forest); white-space: nowrap; }
+
+.bro-menu { padding: 5rem 0 6rem; background: var(--linen); }
+.bro-menu-group { margin-bottom: 4.5rem; }
+.bro-menu-group:last-child { margin-bottom: 0; }
+.bro-menu-cat { font-family: var(--serif); font-weight: 400; font-size: clamp(1.9rem, 3.5vw, 2.4rem); line-height: 1.1; color: var(--ink); text-align: center; margin-bottom: 2rem; }
+.bro-menu-cat em { display: block; font-size: 1.1rem; color: var(--gold); margin-bottom: .3rem; }
+.bro-menu-cards { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.8rem; }
+.bro-menu-cards:has(> li:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 380px)); justify-content: center; }
+.bro-menu-card {
+  display: flex; flex-direction: column; overflow: hidden; scroll-margin-top: 90px;
+  background: #fff; border: 1px solid var(--border); border-radius: 18px;
+  box-shadow: 0 24px 50px -34px rgba(1, 30, 36, .45);
+  transition: opacity .75s var(--ease), transform .75s var(--ease), box-shadow .4s var(--ease);
+}
+.bro-menu-card.on:hover { transform: translateY(-5px); box-shadow: 0 30px 60px -30px rgba(1, 30, 36, .5); }
+.bro-menu-card-media { position: relative; aspect-ratio: 16 / 10; background: var(--forest); }
+.bro-menu-card-img { object-fit: cover; }
+.bro-menu-price {
+  position: absolute; right: 1rem; bottom: 1rem; z-index: 1; padding: .4rem 1rem; border-radius: 99px;
+  background: var(--gold); color: #fff; font-family: var(--serif); font-size: 1.1rem;
+  box-shadow: 0 6px 16px rgba(1, 30, 36, .3);
+}
+.bro-menu-card-body { padding: 1.3rem 1.4rem 1.5rem; }
+.bro-menu-name { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; line-height: 1.3; color: var(--ink); }
+.bro-menu-note { font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin-top: .35rem; }
+.bro-menu-desc { font-size: .92rem; line-height: 1.65; margin-top: .6rem; }
+
+@media (max-width: 900px) {
+  .bro-menu-cards,
+  .bro-menu-cards:has(> li:nth-child(2):last-child) { grid-template-columns: minmax(0, 1fr); max-width: 520px; margin: 0 auto; }
+}
+@media (max-width: 768px) {
+  .bro-menu { padding: 3.5rem 0 4rem; }
+  .bro-menu-group.wrap { padding: 0 1rem; }
+  .bro-index-price { font-size: 1rem; }
+}
+@media print {
+  .bro-menu-card { break-inside: avoid; box-shadow: none; }
+  .bro-menu-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bro-menu-price { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
